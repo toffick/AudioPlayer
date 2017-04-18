@@ -107,5 +107,28 @@ namespace AudioPlayer_v1._0
             musiccontrol.opentrack(new Uri(ofd.FileName));
 
         }
+
+        private void PlaySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            musiccontrol.setTrackPosition(PlaySlider.Value);
+        }
+
+        //выключить звук
+        private void mute_Checked(object sender, RoutedEventArgs e)
+        {
+            musiccontrol.mute(sender, e);
+        }
+
+        //включить звук
+        private void unmute(object sender, RoutedEventArgs e)
+        {
+            musiccontrol.unmute(sender, e);
+        }
+
+        //регулировка звука
+        private void volume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            musiccontrol.setVolume(e.NewValue);
+        }
     }
 }

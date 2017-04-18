@@ -45,7 +45,8 @@ namespace DB
 
         static public bool addPlaylist(string _plname, string _plnumber)
         {
-            string addPL = "Insert Into PLAYLIST" + "(UserLogin, UserPassword, UserName) Values(@log, @pass, @name)"
+            string addPL = "Insert Into PLAYLIST" + "(UserLogin, UserPassword, UserName) Values(@log, @pass, @name)";
+            return true;
         }
     }
 }
