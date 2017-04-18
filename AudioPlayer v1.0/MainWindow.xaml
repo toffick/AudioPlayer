@@ -32,13 +32,16 @@
 
             <StackPanel HorizontalAlignment="Left" Height="51" VerticalAlignment="Top" Width="864" Orientation="Horizontal">
                 <Button x:Name="button" Content="Button" Width="75" Click="button_Click"/>
-
-
+                      
+                <Button x:Name="addplaylist_button" Content="Добавить плелист" HorizontalAlignment="Left" 
+                        Margin="8,22,0,0" VerticalAlignment="Top" Width="120" Click="addplaylist_button_Click"/>
                 
+                <TextBox x:Name="textBox" HorizontalAlignment="Left"  Height="23" Margin="20,22,0,0" 
+                         TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="249" />
                 
-                <Button x:Name="addplaylist_button" Content="Добавить плелист" HorizontalAlignment="Left" Margin="8,22,0,0" VerticalAlignment="Top" Width="120" Click="addplaylist_button_Click"/>
-                <TextBox x:Name="textBox" HorizontalAlignment="Left"  Height="23" Margin="20,22,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="249" />
-                <Button x:Name="playlistsearch_button" Content="Найти" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" Width="50" Height="23"/>
+                <Button x:Name="playlistsearch_button" Content="Найти" HorizontalAlignment="Left" 
+                        Margin="20,20,0,0" VerticalAlignment="Top" Width="50" Height="23"/>
+                
                 <Expander HorizontalAlignment="Left" Margin="20,22,0,-18.8" Width="63">
                    
                 </Expander>
