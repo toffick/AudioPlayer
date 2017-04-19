@@ -27,14 +27,16 @@ namespace AudioPlayer_v1._0
 
         private OpenFileDialog ofd = new OpenFileDialog();
         private MusicControl musiccontrol;
-        private PlaylistControl playlistcontrol;
+        private PlaylistControl playlistControl;
 
         public MainWindow()
         {
             InitializeComponent();
             musiccontrol = new MusicControl();
-            playlistcontrol = new PlaylistControl();
-
+            playlistControl = new PlaylistControl();
+            volume.Value = 0.5;
+            PlaylistsList.ItemsSource = playlistControl.getallplaylists();
+            currentplaylist_datagrid.Items.Add(new TrackInfo.Track("Цивил", "Убийцы", "Россия", new TimeSpan(0, 1, 22)));
 
         }
 
@@ -68,9 +70,8 @@ namespace AudioPlayer_v1._0
         {
 
 
+
         }
-
-
 
         private void replay_button_Click(object sender, RoutedEventArgs e)
         {
@@ -104,7 +105,7 @@ namespace AudioPlayer_v1._0
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.InitialDirectory = @"D:\БГТУ\КУРСОВОЙ ПРОЕКТ";
             ofd.ShowDialog();
-            musiccontrol.opentrack(new Uri(ofd.FileName));
+            musiccontrol.opentrack(sender, e, new Uri(ofd.FileName));
 
         }
 
@@ -129,6 +130,11 @@ namespace AudioPlayer_v1._0
         private void volume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             musiccontrol.setVolume(e.NewValue);
+        }
+
+        private void addtracktocurentplaylist_button_Click(object sender, RoutedEventArgs e)
+        {
+            playlistControl.addSongToCurrentPlaylist();
         }
     }
 }

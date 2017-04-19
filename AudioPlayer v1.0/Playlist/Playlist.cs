@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Windows;
-using TrackInfo;
+using Music;
 
 namespace PlayL
 {
@@ -34,18 +34,16 @@ namespace PlayL
 
 
 
-        public void addnewplaylist()
-        {
-            //додабвить в бд
-            //отобразить в списке
-        }
 
         public void mixAllTracks()
         {
             //созранить норм
             //перемешать все треки
-        } 
+        }
 
+        public void addTrackToPlaylist(Uri trackuri)
+        {
+        }
         public Track getFirstTrack()
         {
             return allSong.Count > 0 ? allSong[0] : null;

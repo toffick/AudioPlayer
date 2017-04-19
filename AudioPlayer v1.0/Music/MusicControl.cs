@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Resources;
 
-namespace Control
+namespace Music
 {
     class MusicControl
     {
@@ -21,27 +23,39 @@ namespace Control
         {
             mediaplayer = new MediaPlayer();
             isplaying = false;
+            
             mediaplayer.MediaEnded += playNexttrack;
         }
 
         public void PlayPause(object sender, EventArgs e)
         {
+            Button temp_image = sender as Button;
+
+            var brushpa = new ImageBrush();
+            brushpa.ImageSource = new BitmapImage(
+                new Uri(@"D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\pause.png", UriKind.Absolute));
+            var brushpl = new ImageBrush();
+            brushpl.ImageSource = new BitmapImage(
+                new Uri(@"D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\play-button.png", UriKind.Absolute));
+
             if (isplaying)
             {
+
+                temp_image.Background = brushpl ;
                 mediaplayer.Pause();
                 isplaying = false;
             }
             else
             {
+                temp_image.Background = brushpa;
                 mediaplayer.Play();
                 isplaying = true;
 
             }
         }
 
-        public void opentrack(Uri url)
+        public void opentrack(object sender, EventArgs e, Uri url)
         {
-
             mediaplayer.Open(url);
             mediaplayer.Pause();
 

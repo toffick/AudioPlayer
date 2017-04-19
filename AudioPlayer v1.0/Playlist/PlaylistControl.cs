@@ -7,12 +7,14 @@ using PlayL;
 using System.Data.SqlClient;
 using System.Windows;
 using DB;
+using Microsoft.Win32;
 
-namespace PlaylControl
+namespace PlayL
 {
     class PlaylistControl
     {
         List<Playlist> allplaylists;
+        Playlist currentPlaylist;
 
         public PlaylistControl()
         {
@@ -22,8 +24,8 @@ namespace PlaylControl
         }
 
 
-
-        private void InitListPlaylist()
+        //инициализировать список плейлистов
+        public void InitListPlaylist()
         {
             string cmdText = "Select PL_NAME, PL_NUMBER  From PLAYLIST";
             try
@@ -41,14 +43,31 @@ namespace PlaylControl
 
         }
 
+        //вернуть список всех пелейлистов
         public List<Playlist> getallplaylists()
         {
             return allplaylists;
         }
 
+        //получить следующий трек в плейлисте
         public int getNextPlNumber()
         {
             return 1;
+        }
+
+        public void addSongToCurrentPlaylist()
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.InitialDirectory = ofd.InitialDirectory = @"D:\БГТУ\КУРСОВОЙ ПРОЕКТ\Tracks";
+            ofd.Filter = "Файлы mp3 |*.mp3";
+
+            try
+            {
+            }
+            catch 
+            {
+            }
+
         }
     }
 }

@@ -20,13 +20,13 @@
                   FontFamily="Calibri" SelectionChanged="currentplaylist_datagrid_SelectionChanged" Opacity="0.86" Margin="0,0,0,-0.2">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Название" Width="4*" 
-                             Binding="{Binding Path=ModelName}"></DataGridTextColumn>
+                             Binding="{Binding Path=SongName}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Автор"  Width="4*"
-                             Binding="{Binding Path=UnitCost,StringFormat={}{0:C}}"></DataGridTextColumn>
+                             Binding="{Binding Path=Author}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Длительность"  Width="4*"
-                             Binding="{Binding Path=UnitCost,StringFormat={}{0:C}}"></DataGridTextColumn>
+                             Binding="{Binding Time,StringFormat=mm\\:ss}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Альбом" Width="4*"
-                             Binding="{Binding Path=UnitCost,StringFormat={}{0:C}}"></DataGridTextColumn>
+                             Binding="{Binding Path=Album}"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
 
@@ -43,12 +43,13 @@
                 
                 <Button x:Name="playlistsearch_button" Content="Найти" HorizontalAlignment="Left" 
                         Margin="20,20,0,0" VerticalAlignment="Top" Width="50" Height="23"/>
-                
-                <Expander HorizontalAlignment="Left" Margin="20,22,0,-18.8" Width="63">
-                   
+
+                <Expander HorizontalAlignment="Left" Margin="20,22,0,-18.8"  Width="200" Height="200">
+                    <ListBox Name="PlaylistsList" Width="200" Height="200">
+                    </ListBox>
                 </Expander>
 
-                <Button x:Name="addtracktocurentplaylist_button" Content="Button" HorizontalAlignment="Left" Margin="295,20,0,0" VerticalAlignment="Top" Width="27" Height="26"/>
+                <Button x:Name="addtracktocurentplaylist_button" Content="Button" HorizontalAlignment="Left" Margin="0,20,0,0" VerticalAlignment="Top" Width="27" Height="26" Click="addtracktocurentplaylist_button_Click"/>
                 <Button x:Name="deletetrackfromcurentplaylist_button" Content="Button" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Width="27" Height="26"/>
 
             </StackPanel>
@@ -64,7 +65,8 @@
                     VerticalAlignment="Top" Width="26" Height="25" Click="prevTrack_Click" Opacity="0.8">
                 <Image Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\rewind.png"/>
             </Button>
-            <Button x:Name="playpause_button"  HorizontalAlignment="Left" Margin="115,15,0,0" VerticalAlignment="Top" Background="#FF578A94" BorderBrush="#FF578A94" Width="38" Height="40"  Opacity="0.8" Click="playpause_Click">
+            <Button x:Name="playpause_button"  HorizontalAlignment="Left" Margin="115,15,0,0" VerticalAlignment="Top" 
+                    Background="#FF578A94" BorderBrush="#FF578A94" Width="38" Height="40"  Opacity="0.8" Click="playpause_Click">
                 <Image Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\play-button.png"/>
             </Button>
             <Button x:Name="nexttrack_button"  Background="#FF578A94" BorderBrush="#FF578A94" HorizontalAlignment="Left" Margin="170,25,0,0"
