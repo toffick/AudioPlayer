@@ -45,7 +45,7 @@
                         Margin="20,20,0,0" VerticalAlignment="Top" Width="50" Height="23"/>
 
                 <Expander HorizontalAlignment="Left" Margin="20,22,0,-18.8"  Width="200" Height="200">
-                    <ListBox Name="PlaylistsList" Width="200" Height="200">
+                    <ListBox Name="PlaylistsList" Width="200" Height="200" SelectionChanged="PlaylistsList_SelectionChanged">
                     </ListBox>
                 </Expander>
 
@@ -67,7 +67,8 @@
             </Button>
             <Button x:Name="playpause_button"  HorizontalAlignment="Left" Margin="115,15,0,0" VerticalAlignment="Top" 
                     Background="#FF578A94" BorderBrush="#FF578A94" Width="38" Height="40"  Opacity="0.8" Click="playpause_Click">
-                <Image Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\play-button.png"/>
+                <Image Name="playpause_button_playimage" Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\play-button.png"/>
+                
             </Button>
             <Button x:Name="nexttrack_button"  Background="#FF578A94" BorderBrush="#FF578A94" HorizontalAlignment="Left" Margin="170,25,0,0"
                     VerticalAlignment="Top" Width="25" Height="25"  Opacity="0.8" Click="nexttrack_button_Click">
@@ -90,11 +91,11 @@
 
 
 
-            <Slider Name="PlaySlider"  Minimum="0" 
+            <Slider Name="PlaySlider"  Minimum="0"  Maximum="1000" 
     VerticalAlignment="Center"  Height="23" RenderTransformOrigin="0.5,0.5"  Margin="330,25,264,27" ValueChanged="PlaySlider_ValueChanged" />
 
-   <TextBlock Name="curenttime_textblock" Text="{Binding Time, StringFormat={}{0:hh}:{0:mm}:{0:ss}, 
-    FallbackValue=00:00:00, Mode=OneWay}"  Padding="0,0,0,0" VerticalAlignment="Center"  Height="16" Margin="330,9,718,50" />
+            <TextBlock Name="curenttime_textblock" Text="{Binding myTime,  StringFormat={}{mm:ss}, FallbackValue=00:00:00, Mode=OneWay }"   
+     Padding="0,0,0,0" VerticalAlignment="Center"  Height="16" Margin="330,9,718,50" />
             <TextBlock Name="alltime_textbox" Text="{Binding Time, StringFormat={}{0:hh}:{0:mm}:{0:ss}, 
     FallbackValue=00:00:00, Mode=OneWay}" VerticalAlignment="Center"  Height="16" Margin="784,9,264,50" />
             <Slider x:Name="volume" HorizontalAlignment="Left" Margin="900,25,0,0" VerticalAlignment="Top"
@@ -104,13 +105,13 @@
 
             </Slider>
 
-            <Button x:Name="mix_button"  HorizontalAlignment="Left" Margin="1015,25,0,0" VerticalAlignment="Top" Width="25"  Background="#FF578A94" BorderBrush="#FF578A94"   Opacity="0.8" Click="mix_button_Click">
+            <ToggleButton x:Name="mix_button"  HorizontalAlignment="Left" Margin="1015,25,0,0" VerticalAlignment="Top" Width="25"  Background="#FF578A94" BorderBrush="#FF578A94"   Opacity="0.8" Click="mix_button_Click">
                 <Image Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\replay.png" Height="22" Width="22" />
-            </Button>
+            </ToggleButton>
 
-            <Button x:Name="replay_button"  HorizontalAlignment="Left" Margin="1045,24,0,0" VerticalAlignment="Top" Width="24"  Background="#FF578A94" BorderBrush="#FF578A94"   Opacity="0.8" Click="replay_button_Click">
+            <ToggleButton x:Name="replay_button"  HorizontalAlignment="Left" Margin="1045,24,0,0" VerticalAlignment="Top" Width="24"  Background="#FF578A94" BorderBrush="#FF578A94"   Opacity="0.8" Click="replay_button_Click">
                 <Image Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\shuff.png" Height="22"  Width="21"  />
-            </Button>
+            </ToggleButton>
 
         </Grid>
 

@@ -12,10 +12,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Control;
+using Music;
 using PlayL;
-using PlaylControl;
 using Microsoft.Win32;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace AudioPlayer_v1._0
 {
@@ -28,7 +29,8 @@ namespace AudioPlayer_v1._0
         private OpenFileDialog ofd = new OpenFileDialog();
         private MusicControl musiccontrol;
         private PlaylistControl playlistControl;
-
+        public DispatcherTimer timerPlay;
+        public TimeSpan myTime { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -36,8 +38,11 @@ namespace AudioPlayer_v1._0
             playlistControl = new PlaylistControl();
             volume.Value = 0.5;
             PlaylistsList.ItemsSource = playlistControl.getallplaylists();
-            currentplaylist_datagrid.Items.Add(new TrackInfo.Track("Цивил", "Убийцы", "Россия", new TimeSpan(0, 1, 22)));
 
+
+            timerPlay = new DispatcherTimer();
+            timerPlay.Interval = TimeSpan.FromMilliseconds(1000);
+            timerPlay.Tick += new EventHandler(starttrack);
         }
 
         private void prevTrack_Click(object sender, RoutedEventArgs e)
@@ -49,6 +54,7 @@ namespace AudioPlayer_v1._0
         {
 
             musiccontrol.PlayPause(sender, e);
+            timerPlay.Start();
         }
 
         private void nexttrack_button_Click(object sender, RoutedEventArgs e)
@@ -111,6 +117,7 @@ namespace AudioPlayer_v1._0
 
         private void PlaySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+
             musiccontrol.setTrackPosition(PlaySlider.Value);
         }
 
@@ -136,5 +143,22 @@ namespace AudioPlayer_v1._0
         {
             playlistControl.addSongToCurrentPlaylist();
         }
+
+        private void PlaylistsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //тут устанавливать выбранный плейлист в поле текущего плейлиста в playlistControl
+        }
+
+        private void starttrack(object sender, EventArgs e)
+        {
+            PlaySlider.ValueChanged -= PlaySlider_ValueChanged;
+            PlaySlider.Value = 1000 * musiccontrol.getTrackPosition();
+              myTime = musiccontrol.getTrackTime();
+            curenttime_textblock.Text = $"{myTime.Minutes}:{myTime.Seconds}";
+            PlaySlider.ValueChanged += PlaySlider_ValueChanged;
+
+        }
+
+
     }
 }

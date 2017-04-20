@@ -8,28 +8,14 @@ namespace Music
 {
     class Track
     {
-        public Uri filepath { get; set; }
-        public string SongName { get; set; }
-        public string Author { get; set; }
-        public string Album { get; set; }
-        public TimeSpan Time { get; set; }
+        public Uri filepath { get; }
+      
+        public TrackInfo trackinfo { get; }
 
-        public Track()
-        { }
-
-        public Track(string _sn, string _au, string _al, TimeSpan _ts)
+        public Track(Uri _path)
         {
-            SongName = _sn;
-            Author = _au;
-            Album = _al;
-            Time = _ts;
-        }
-
-        public override string ToString()
-        {
-            return $"{SongName} {Author} {Album} {Time.ToString()}";
-        }
-        //picture of album 
-
+            filepath = _path;
+            trackinfo.getTrackInfo(_path);
+        }       
     }
 }

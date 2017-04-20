@@ -32,9 +32,6 @@ namespace PlayL
             //initallSongFromPL();
         }
 
-
-
-
         public void mixAllTracks()
         {
             //созранить норм
@@ -43,12 +40,17 @@ namespace PlayL
 
         public void addTrackToPlaylist(Uri trackuri)
         {
+
         }
+
+        ///получить первый трек из плейлиста
         public Track getFirstTrack()
         {
             return allSong.Count > 0 ? allSong[0] : null;
         }
 
+
+        ///получить последний трек из плейлиста
         public Track getEndTrack()
         {
             return allSong.Count > 0 ? allSong[allSong.Count - 1] : null;

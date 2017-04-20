@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,7 +24,6 @@ namespace Music
         {
             mediaplayer = new MediaPlayer();
             isplaying = false;
-            
             mediaplayer.MediaEnded += playNexttrack;
         }
 
@@ -41,7 +41,7 @@ namespace Music
             if (isplaying)
             {
 
-                temp_image.Background = brushpl ;
+                temp_image.Background = brushpl;
                 mediaplayer.Pause();
                 isplaying = false;
             }
@@ -75,13 +75,27 @@ namespace Music
         //играть первый трэк из плейлиста
         public void playFirsttrack(object sender, EventArgs e)
         {
-
+            try
+            {
+                mediaplayer.Open(currentPlaylist.getFirstTrack().filepath);
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show("Не удалось воспроизвести трек" + ee.Message);
+            }
         }
 
         //играть последний трэк из плейлиста
         public void playEndtrack(object sender, EventArgs e)
         {
-
+            try
+            {
+                mediaplayer.Open(currentPlaylist.getEndTrack().filepath);
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show("Не удалось воспроизвести трек" + ee.Message);
+            }
         }
 
         //повторять трек
@@ -123,14 +137,19 @@ namespace Music
         //тут лажа
         public void setTrackPosition(double _pos)
         {
-            MessageBox.Show(mediaplayer.NaturalDuration.TimeSpan.Seconds.ToString());
-            int d = mediaplayer.NaturalDuration.TimeSpan.Seconds;
-            int k = (int)(_pos * d);
-            mediaplayer.Position = new TimeSpan(0, 0, k);
+            
+            mediaplayer.Position =  TimeSpan.FromMilliseconds(
+                _pos * mediaplayer.NaturalDuration.TimeSpan.TotalSeconds);
         }
         public double getTrackPosition()
-        {
-            return (double)(mediaplayer.Position.Milliseconds / mediaplayer.NaturalDuration.TimeSpan.Milliseconds);
+        {//секунды обновляются
+            return mediaplayer.Position.Seconds / mediaplayer.NaturalDuration.TimeSpan.TotalSeconds;
         }
+
+        public TimeSpan getTrackTime()
+        {
+            return mediaplayer.Position;
+        }
+
     }
 }
