@@ -17,7 +17,8 @@ namespace PlayL
         private List<Track> allSong;
 
 
-
+        //TODO  чтение из базы данных. миксование треков
+        //TODO  нумерация треков во время восппрозведения
         public Playlist()
         {
             allSong = new List<Track>();
@@ -63,7 +64,7 @@ namespace PlayL
             return (i > -1 && i < allSong.Count) ? allSong[i] : null;
         }
 
-      
+        
 
         //public void initallSongFromPL()
         //{

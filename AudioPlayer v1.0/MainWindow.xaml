@@ -67,8 +67,11 @@
             </Button>
             <Button x:Name="playpause_button"  HorizontalAlignment="Left" Margin="115,15,0,0" VerticalAlignment="Top" 
                     Background="#FF578A94" BorderBrush="#FF578A94" Width="38" Height="40"  Opacity="0.8" Click="playpause_Click">
-                <Image Name="playpause_button_playimage" Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\play-button.png"/>
+                <Grid Name="grid_playpause_button">
+                    <Image Name="play_button_playimage" Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\play-button.png"/>
+                    <Image Name="pause_button_playimage" Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\pause.png" Visibility="Hidden"/>
 
+                </Grid>
             </Button>
             <Button x:Name="nexttrack_button"  Background="#FF578A94" BorderBrush="#FF578A94" HorizontalAlignment="Left" Margin="170,25,0,0"
                     VerticalAlignment="Top" Width="25" Height="25"  Opacity="0.8" Click="nexttrack_button_Click">
@@ -105,12 +108,16 @@
 
             </Slider>
 
-            <ToggleButton x:Name="mix_button"  HorizontalAlignment="Left" Margin="1015,25,0,0" VerticalAlignment="Top" Width="25"  Background="#FF578A94" BorderBrush="#FF578A94"   Opacity="0.8" Click="mix_button_Click">
-                <Image Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\replay.png" Height="22" Width="22" />
+            <ToggleButton x:Name="mix_button"  HorizontalAlignment="Left" Margin="1015,25,0,0" VerticalAlignment="Top"
+                          Width="28"  Background="#FF578A94" BorderBrush="#FF578A94"   Opacity="0.8" Checked="mix_button_Click" 
+                          Unchecked="mix_returstartpos_button_Click">
+                <Image Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\shuff.png" Height="22" Width="25" />
             </ToggleButton>
 
-            <ToggleButton x:Name="replay_button"  HorizontalAlignment="Left" Margin="1045,24,0,0" VerticalAlignment="Top" Width="24"  Background="#FF578A94" BorderBrush="#FF578A94"   Opacity="0.8" Click="replay_button_Click">
-                <Image Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\shuff.png" Height="22"  Width="21"  />
+            <ToggleButton x:Name="replay_button"  HorizontalAlignment="Left" Margin="1045,24,0,0" VerticalAlignment="Top"
+                          Width="24"  Background="#FF578A94" BorderBrush="#FF578A94"   Opacity="0.8" Checked="replay_button_Click" 
+                          Unchecked="unreplay_button_Click">
+                <Image Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\replay.png" Height="22"  Width="21"  />
             </ToggleButton>
 
         </Grid>

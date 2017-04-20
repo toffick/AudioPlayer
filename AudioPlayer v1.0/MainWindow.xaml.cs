@@ -39,8 +39,9 @@ namespace AudioPlayer_v1._0
             volume.Value = 0.5;
             PlaylistsList.ItemsSource = playlistControl.getallplaylists();
 
-            Track kk = new Track(@"D:\Загрузки\e7bb15496a0d1b.mp3");
-            MessageBox.Show(kk.trackinfo.ToString());
+
+            //playpause_button.Content
+
             timerPlay = new DispatcherTimer();
             timerPlay.Interval = TimeSpan.FromMilliseconds(1000);
             timerPlay.Tick += new EventHandler(starttrack);
@@ -80,15 +81,29 @@ namespace AudioPlayer_v1._0
 
         }
 
+
+
         private void replay_button_Click(object sender, RoutedEventArgs e)
         {
             musiccontrol.raplay(sender, e);
         }
 
+        private void unreplay_button_Click(object sender, RoutedEventArgs e)
+        {
+            musiccontrol.raplay(sender, e);
+        }
+
+        
+
         private void mix_button_Click(object sender, RoutedEventArgs e)
         {
             musiccontrol.mixtracks(sender, e);
         }
+        private void mix_returstartpos_button_Click(object sender, RoutedEventArgs e)
+        {
+            musiccontrol.mixreturnstartpos(sender, e);
+        }
+
 
         private void addplaylist_button_Click(object sender, RoutedEventArgs e)
         {
@@ -151,6 +166,7 @@ namespace AudioPlayer_v1._0
 
         private void starttrack(object sender, EventArgs e)
         {
+            //TODO тут просто ебаный ад. разобраться с перемоткой 
             PlaySlider.ValueChanged -= PlaySlider_ValueChanged;
             PlaySlider.Value = 1000 * musiccontrol.getTrackPosition();
             myTime = musiccontrol.getTrackTime();
@@ -159,6 +175,9 @@ namespace AudioPlayer_v1._0
 
         }
 
+        private void mix_button_Unchecked(object sender, RoutedEventArgs e)
+        {
 
+        }
     }
 }

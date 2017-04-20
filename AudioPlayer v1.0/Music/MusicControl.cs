@@ -20,15 +20,22 @@ namespace Music
         private Playlist currentPlaylist;
 
         private double storeVolumeValue;                                        //уровень звука для восстановления
+        private bool isreplay;                                                  //повторять ли текущий трек
         public MusicControl()
         {
             mediaplayer = new MediaPlayer();
             isplaying = false;
-            mediaplayer.MediaEnded += playNexttrack;
+            isreplay = false;
+
+            mediaplayer.MediaEnded += playNexttrack;                              //по завершению трека играть следующий
         }
+
+
+
 
         public void PlayPause(object sender, EventArgs e)
         {
+            //TODO смена картинок
             Button temp_image = sender as Button;
 
             var brushpa = new ImageBrush();
@@ -58,14 +65,23 @@ namespace Music
         {
             mediaplayer.Open(url);
             mediaplayer.Pause();
-
         }
-        //играть следующий трэк из плейлиста
+
+        ///играть следующий трэк из плейлиста
         public void playNexttrack(object sender, EventArgs e)
         {
             try
             {
-                mediaplayer.Open(new Uri(currentPlaylist.getNextTrack().filepath));
+                //если треков нет - плеер замолкает
+                if (isreplay)
+                {
+                    mediaplayer.Open(new Uri(currentPlaylist.getNextTrack().filepath));
+                }
+                else
+                {
+                    //TODO воспроизводить тот же трек
+                    mediaplayer.Open(new Uri(currentPlaylist.getNextTrack().filepath));
+                }
             }
             catch (Exception ee)
             {
@@ -73,7 +89,7 @@ namespace Music
             }
         }
 
-        //играть следующий трэк из плейлиста
+        ///играть следующий трэк из плейлиста
         public void playPrevtrack(object sender, EventArgs e)
         {
             try
@@ -86,7 +102,7 @@ namespace Music
             }
         }
 
-        //играть первый трэк из плейлиста
+        ///играть первый трэк из плейлиста
         public void playFirsttrack(object sender, EventArgs e)
         {
             try
@@ -99,7 +115,7 @@ namespace Music
             }
         }
 
-        //играть последний трэк из плейлиста
+        ///играть последний трэк из плейлиста
         public void playEndtrack(object sender, EventArgs e)
         {
             try
@@ -112,18 +128,31 @@ namespace Music
             }
         }
 
-        //повторять трек
+
+        ///повторять трек
         public void raplay(object sender, EventArgs e)
         {
-
+            isreplay = true;
+        }
+        public void unraplay(object sender, EventArgs e)
+        {
+            isreplay = false;
         }
 
-        //перемешать трек
+
+        ///перемешать трек
         public void mixtracks(object sender, EventArgs e)
         {
-
+            //TODO перемешивааем треки. пока не ебу, каким образом
         }
 
+        ///вернуть начальное положение треков после перемешания
+        public void mixreturnstartpos(object sender, EventArgs e)
+        {
+            //TODO тут возвращаем первоначальное раположение треков
+        }
+
+        ///остановить воспроизведение
         public void stop(object sender, EventArgs e)
         {
             mediaplayer.Stop();
@@ -148,15 +177,13 @@ namespace Music
         #endregion
 
 
-        //тут лажа
         public void setTrackPosition(double _pos)
         {
-            
-            mediaplayer.Position =  TimeSpan.FromMilliseconds(
+            mediaplayer.Position = TimeSpan.FromMilliseconds(
                 _pos * mediaplayer.NaturalDuration.TimeSpan.TotalSeconds);
         }
         public double getTrackPosition()
-        {//секунды обновляются
+        {//TODO секунды обнуляются - обнуляется слайдер воспроизведения 
             return mediaplayer.Position.Seconds / mediaplayer.NaturalDuration.TimeSpan.TotalSeconds;
         }
 
