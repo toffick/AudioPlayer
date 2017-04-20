@@ -63,13 +63,27 @@ namespace Music
         //играть следующий трэк из плейлиста
         public void playNexttrack(object sender, EventArgs e)
         {
-
+            try
+            {
+                mediaplayer.Open(new Uri(currentPlaylist.getNextTrack().filepath));
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show("Не удалось воспроизвести трек" + ee.Message);
+            }
         }
 
         //играть следующий трэк из плейлиста
         public void playPrevtrack(object sender, EventArgs e)
         {
-
+            try
+            {
+                mediaplayer.Open(new Uri(currentPlaylist.getPrevTrack().filepath));
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show("Не удалось воспроизвести трек" + ee.Message);
+            }
         }
 
         //играть первый трэк из плейлиста
@@ -77,7 +91,7 @@ namespace Music
         {
             try
             {
-                mediaplayer.Open(currentPlaylist.getFirstTrack().filepath);
+                mediaplayer.Open(new Uri(currentPlaylist.getFirstTrack().filepath));
             }
             catch (Exception ee)
             {
@@ -90,7 +104,7 @@ namespace Music
         {
             try
             {
-                mediaplayer.Open(currentPlaylist.getEndTrack().filepath);
+                mediaplayer.Open(new Uri(currentPlaylist.getEndTrack().filepath));
             }
             catch (Exception ee)
             {

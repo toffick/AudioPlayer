@@ -39,7 +39,8 @@ namespace AudioPlayer_v1._0
             volume.Value = 0.5;
             PlaylistsList.ItemsSource = playlistControl.getallplaylists();
 
-
+            Track kk = new Track(@"D:\Загрузки\e7bb15496a0d1b.mp3");
+            MessageBox.Show(kk.trackinfo.ToString());
             timerPlay = new DispatcherTimer();
             timerPlay.Interval = TimeSpan.FromMilliseconds(1000);
             timerPlay.Tick += new EventHandler(starttrack);
@@ -120,13 +121,12 @@ namespace AudioPlayer_v1._0
 
             musiccontrol.setTrackPosition(PlaySlider.Value);
         }
-
+        #region работа с громкостью звука
         //выключить звук
         private void mute_Checked(object sender, RoutedEventArgs e)
         {
             musiccontrol.mute(sender, e);
         }
-
         //включить звук
         private void unmute(object sender, RoutedEventArgs e)
         {
@@ -138,7 +138,7 @@ namespace AudioPlayer_v1._0
         {
             musiccontrol.setVolume(e.NewValue);
         }
-
+        #endregion
         private void addtracktocurentplaylist_button_Click(object sender, RoutedEventArgs e)
         {
             playlistControl.addSongToCurrentPlaylist();
@@ -153,7 +153,7 @@ namespace AudioPlayer_v1._0
         {
             PlaySlider.ValueChanged -= PlaySlider_ValueChanged;
             PlaySlider.Value = 1000 * musiccontrol.getTrackPosition();
-              myTime = musiccontrol.getTrackTime();
+            myTime = musiccontrol.getTrackTime();
             curenttime_textblock.Text = $"{myTime.Minutes}:{myTime.Seconds}";
             PlaySlider.ValueChanged += PlaySlider_ValueChanged;
 

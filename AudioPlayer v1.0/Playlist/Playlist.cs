@@ -38,6 +38,8 @@ namespace PlayL
             //перемешать все треки
         }
 
+
+
         public void addTrackToPlaylist(Uri trackuri)
         {
 
@@ -46,7 +48,7 @@ namespace PlayL
         ///получить первый трек из плейлиста
         public Track getFirstTrack()
         {
-            return allSong.Count > 0 ? allSong[0] : null;
+            return allSong.Count >= 0 ? allSong[0] : null;
         }
 
 
@@ -60,6 +62,9 @@ namespace PlayL
         {
             return (i > -1 && i < allSong.Count) ? allSong[i] : null;
         }
+
+      
+
         //public void initallSongFromPL()
         //{
 
@@ -84,6 +89,17 @@ namespace PlayL
         public override string ToString()
         {
             return "Playlist: " + Playlistname + " number " + Playlistnumber;
+        }
+
+
+        public Track getNextTrack()
+        {
+            throw new NotImplementedException();
+        }
+        
+        public Track getPrevTrack()
+        {
+            throw new NotImplementedException();
         }
     }
 }

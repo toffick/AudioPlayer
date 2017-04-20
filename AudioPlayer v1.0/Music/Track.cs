@@ -8,14 +8,16 @@ namespace Music
 {
     class Track
     {
-        public Uri filepath { get; }
+        public string filepath { get; }
       
         public TrackInfo trackinfo { get; }
 
-        public Track(Uri _path)
+        public Track()
+        { }
+        public Track(string _path)
         {
             filepath = _path;
-            trackinfo.getTrackInfo(_path);
+            trackinfo=new TrackInfo(_path);
         }       
     }
 }

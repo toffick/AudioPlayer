@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="AudioPlayer v1.0" Height="650" Width="1100" BorderThickness="0" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="#FF578A94">
 
-   
+
     <Grid Name="mainGrid" >
 
         <Grid Name="PlaylistContainer" HorizontalAlignment="Left" Height="545" Margin="230,0,-0.4,0" VerticalAlignment="Top" Width="864">
@@ -34,13 +34,13 @@
 
             <StackPanel HorizontalAlignment="Left" Height="51" VerticalAlignment="Top" Width="864" Orientation="Horizontal">
                 <Button x:Name="button" Content="Button" Width="75" Click="button_Click"/>
-                      
+
                 <Button x:Name="addplaylist_button" Content="Добавить плелист" HorizontalAlignment="Left" 
                         Margin="8,22,0,0" VerticalAlignment="Top" Width="120" Click="addplaylist_button_Click"/>
-                
+
                 <TextBox x:Name="textBox" HorizontalAlignment="Left"  Height="23" Margin="20,22,0,0" 
                          TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="249" />
-                
+
                 <Button x:Name="playlistsearch_button" Content="Найти" HorizontalAlignment="Left" 
                         Margin="20,20,0,0" VerticalAlignment="Top" Width="50" Height="23"/>
 
@@ -68,7 +68,7 @@
             <Button x:Name="playpause_button"  HorizontalAlignment="Left" Margin="115,15,0,0" VerticalAlignment="Top" 
                     Background="#FF578A94" BorderBrush="#FF578A94" Width="38" Height="40"  Opacity="0.8" Click="playpause_Click">
                 <Image Name="playpause_button_playimage" Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\play-button.png"/>
-                
+
             </Button>
             <Button x:Name="nexttrack_button"  Background="#FF578A94" BorderBrush="#FF578A94" HorizontalAlignment="Left" Margin="170,25,0,0"
                     VerticalAlignment="Top" Width="25" Height="25"  Opacity="0.8" Click="nexttrack_button_Click">
@@ -116,7 +116,7 @@
         </Grid>
 
         <Grid Name="MenuContainer" Margin="0,0,864,75">
-            <TabControl  Margin="2,545,-308.4,-229">
+            <TabControl  Margin="2,545,-308.4,-229 ">
                 <TabControl.RenderTransform>
                     <TransformGroup>
                         <RotateTransform Angle="-90"/>
@@ -128,15 +128,22 @@
                         <Image Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\world.png"/>
                     </TabItem.Header>
                     <Grid Margin="-3,-3,-2.6,-2.8" >
-
+                        <TextBox  x:Name="textbox_websearch" 
+                                      RenderTransformOrigin="0.5,0.5" Margin="423,85,-84,85" >
+                            <TextBox.RenderTransform>
+                                <TransformGroup>
+                                    <RotateTransform Angle="90"/>
+                                </TransformGroup>
+                            </TextBox.RenderTransform>
+                        </TextBox>
                     </Grid>
                 </TabItem>
-                <TabItem Width="45" Height="30"  Margin="388,0,-390,0"  Background="#FF578A94" BorderBrush="#FF578A94" Opacity="0.8">
+                <TabItem Width="45" Height="30"  Margin="388,0,-390,0"  Background="#FF578A94" BorderBrush="#FF578A94" Opacity="0.8" >
                     <TabItem.Header>
                         <Image Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\magnifier.png"/>
                     </TabItem.Header>
                     <Grid Margin="-3,-3,-2.6,-2.8" >
-                     
+
                     </Grid>
                 </TabItem>
                 <TabItem Width="45" Height="30"  Margin="388,0,-390,0"  Background="#FF578A94" BorderBrush="#FF578A94"  Opacity="0.8">
@@ -144,7 +151,7 @@
                         <Image Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\menu.png"/>
                     </TabItem.Header>
                     <Grid Margin="-3,-3,-2.6,-2.8" >
-                        
+
                     </Grid>
                 </TabItem>
             </TabControl>
