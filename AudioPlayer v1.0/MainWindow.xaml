@@ -57,7 +57,7 @@
         </Grid>
         <Grid Name="ControlContainer" HorizontalAlignment="Left" Height="75" Margin="0,545,-0.4,0" VerticalAlignment="Top" Width="1094">
             <ToggleButton x:Name="mute"  HorizontalAlignment="Left" Margin="865,23,0,0"  Background="#FF578A94" BorderBrush="#FF578A94" 
-                    VerticalAlignment="Top" Width="26" Height="25" Click="prevTrack_Click" Opacity="0.8" Checked="mute_Checked" Unchecked="unmute">
+                    VerticalAlignment="Top" Width="26" Height="25"  Opacity="0.8" Checked="mute_Checked" Unchecked="unmute">
                 <Image Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\mute-volume-interface-symbol.png"/>
 
             </ToggleButton>
@@ -94,11 +94,15 @@
 
 
 
-            <Slider Name="PlaySlider"  Minimum="0"  Maximum="1000" 
+            <Slider Name="PlaySlider"  Minimum="0"  
+                        
     VerticalAlignment="Center"  Height="23" RenderTransformOrigin="0.5,0.5"  Margin="330,25,264,27" ValueChanged="PlaySlider_ValueChanged" />
 
-            <TextBlock Name="curenttime_textblock" Text="{Binding myTime,  StringFormat={}{mm:ss}, FallbackValue=00:00:00, Mode=OneWay }"   
+
+            <TextBlock Name="curenttime_textblock" Text="{Binding ElementName = curenttime_textblock, Path = ooo, 
+               FallbackValue=00:00:00, Mode=OneWay }"   
      Padding="0,0,0,0" VerticalAlignment="Center"  Height="16" Margin="330,9,718,50" />
+
             <TextBlock Name="alltime_textbox" Text="{Binding Time, StringFormat={}{0:hh}:{0:mm}:{0:ss}, 
     FallbackValue=00:00:00, Mode=OneWay}" VerticalAlignment="Center"  Height="16" Margin="784,9,264,50" />
             <Slider x:Name="volume" HorizontalAlignment="Left" Margin="900,25,0,0" VerticalAlignment="Top"

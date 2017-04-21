@@ -16,16 +16,19 @@ namespace Music
     class MusicControl
     {
         private MediaPlayer mediaplayer;
-        private bool isplaying;
         private Playlist currentPlaylist;
 
         private double storeVolumeValue;                                        //уровень звука для восстановления
         private bool isreplay;                                                  //повторять ли текущий трек
+        public bool IsPlaying { get; private set; }
+
+        Slider slider_play;
         public MusicControl()
         {
             mediaplayer = new MediaPlayer();
-            isplaying = false;
+            IsPlaying = false;
             isreplay = false;
+            mediaplayer.MediaOpened += setSliderMaximumValue;
 
             mediaplayer.MediaEnded += playNexttrack;                              //по завершению трека играть следующий
         }
@@ -45,18 +48,18 @@ namespace Music
             brushpl.ImageSource = new BitmapImage(
                 new Uri(@"D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\play-button.png", UriKind.Absolute));
 
-            if (isplaying)
+            if (IsPlaying)
             {
 
                 temp_image.Background = brushpl;
                 mediaplayer.Pause();
-                isplaying = false;
+                IsPlaying = false;
             }
             else
             {
                 temp_image.Background = brushpa;
                 mediaplayer.Play();
-                isplaying = true;
+                IsPlaying = true;
 
             }
         }
@@ -64,8 +67,10 @@ namespace Music
         public void opentrack(object sender, EventArgs e, Uri url)
         {
             mediaplayer.Open(url);
-            mediaplayer.Pause();
+            slider_play = sender as Slider;
         }
+
+
 
         ///играть следующий трэк из плейлиста
         public void playNexttrack(object sender, EventArgs e)
@@ -140,7 +145,7 @@ namespace Music
         }
 
 
-        ///перемешать трек
+        ///перемешать треки
         public void mixtracks(object sender, EventArgs e)
         {
             //TODO перемешивааем треки. пока не ебу, каким образом
@@ -158,7 +163,7 @@ namespace Music
             mediaplayer.Stop();
         }
 
-        #region работа со звуком
+        #region Работа со звуком
         public void mute(object sender, EventArgs e)
         {
             storeVolumeValue = mediaplayer.Volume;
@@ -176,16 +181,20 @@ namespace Music
 
         #endregion
 
-
-        public void setTrackPosition(double _pos)
+        public void setTrackPosition(object sender, EventArgs e)
         {
-            mediaplayer.Position = TimeSpan.FromMilliseconds(
-                _pos * mediaplayer.NaturalDuration.TimeSpan.TotalSeconds);
+            var ee = e as RoutedPropertyChangedEventArgs<double>;
+            mediaplayer.Position = TimeSpan.FromSeconds(ee.NewValue);
         }
         public double getTrackPosition()
-        {//TODO секунды обнуляются - обнуляется слайдер воспроизведения 
-            return mediaplayer.Position.Seconds / mediaplayer.NaturalDuration.TimeSpan.TotalSeconds;
+        {
+            return mediaplayer.Position.Minutes*60+ mediaplayer.Position.Seconds ;
         }
+        public void setSliderMaximumValue(object sender, EventArgs e)
+        {
+            slider_play.Maximum = mediaplayer.NaturalDuration.TimeSpan.TotalSeconds;
+        }
+
 
         public TimeSpan getTrackTime()
         {

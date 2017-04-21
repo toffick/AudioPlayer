@@ -20,9 +20,10 @@ using System.Windows.Threading;
 
 namespace AudioPlayer_v1._0
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
+    public class s
+    {
+        public int d { get; set; }
+    }
     public partial class MainWindow : Window
     {
 
@@ -30,7 +31,11 @@ namespace AudioPlayer_v1._0
         private MusicControl musiccontrol;
         private PlaylistControl playlistControl;
         public DispatcherTimer timerPlay;
+        public s ddd = new s();
+        
+
         public TimeSpan myTime { get; set; }
+        public int ooo { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -38,13 +43,12 @@ namespace AudioPlayer_v1._0
             playlistControl = new PlaylistControl();
             volume.Value = 0.5;
             PlaylistsList.ItemsSource = playlistControl.getallplaylists();
-
-
-            //playpause_button.Content
+            ooo = 0;
+            ddd.d = 100;
 
             timerPlay = new DispatcherTimer();
             timerPlay.Interval = TimeSpan.FromMilliseconds(1000);
-            timerPlay.Tick += new EventHandler(starttrack);
+            timerPlay.Tick += setSliderPosition;
         }
 
         private void prevTrack_Click(object sender, RoutedEventArgs e)
@@ -125,16 +129,14 @@ namespace AudioPlayer_v1._0
         private void button_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.InitialDirectory = @"D:\БГТУ\КУРСОВОЙ ПРОЕКТ";
             ofd.ShowDialog();
-            musiccontrol.opentrack(sender, e, new Uri(ofd.FileName));
-
+            musiccontrol.opentrack(PlaySlider, e, new Uri(ofd.FileName));
         }
 
         private void PlaySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
 
-            musiccontrol.setTrackPosition(PlaySlider.Value);
+            musiccontrol.setTrackPosition(sender,e);
         }
         #region работа с громкостью звука
         //выключить звук
@@ -164,14 +166,19 @@ namespace AudioPlayer_v1._0
             //тут устанавливать выбранный плейлист в поле текущего плейлиста в playlistControl
         }
 
-        private void starttrack(object sender, EventArgs e)
+        private void setSliderPosition(object sender, EventArgs e)
         {
-            //TODO тут просто ебаный ад. разобраться с перемоткой 
-            PlaySlider.ValueChanged -= PlaySlider_ValueChanged;
-            PlaySlider.Value = 1000 * musiccontrol.getTrackPosition();
-            myTime = musiccontrol.getTrackTime();
-            curenttime_textblock.Text = $"{myTime.Minutes}:{myTime.Seconds}";
-            PlaySlider.ValueChanged += PlaySlider_ValueChanged;
+
+            if (musiccontrol.IsPlaying)
+            {
+                ddd.d++;
+                PlaySlider.ValueChanged -= PlaySlider_ValueChanged;
+                PlaySlider.Value = musiccontrol.getTrackPosition();
+                PlaySlider.ValueChanged += PlaySlider_ValueChanged;
+                myTime = musiccontrol.getTrackTime();
+               // curenttime_textblock.Text = $"{myTime.Minutes}:{myTime.Seconds}";
+            }
+          //  PlaySlider.Value = 1000 * musiccontrol.getTrackPosition();
 
         }
 
