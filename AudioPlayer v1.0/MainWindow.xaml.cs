@@ -20,10 +20,7 @@ using System.Windows.Threading;
 
 namespace AudioPlayer_v1._0
 {
-    public class s
-    {
-        public int d { get; set; }
-    }
+
     public partial class MainWindow : Window
     {
 
@@ -31,24 +28,21 @@ namespace AudioPlayer_v1._0
         private MusicControl musiccontrol;
         private PlaylistControl playlistControl;
         public DispatcherTimer timerPlay;
-        public s ddd = new s();
         
 
         public TimeSpan myTime { get; set; }
-        public int ooo { get; set; }
         public MainWindow()
         {
             InitializeComponent();
             musiccontrol = new MusicControl();
             playlistControl = new PlaylistControl();
             volume.Value = 0.5;
-            PlaylistsList.ItemsSource = playlistControl.getallplaylists();
-            ooo = 0;
-            ddd.d = 100;
+            listBox_playlists.DisplayMemberPath = "Playlistname";
+            listBox_playlists.ItemsSource = playlistControl.getallplaylists();
 
             timerPlay = new DispatcherTimer();
             timerPlay.Interval = TimeSpan.FromMilliseconds(1000);
-            timerPlay.Tick += setSliderPosition;
+            timerPlay.Tick += setMusicCurentInfo;
         }
 
         private void prevTrack_Click(object sender, RoutedEventArgs e)
@@ -119,18 +113,9 @@ namespace AudioPlayer_v1._0
             musiccontrol.stop(sender, e);
         }
 
-        private void currentplaylist_datagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //
-            MessageBox.Show("s");
-            //musiccontrol.setaudiofile(currentplaylist_datagrid.SelectedItem);
-        }
-
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.ShowDialog();
-            musiccontrol.opentrack(PlaySlider, e, new Uri(ofd.FileName));
+            OpenTrack(sender,e);
         }
 
         private void PlaySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -138,6 +123,7 @@ namespace AudioPlayer_v1._0
 
             musiccontrol.setTrackPosition(sender,e);
         }
+
         #region работа с громкостью звука
         //выключить звук
         private void mute_Checked(object sender, RoutedEventArgs e)
@@ -166,25 +152,47 @@ namespace AudioPlayer_v1._0
             //тут устанавливать выбранный плейлист в поле текущего плейлиста в playlistControl
         }
 
-        private void setSliderPosition(object sender, EventArgs e)
+        private void OpenTrack(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.ShowDialog();
+            musiccontrol.setaudiofile(PlaySlider, e, new Uri(ofd.FileName));
+        }
+
+        /// Изменение времени и положения ползунка
+        private void setMusicCurentInfo(object sender, EventArgs e)
         {
 
             if (musiccontrol.IsPlaying)
             {
-                ddd.d++;
                 PlaySlider.ValueChanged -= PlaySlider_ValueChanged;
                 PlaySlider.Value = musiccontrol.getTrackPosition();
                 PlaySlider.ValueChanged += PlaySlider_ValueChanged;
-                myTime = musiccontrol.getTrackTime();
-               // curenttime_textblock.Text = $"{myTime.Minutes}:{myTime.Seconds}";
+                curenttime_textblock.Text = musiccontrol.getTrackTime().ToString(@"mm\:ss");
             }
-          //  PlaySlider.Value = 1000 * musiccontrol.getTrackPosition();
+
 
         }
 
         private void mix_button_Unchecked(object sender, RoutedEventArgs e)
         {
 
+        }
+
+
+        /// Выбор плейлиста
+        private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            currentplaylist_datagrid.ItemsSource = (IEnumerable<Track>)listBox_playlists.SelectedItem;
+        }
+
+
+        /// Отрытие трека из списка треков плейлиста
+        private void currentplaylist_datagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //TODO вылет при смене плейлиста
+            Track temptrack = (Track)currentplaylist_datagrid.SelectedItem;
+            musiccontrol.setaudiofile(PlaySlider, e, new Uri(temptrack.filepath));
         }
     }
 }

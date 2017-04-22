@@ -64,7 +64,7 @@ namespace Music
             }
         }
 
-        public void opentrack(object sender, EventArgs e, Uri url)
+        public void setaudiofile(object sender, EventArgs e, Uri url)
         {
             mediaplayer.Open(url);
             slider_play = sender as Slider;
@@ -199,6 +199,11 @@ namespace Music
         public TimeSpan getTrackTime()
         {
             return mediaplayer.Position;
+        }
+        public TimeSpan getAllTrackTime()
+        {
+            return mediaplayer.NaturalDuration.TimeSpan;
+
         }
 
     }

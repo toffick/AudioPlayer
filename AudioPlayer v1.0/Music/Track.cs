@@ -18,6 +18,11 @@ namespace Music
         {
             filepath = _path;
             trackinfo=new TrackInfo(_path);
-        }       
+        }
+
+        public override string ToString()
+        {
+            return trackinfo.SongName;
+        }
     }
 }

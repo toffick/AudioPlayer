@@ -21,8 +21,16 @@ namespace PlayL
             DBOperate.InitDB();
             allplaylists = new List<Playlist>();
             InitListPlaylist();
+            InitTracksInPlaylists();
         }
 
+        public void InitTracksInPlaylists()
+        {
+            foreach (Playlist t in allplaylists)
+            {
+                t.getAllTracksFromPlaylists();
+            }
+        }
 
         //инициализировать список плейлистов
         public void InitListPlaylist()
@@ -35,6 +43,9 @@ namespace PlayL
                 {
                     allplaylists.Add(new Playlist(dr[0].ToString(), int.Parse(dr[1].ToString())));
                 }
+                dr.Close();
+
+                
             }
             catch (Exception err)
             {

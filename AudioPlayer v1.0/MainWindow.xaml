@@ -17,18 +17,20 @@
 
                 <DataGrid x:Name="currentplaylist_datagrid" HorizontalAlignment="Left" 
                   VerticalAlignment="Top" Height="480" AutoGenerateColumns="False"
-                  FontFamily="Calibri" SelectionChanged="currentplaylist_datagrid_SelectionChanged" Opacity="0.86" Margin="0,0,0,-0.2">
+                  FontFamily="Calibri" SelectionChanged="currentplaylist_datagrid_SelectionChanged" Opacity="0.86" Margin="0,0,0,-0.2" Width="675">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Название" Width="4*" 
-                             Binding="{Binding Path=SongName}"></DataGridTextColumn>
+                             Binding="{Binding Path=trackinfo.SongName}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Автор"  Width="4*"
-                             Binding="{Binding Path=Author}"></DataGridTextColumn>
+                             Binding="{Binding Path=trackinfo.Author}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Длительность"  Width="4*"
-                             Binding="{Binding Time,StringFormat=mm\\:ss}"></DataGridTextColumn>
+                             Binding="{Binding Path=trackinfo.Time,StringFormat=mm\\:ss}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Альбом" Width="4*"
-                             Binding="{Binding Path=Album}"></DataGridTextColumn>
+                             Binding="{Binding Path=trackinfo.Album}"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
+                <ListBox x:Name="listBox_playlists" HorizontalAlignment="Left" Height="480" Background="#FF578A94" 
+                         Margin="675,0,0,-0.2" VerticalAlignment="Top" Width="188"  Opacity="0.86" SelectionChanged="listBox_SelectionChanged"/>
 
             </Grid>
 
@@ -44,10 +46,7 @@
                 <Button x:Name="playlistsearch_button" Content="Найти" HorizontalAlignment="Left" 
                         Margin="20,20,0,0" VerticalAlignment="Top" Width="50" Height="23"/>
 
-                <Expander HorizontalAlignment="Left" Margin="20,22,0,-18.8"  Width="200" Height="200">
-                    <ListBox Name="PlaylistsList" Width="200" Height="200" SelectionChanged="PlaylistsList_SelectionChanged">
-                    </ListBox>
-                </Expander>
+              
 
                 <Button x:Name="addtracktocurentplaylist_button" Content="Button" HorizontalAlignment="Left" Margin="0,20,0,0" VerticalAlignment="Top" Width="27" Height="26" Click="addtracktocurentplaylist_button_Click"/>
                 <Button x:Name="deletetrackfromcurentplaylist_button" Content="Button" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Width="27" Height="26"/>
@@ -99,12 +98,12 @@
     VerticalAlignment="Center"  Height="23" RenderTransformOrigin="0.5,0.5"  Margin="330,25,264,27" ValueChanged="PlaySlider_ValueChanged" />
 
 
-            <TextBlock Name="curenttime_textblock" Text="{Binding ElementName = curenttime_textblock, Path = ooo, 
-               FallbackValue=00:00:00, Mode=OneWay }"   
+            <TextBlock Name="curenttime_textblock" Text="00:00"  
      Padding="0,0,0,0" VerticalAlignment="Center"  Height="16" Margin="330,9,718,50" />
 
-            <TextBlock Name="alltime_textbox" Text="{Binding Time, StringFormat={}{0:hh}:{0:mm}:{0:ss}, 
-    FallbackValue=00:00:00, Mode=OneWay}" VerticalAlignment="Center"  Height="16" Margin="784,9,264,50" />
+            <TextBlock Name="alltime_textbox" Text="00:00"
+                       VerticalAlignment="Center"  Height="16" Margin="795,9,267,47" />
+
             <Slider x:Name="volume" HorizontalAlignment="Left" Margin="900,25,0,0" VerticalAlignment="Top"
                     Height="33" Width="110" ValueChanged="volume_ValueChanged" Maximum="1">
 

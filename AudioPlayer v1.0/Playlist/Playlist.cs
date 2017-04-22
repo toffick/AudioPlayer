@@ -6,31 +6,32 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Windows;
 using Music;
+using DB;
+using System.Collections;
 
 namespace PlayL
 {
-    class Playlist
+    class Playlist: IEnumerable<Track>
     {
-        private string Playlistname { get; set; }
+        public string Playlistname { get; private set; }
         private int Playlistnumber { get; set; }
 
-        private List<Track> allSong;
+        private List<Track> allTracks;
 
 
         //TODO  чтение из базы данных. миксование треков
         //TODO  нумерация треков во время восппрозведения
         public Playlist()
         {
-            allSong = new List<Track>();
+            allTracks = new List<Track>();
             Playlistname = "empty_pl_name";
             Playlistnumber = -1;
         }
         public Playlist(string _playlistname, int _playlistnumber)
         {
-            allSong = new List<Track>();
+            allTracks = new List<Track>();
             Playlistname = _playlistname;
             Playlistnumber = _playlistnumber;
-            //initallSongFromPL();
         }
 
         public void mixAllTracks()
@@ -39,7 +40,19 @@ namespace PlayL
             //перемешать все треки
         }
 
+        public void getAllTracksFromPlaylists()
+        {
+            string cmdText = $"Select MUSICFILE_PATH  From MUSIC INNER JOIN PLAYLIST ON PLAYLIST.PL_NAME = MUSIC.MUSIC_PLAYLIST WHERE PL_NAME =  '{Playlistname}' ";
 
+            using(SqlDataReader dr = DBOperate.selectQuery(cmdText))
+            {
+                while (dr.Read())
+                {
+                    Track temp = new Track(dr[0].ToString());
+                    allTracks.Add(temp);
+                }
+            }
+        }
 
         public void addTrackToPlaylist(Uri trackuri)
         {
@@ -49,24 +62,24 @@ namespace PlayL
         ///получить первый трек из плейлиста
         public Track getFirstTrack()
         {
-            return allSong.Count >= 0 ? allSong[0] : null;
+            return allTracks.Count >= 0 ? allTracks[0] : null;
         }
 
 
         ///получить последний трек из плейлиста
         public Track getEndTrack()
         {
-            return allSong.Count > 0 ? allSong[allSong.Count - 1] : null;
+            return allTracks.Count > 0 ? allTracks[allTracks.Count - 1] : null;
         }
 
         public Track getTrackWithId(int i)
         {
-            return (i > -1 && i < allSong.Count) ? allSong[i] : null;
+            return (i > -1 && i < allTracks.Count) ? allTracks[i] : null;
         }
 
         
 
-        //public void initallSongFromPL()
+        //public void initallTracksFromPL()
         //{
 
         //    try
@@ -89,7 +102,12 @@ namespace PlayL
         /////////////////////////////
         public override string ToString()
         {
-            return "Playlist: " + Playlistname + " number " + Playlistnumber;
+            string temp = null;
+            foreach (Track t in allTracks)
+            {
+                temp += t.ToString()+Environment.NewLine;
+            }
+            return  temp + Environment.NewLine + "Playlist: " + Playlistname + " number " + Playlistnumber;
         }
 
 
@@ -101,6 +119,16 @@ namespace PlayL
         public Track getPrevTrack()
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerator<Track> GetEnumerator()
+        {
+            return ((IEnumerable<Track>)allTracks).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable<Track>)allTracks).GetEnumerator();
         }
     }
 }
