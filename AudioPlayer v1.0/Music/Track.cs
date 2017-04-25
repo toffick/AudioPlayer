@@ -12,11 +12,13 @@ namespace Music
       
         public TrackInfo trackinfo { get; }
 
+        public int Number { get; private set;  }
         public Track()
         { }
-        public Track(string _path)
+        public Track(string _path,int _n)
         {
             filepath = _path;
+            Number = _n;
             trackinfo=new TrackInfo(_path);
         }
 

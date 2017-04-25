@@ -64,7 +64,8 @@ namespace Music
         {
             try
             {
-                return file.Tag.Title;
+
+                return file.Tag.Title != null ? file.Tag.Title : file.Name.Split('\\').Last<string>();
             }
             catch
             {
@@ -88,7 +89,7 @@ namespace Music
         {
             try
             {
-                return file.Tag.Performers[0];
+                return file.Tag.FirstPerformer;
             }
             catch
             {

@@ -34,14 +34,15 @@ namespace AudioPlayer_v1._0
         public MainWindow()
         {
             InitializeComponent();
-            musiccontrol = new MusicControl();
+
+            timerPlay = new DispatcherTimer();
+            musiccontrol = new MusicControl(PlaySlider, timerPlay);
             playlistControl = new PlaylistControl();
-            volume.Value = 0.5;
+            musiccontrol.trackChange += setMusicInfo;
             listBox_playlists.DisplayMemberPath = "Playlistname";
             listBox_playlists.ItemsSource = playlistControl.getallplaylists();
 
-            timerPlay = new DispatcherTimer();
-            timerPlay.Interval = TimeSpan.FromMilliseconds(1000);
+            timerPlay.Interval = TimeSpan.FromMilliseconds(500);
             timerPlay.Tick += setMusicCurentInfo;
         }
 
@@ -54,7 +55,6 @@ namespace AudioPlayer_v1._0
         {
 
             musiccontrol.PlayPause(sender, e);
-            timerPlay.Start();
         }
 
         private void nexttrack_button_Click(object sender, RoutedEventArgs e)
@@ -113,15 +113,9 @@ namespace AudioPlayer_v1._0
             musiccontrol.stop(sender, e);
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            OpenTrack(sender,e);
-        }
-
         private void PlaySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-
-            musiccontrol.setTrackPosition(sender,e);
+            musiccontrol.setTrackPosition(e.NewValue);
         }
 
         #region работа с громкостью звука
@@ -147,31 +141,21 @@ namespace AudioPlayer_v1._0
             playlistControl.addSongToCurrentPlaylist();
         }
 
-        private void PlaylistsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //тут устанавливать выбранный плейлист в поле текущего плейлиста в playlistControl
-        }
-
-        private void OpenTrack(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.ShowDialog();
-            musiccontrol.setaudiofile(PlaySlider, e, new Uri(ofd.FileName));
-        }
-
         /// Изменение времени и положения ползунка
         private void setMusicCurentInfo(object sender, EventArgs e)
         {
-
-            if (musiccontrol.IsPlaying)
-            {
                 PlaySlider.ValueChanged -= PlaySlider_ValueChanged;
                 PlaySlider.Value = musiccontrol.getTrackPosition();
                 PlaySlider.ValueChanged += PlaySlider_ValueChanged;
-                curenttime_textblock.Text = musiccontrol.getTrackTime().ToString(@"mm\:ss");
-            }
+                curenttime_textblock.Text = musiccontrol.getTrackTimePosition().ToString(@"mm\:ss");
+        }
 
-
+        ///установить информвцию о треке
+        private void setMusicInfo(Track _tr)
+        {
+            PlaySlider.Maximum = _tr.trackinfo.Time.TotalSeconds;
+            PlaySlider.Value = 0;
+            alltime_textbox.Text = _tr.trackinfo.Time.ToString(@"mm\:ss");
         }
 
         private void mix_button_Unchecked(object sender, RoutedEventArgs e)
@@ -184,15 +168,24 @@ namespace AudioPlayer_v1._0
         private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             currentplaylist_datagrid.ItemsSource = (IEnumerable<Track>)listBox_playlists.SelectedItem;
+            musiccontrol.setCurrentPlaylist((Playlist)listBox_playlists.SelectedItem);
         }
 
 
         /// Отрытие трека из списка треков плейлиста
         private void currentplaylist_datagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //TODO вылет при смене плейлиста
             Track temptrack = (Track)currentplaylist_datagrid.SelectedItem;
-            musiccontrol.setaudiofile(PlaySlider, e, new Uri(temptrack.filepath));
+            if (temptrack != null)
+            {
+                openTrack(temptrack);
+            }
+        }
+
+        private void openTrack(Track _tr)
+        {
+            musiccontrol.setaudiofile(_tr);
+         //   setMusicInfo(_tr);
         }
     }
 }

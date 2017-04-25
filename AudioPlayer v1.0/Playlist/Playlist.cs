@@ -14,12 +14,20 @@ namespace PlayL
     class Playlist: IEnumerable<Track>
     {
         public string Playlistname { get; private set; }
+
+        public int Count
+        {
+            get{ return allTracks.Count; }
+            private set { }
+        }
         private int Playlistnumber { get; set; }
 
         private List<Track> allTracks;
 
+        private Track currentTrack;
 
-        //TODO  чтение из базы данных. миксование треков
+
+        //TODO   миксование треков
         //TODO  нумерация треков во время восппрозведения
         public Playlist()
         {
@@ -29,6 +37,7 @@ namespace PlayL
         }
         public Playlist(string _playlistname, int _playlistnumber)
         {
+            currentTrack = null;
             allTracks = new List<Track>();
             Playlistname = _playlistname;
             Playlistnumber = _playlistnumber;
@@ -39,7 +48,10 @@ namespace PlayL
             //созранить норм
             //перемешать все треки
         }
-
+        public void setcurrentTrack(Track _tr)
+        {
+            currentTrack = _tr;
+        }
         public void getAllTracksFromPlaylists()
         {
             string cmdText = $"Select MUSICFILE_PATH  From MUSIC INNER JOIN PLAYLIST ON PLAYLIST.PL_NAME = MUSIC.MUSIC_PLAYLIST WHERE PL_NAME =  '{Playlistname}' ";
@@ -48,7 +60,7 @@ namespace PlayL
             {
                 while (dr.Read())
                 {
-                    Track temp = new Track(dr[0].ToString());
+                    Track temp = new Track(dr[0].ToString(), Count+1);
                     allTracks.Add(temp);
                 }
             }
@@ -113,12 +125,25 @@ namespace PlayL
 
         public Track getNextTrack()
         {
-            throw new NotImplementedException();
+            int playnumber = currentTrack.Number;
+            if (playnumber < Count)
+                return allTracks[playnumber];
+            else
+                return allTracks[0];
         }
         
         public Track getPrevTrack()
         {
-            throw new NotImplementedException();
+            int playnumber = currentTrack.Number - 2;
+            if (playnumber > -1)
+                return allTracks[playnumber];
+            else
+                return allTracks[0];
+        }
+
+        public Track getCurrentTrack()
+        {
+            return currentTrack;
         }
 
         public IEnumerator<Track> GetEnumerator()

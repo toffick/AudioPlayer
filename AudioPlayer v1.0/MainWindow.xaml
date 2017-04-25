@@ -13,7 +13,7 @@
         <Grid Name="PlaylistContainer" HorizontalAlignment="Left" Height="545" Margin="230,0,-0.4,0" VerticalAlignment="Top" Width="864">
 
             <Grid Name="currentplaylist_container" Margin="0,65,0,0" >
-                <Image Source="D:\Картинки. Фото\s1PWy54wveU.jpg" />
+                <Image Source="D:\Картинки. Фото\КАРТИНКИ\обои\14263801045630.jpg" />
 
                 <DataGrid x:Name="currentplaylist_datagrid" HorizontalAlignment="Left" 
                   VerticalAlignment="Top" Height="480" AutoGenerateColumns="False"
@@ -35,7 +35,6 @@
             </Grid>
 
             <StackPanel HorizontalAlignment="Left" Height="51" VerticalAlignment="Top" Width="864" Orientation="Horizontal">
-                <Button x:Name="button" Content="Button" Width="75" Click="button_Click"/>
 
                 <Button x:Name="addplaylist_button" Content="Добавить плелист" HorizontalAlignment="Left" 
                         Margin="8,22,0,0" VerticalAlignment="Top" Width="120" Click="addplaylist_button_Click"/>
@@ -104,7 +103,7 @@
             <TextBlock Name="alltime_textbox" Text="00:00"
                        VerticalAlignment="Center"  Height="16" Margin="795,9,267,47" />
 
-            <Slider x:Name="volume" HorizontalAlignment="Left" Margin="900,25,0,0" VerticalAlignment="Top"
+            <Slider x:Name="volume" HorizontalAlignment="Left"  Margin="900,25,0,0" VerticalAlignment="Top"
                     Height="33" Width="110" ValueChanged="volume_ValueChanged" Maximum="1">
 
 

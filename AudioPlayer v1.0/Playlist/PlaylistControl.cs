@@ -60,11 +60,6 @@ namespace PlayL
             return allplaylists;
         }
 
-        //получить следующий трек в плейлисте
-        public int getNextPlNumber()
-        {
-            return 1;
-        }
 
         public void addSongToCurrentPlaylist()
         {
