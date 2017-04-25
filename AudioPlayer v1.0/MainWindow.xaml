@@ -45,7 +45,7 @@
                 <Button x:Name="playlistsearch_button" Content="Найти" HorizontalAlignment="Left" 
                         Margin="20,20,0,0" VerticalAlignment="Top" Width="50" Height="23"/>
 
-              
+
 
                 <Button x:Name="addtracktocurentplaylist_button" Content="Button" HorizontalAlignment="Left" Margin="0,20,0,0" VerticalAlignment="Top" Width="27" Height="26" Click="addtracktocurentplaylist_button_Click"/>
                 <Button x:Name="deletetrackfromcurentplaylist_button" Content="Button" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Width="27" Height="26"/>
@@ -92,16 +92,13 @@
 
 
 
-            <Slider Name="PlaySlider"  Minimum="0"  
-                        
-    VerticalAlignment="Center"  Height="23" RenderTransformOrigin="0.5,0.5"  Margin="330,25,264,27" ValueChanged="PlaySlider_ValueChanged" />
 
 
             <TextBlock Name="curenttime_textblock" Text="00:00"  
-     Padding="0,0,0,0" VerticalAlignment="Center"  Height="16" Margin="330,9,718,50" />
+     Padding="0,0,0,0" VerticalAlignment="Center"  Height="16" Margin="330,20,717,39" />
 
             <TextBlock Name="alltime_textbox" Text="00:00"
-                       VerticalAlignment="Center"  Height="16" Margin="795,9,267,47" />
+                       VerticalAlignment="Center"  Height="16" Margin="797,20,264,39" />
 
             <Slider x:Name="volume" HorizontalAlignment="Left"  Margin="900,25,0,0" VerticalAlignment="Top"
                     Height="33" Width="110" ValueChanged="volume_ValueChanged" Maximum="1">
@@ -121,7 +118,16 @@
                           Unchecked="unreplay_button_Click">
                 <Image Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\replay.png" Height="22"  Width="21"  />
             </ToggleButton>
+            <Label x:Name="label_songname"  HorizontalAlignment="Left" Margin="377,0,0,44" HorizontalContentAlignment="Center" VerticalContentAlignment="Top"
+                   TextBlock.FontSize="20"
+                   VerticalAlignment="Bottom" Width="388" Height="26"/>
+            <Label x:Name="label_authorname" Width="150" HorizontalAlignment="Left" Margin="350,25,0,0"
+                   HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Height="20" VerticalAlignment="Top"/>
+            <Label x:Name="label_album" Width="150" Height="20"  HorizontalAlignment="Left" Margin="675,52,0,0" 
+                    HorizontalContentAlignment="Left" VerticalContentAlignment="Top"  VerticalAlignment="Top"/>
 
+            <Slider Name="PlaySlider"  Minimum="0"  VerticalAlignment="Center"  Height="23" 
+                    RenderTransformOrigin="0.5,0.5"  Margin="330,36,264,16" ValueChanged="PlaySlider_ValueChanged" />
         </Grid>
 
         <Grid Name="MenuContainer" Margin="0,0,864,75">

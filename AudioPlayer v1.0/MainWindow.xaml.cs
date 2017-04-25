@@ -38,7 +38,7 @@ namespace AudioPlayer_v1._0
             timerPlay = new DispatcherTimer();
             musiccontrol = new MusicControl(PlaySlider, timerPlay);
             playlistControl = new PlaylistControl();
-            musiccontrol.trackChange += setMusicInfo;
+            musiccontrol.trackChange += setTrackInfo;
             listBox_playlists.DisplayMemberPath = "Playlistname";
             listBox_playlists.ItemsSource = playlistControl.getallplaylists();
 
@@ -88,7 +88,7 @@ namespace AudioPlayer_v1._0
 
         private void unreplay_button_Click(object sender, RoutedEventArgs e)
         {
-            musiccontrol.raplay(sender, e);
+            musiccontrol.unraplay(sender, e);
         }
 
         
@@ -151,11 +151,14 @@ namespace AudioPlayer_v1._0
         }
 
         ///установить информвцию о треке
-        private void setMusicInfo(Track _tr)
+        private void setTrackInfo(Track _tr)
         {
             PlaySlider.Maximum = _tr.trackinfo.Time.TotalSeconds;
             PlaySlider.Value = 0;
             alltime_textbox.Text = _tr.trackinfo.Time.ToString(@"mm\:ss");
+            label_album.Content = _tr.trackinfo.Album;
+            label_authorname.Content = _tr.trackinfo.Author;
+            label_songname.Content = _tr.trackinfo.SongName;
         }
 
         private void mix_button_Unchecked(object sender, RoutedEventArgs e)
@@ -185,7 +188,7 @@ namespace AudioPlayer_v1._0
         private void openTrack(Track _tr)
         {
             musiccontrol.setaudiofile(_tr);
-         //   setMusicInfo(_tr);
+            timerPlay.Start();
         }
     }
 }

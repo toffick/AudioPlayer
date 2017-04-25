@@ -39,7 +39,6 @@ namespace Music
             slider_play = _sl;
             timmer = _dt;
 
-            mediaplayer.MediaOpened += setDefauleValues;
             mediaplayer.MediaEnded += playNexttrack;                              //по завершению трека играть следующий
         }
 
@@ -79,7 +78,6 @@ namespace Music
         {
             try 
             {
-                timmer.Start();
                 IsPlaying = true;
                 mediaplayer.Open(new Uri(track.filepath));
                 currentPlaylist.setcurrentTrack(track);
@@ -221,13 +219,6 @@ namespace Music
         public double getTrackPosition()
         {
             return mediaplayer.Position.Minutes*60+ mediaplayer.Position.Seconds ;
-        }
-
-
-        ///установить значения слайдера воспроизведения в зависимости от значений трека
-        public void setDefauleValues(object sender, EventArgs e)
-        {
-            
         }
 
         ///получить текущее время трека 
