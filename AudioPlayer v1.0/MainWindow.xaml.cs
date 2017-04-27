@@ -30,7 +30,7 @@ namespace AudioPlayer_v1._0
         public DispatcherTimer timerPlay;
         
 
-        public TimeSpan myTime { get; set; }
+        public TimeSpan trackTime { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -38,12 +38,18 @@ namespace AudioPlayer_v1._0
             timerPlay = new DispatcherTimer();
             musiccontrol = new MusicControl(PlaySlider, timerPlay);
             playlistControl = new PlaylistControl();
-            musiccontrol.trackChange += setTrackInfo;
-            listBox_playlists.DisplayMemberPath = "Playlistname";
-            listBox_playlists.ItemsSource = playlistControl.getallplaylists();
-
             timerPlay.Interval = TimeSpan.FromMilliseconds(500);
+
             timerPlay.Tick += setMusicCurentInfo;
+            musiccontrol.trackChange += setTrackInfo;                                   //получить информацию о треке при его 
+            playlistControl.PlaylistsResizeEvent += refreshPlaylistsListBox;            //обновлять кол-во плейлистов при смене их количества
+
+            listBox_playlists.DisplayMemberPath = "Playlistname";
+            refreshPlaylistsListBox();
+            volume.Value = 0.5;
+
+           
+
         }
 
         private void prevTrack_Click(object sender, RoutedEventArgs e)
@@ -105,7 +111,11 @@ namespace AudioPlayer_v1._0
 
         private void addplaylist_button_Click(object sender, RoutedEventArgs e)
         {
-
+            PlaylistName pl_name = new PlaylistName();
+            pl_name.ShowDialog();          
+            if(pl_name.Plname!=null)
+                playlistControl.addPlaylist(pl_name.Plname);
+            
         }
 
         private void stop_button_Click(object sender, RoutedEventArgs e)
@@ -127,6 +137,7 @@ namespace AudioPlayer_v1._0
         //включить звук
         private void unmute(object sender, RoutedEventArgs e)
         {
+            //TODO ставишь мут - двигаешь ползунок - убираешь мут - звук как до мута
             musiccontrol.unmute(sender, e);
         }
 
@@ -147,16 +158,16 @@ namespace AudioPlayer_v1._0
                 PlaySlider.ValueChanged -= PlaySlider_ValueChanged;
                 PlaySlider.Value = musiccontrol.getTrackPosition();
                 PlaySlider.ValueChanged += PlaySlider_ValueChanged;
-                curenttime_textblock.Text = musiccontrol.getTrackTimePosition().ToString(@"mm\:ss");
+                alltime_textbox.Text = musiccontrol.getTrackTimePosition().ToString(@"mm\:ss")+'/'+ trackTime.ToString(@"mm\:ss");
         }
 
         ///установить информвцию о треке
         private void setTrackInfo(Track _tr)
         {
+            trackTime = musiccontrol.getAllTrackTime().Time;
             PlaySlider.Maximum = _tr.trackinfo.Time.TotalSeconds;
             PlaySlider.Value = 0;
-            alltime_textbox.Text = _tr.trackinfo.Time.ToString(@"mm\:ss");
-            label_album.Content = _tr.trackinfo.Album;
+            label_album.Content =  _tr.trackinfo.Album;
             label_authorname.Content = _tr.trackinfo.Author;
             label_songname.Content = _tr.trackinfo.SongName;
         }
@@ -170,7 +181,7 @@ namespace AudioPlayer_v1._0
         /// Выбор плейлиста
         private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            currentplaylist_datagrid.ItemsSource = (IEnumerable<Track>)listBox_playlists.SelectedItem;
+            refreshPlaylistsDataGrid(listBox_playlists.SelectedItem);
             musiccontrol.setCurrentPlaylist((Playlist)listBox_playlists.SelectedItem);
         }
 
@@ -189,6 +200,19 @@ namespace AudioPlayer_v1._0
         {
             musiccontrol.setaudiofile(_tr);
             timerPlay.Start();
+        }
+
+        private void refreshPlaylistsListBox()
+        {
+            listBox_playlists.ItemsSource = playlistControl.getallplaylists();
+            listBox_playlists.Items.Refresh();
+          //  playlistControl.getallplaylists().ToList<Playlist>().ForEach(s=>MessageBox.Show(s.ToString()));
+
+        }
+        private void refreshPlaylistsDataGrid(object tracks)
+        {
+            currentplaylist_datagrid.ItemsSource = (IEnumerable<Track>)tracks;
+
         }
     }
 }

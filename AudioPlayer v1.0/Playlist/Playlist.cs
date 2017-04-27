@@ -20,7 +20,7 @@ namespace PlayL
             get{ return allTracks.Count; }
             private set { }
         }
-        private int Playlistnumber { get; set; }
+        public int Playlistnumber { get; private set; }
 
         private List<Track> allTracks;
 
@@ -56,7 +56,7 @@ namespace PlayL
         {
             string cmdText = $"Select MUSICFILE_PATH  From MUSIC INNER JOIN PLAYLIST ON PLAYLIST.PL_NAME = MUSIC.MUSIC_PLAYLIST WHERE PL_NAME =  '{Playlistname}' ";
 
-            using(SqlDataReader dr = DBOperate.selectQuery(cmdText))
+            using(SqlDataReader dr = DBOperate.executeQuery(cmdText))
             {
                 while (dr.Read())
                 {

@@ -13,6 +13,10 @@ namespace PlayL
 {
     class PlaylistControl
     {
+        public delegate void MyDel();
+        public event MyDel PlaylistsResizeEvent;
+
+
         List<Playlist> allplaylists;
         Playlist currentPlaylist;
 
@@ -20,7 +24,7 @@ namespace PlayL
         {
             DBOperate.InitDB();
             allplaylists = new List<Playlist>();
-            InitListPlaylist();
+            InitListPlaylists();
             InitTracksInPlaylists();
         }
 
@@ -33,12 +37,12 @@ namespace PlayL
         }
 
         //инициализировать список плейлистов
-        public void InitListPlaylist()
+        public void InitListPlaylists()
         {
             string cmdText = "Select PL_NAME, PL_NUMBER  From PLAYLIST";
             try
             {
-                SqlDataReader dr = DBOperate.selectQuery(cmdText);
+                SqlDataReader dr = DBOperate.executeQuery(cmdText);
                 while (dr.Read())
                 {
                     allplaylists.Add(new Playlist(dr[0].ToString(), int.Parse(dr[1].ToString())));
@@ -74,6 +78,40 @@ namespace PlayL
             {
             }
 
+        }
+
+        public void addPlaylist(string plname)
+        {
+            try
+            {
+                if (isRepeatedName(plname))
+                    throw new Exception("Плейлист с таким именем уже существует");
+                int plnumber = getNewPLnumber();
+                allplaylists.Add(new Playlist(plname, plnumber));
+                DBOperate.executeQuery($"INSERT PLAYLIST(PL_NUMBER, PL_NAME)    VALUES({plnumber}, '{plname}')").Close();
+                PlaylistsResizeEvent?.Invoke();
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show("Не удалось добавить плейлист "+ee.Message);
+            }
+
+        }
+
+        private int getNewPLnumber()
+        {
+            int i = -1;
+            List<int> plnumbers = allplaylists.Select(s => s.Playlistnumber).ToList<int>();
+            while (i < plnumbers.Count)
+                if (!plnumbers.Contains(++i))
+                    break;
+            return i;
+
+        }
+
+        private bool isRepeatedName(string str)
+        {
+            return allplaylists.Select(s => s.Playlistname).Contains<string>(str);
         }
     }
 }

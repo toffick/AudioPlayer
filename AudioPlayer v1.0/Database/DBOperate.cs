@@ -27,13 +27,14 @@ namespace DB
             }
         }
 
-        static public SqlDataReader selectQuery(string qs)
+        static public SqlDataReader executeQuery(string qs)
         {
             try
             {
-                SqlCommand getallplaylists = new SqlCommand(qs, sqlconnection);
-                SqlDataReader dr = getallplaylists.ExecuteReader();
+                SqlCommand command = new SqlCommand(qs, sqlconnection);
+                SqlDataReader dr = command.ExecuteReader();
                 return dr;
+               
             }
             catch (Exception ee)
             {
@@ -43,9 +44,20 @@ namespace DB
 
         }
 
-        static public void addPlaylist(string _plname, string _plnumber)
+        static public void executeSimpleQuery(string qs)
         {
-            string addPL = "Insert Into PLAYLIST" + "(UserLogin, UserPassword, UserName) Values(@log, @pass, @name)";
+            try
+            {
+                SqlCommand command = new SqlCommand(qs, sqlconnection);
+
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show(ee.Message);
+            }
+
         }
+
+
     }
 }
