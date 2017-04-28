@@ -22,10 +22,17 @@ namespace PlayL
 
         public PlaylistControl()
         {
-            DBOperate.InitDB();
-            allplaylists = new List<Playlist>();
-            InitListPlaylists();
-            InitTracksInPlaylists();
+            try
+            {
+                DBOperate.InitDB();
+                allplaylists = DBOperate.getAllPlaylists();
+                InitTracksInPlaylists();
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка при инициализации плейлитов");
+            }
+
         }
 
         public void InitTracksInPlaylists()
@@ -34,28 +41,6 @@ namespace PlayL
             {
                 t.getAllTracksFromPlaylists();
             }
-        }
-
-        //инициализировать список плейлистов
-        public void InitListPlaylists()
-        {
-            string cmdText = "Select PL_NAME, PL_NUMBER  From PLAYLIST";
-            try
-            {
-                SqlDataReader dr = DBOperate.executeQuery(cmdText);
-                while (dr.Read())
-                {
-                    allplaylists.Add(new Playlist(dr[0].ToString(), int.Parse(dr[1].ToString())));
-                }
-                dr.Close();
-
-                
-            }
-            catch (Exception err)
-            {
-                //вывод ошибки
-            }
-
         }
 
         //вернуть список всех пелейлистов
@@ -70,12 +55,14 @@ namespace PlayL
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.InitialDirectory = ofd.InitialDirectory = @"D:\БГТУ\КУРСОВОЙ ПРОЕКТ\Tracks";
             ofd.Filter = "Файлы mp3 |*.mp3";
-
+            ofd.ShowDialog();
             try
             {
+                currentPlaylist.addTrackToPlaylist(ofd.FileName);
             }
-            catch 
+            catch(Exception ee) 
             {
+                MessageBox.Show(ee.Message);
             }
 
         }
@@ -88,7 +75,7 @@ namespace PlayL
                     throw new Exception("Плейлист с таким именем уже существует");
                 int plnumber = getNewPLnumber();
                 allplaylists.Add(new Playlist(plname, plnumber));
-                DBOperate.executeQuery($"INSERT PLAYLIST(PL_NUMBER, PL_NAME)    VALUES({plnumber}, '{plname}')").Close();
+                DBOperate.addPlatlist(plnumber, plname);
                 PlaylistsResizeEvent?.Invoke();
             }
             catch (Exception ee)
@@ -112,6 +99,11 @@ namespace PlayL
         private bool isRepeatedName(string str)
         {
             return allplaylists.Select(s => s.Playlistname).Contains<string>(str);
+        }
+
+        public void setCurrentPlaylist(Playlist _pl)
+        {
+            currentPlaylist = _pl;
         }
     }
 }

@@ -183,6 +183,7 @@ namespace AudioPlayer_v1._0
         {
             refreshPlaylistsDataGrid(listBox_playlists.SelectedItem);
             musiccontrol.setCurrentPlaylist((Playlist)listBox_playlists.SelectedItem);
+            playlistControl.setCurrentPlaylist((Playlist)listBox_playlists.SelectedItem);
         }
 
 
@@ -212,7 +213,6 @@ namespace AudioPlayer_v1._0
         private void refreshPlaylistsDataGrid(object tracks)
         {
             currentplaylist_datagrid.ItemsSource = (IEnumerable<Track>)tracks;
-
         }
     }
 }

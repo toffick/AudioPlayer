@@ -54,21 +54,12 @@ namespace PlayL
         }
         public void getAllTracksFromPlaylists()
         {
-            string cmdText = $"Select MUSICFILE_PATH  From MUSIC INNER JOIN PLAYLIST ON PLAYLIST.PL_NAME = MUSIC.MUSIC_PLAYLIST WHERE PL_NAME =  '{Playlistname}' ";
-
-            using(SqlDataReader dr = DBOperate.executeQuery(cmdText))
-            {
-                while (dr.Read())
-                {
-                    Track temp = new Track(dr[0].ToString(), Count+1);
-                    allTracks.Add(temp);
-                }
-            }
+            allTracks = DBOperate.getAllTracksFromPlaylist(Playlistname);
         }
 
-        public void addTrackToPlaylist(Uri trackuri)
+        public void addTrackToPlaylist(string path)
         {
-
+            DBOperate.addSongToPlaylist(Playlistname, path);
         }
 
         ///получить первый трек из плейлиста
@@ -89,29 +80,7 @@ namespace PlayL
             return (i > -1 && i < allTracks.Count) ? allTracks[i] : null;
         }
 
-        
 
-        //public void initallTracksFromPL()
-        //{
-
-        //    try
-        //    {
-        //        string strSQL = "Select * From PLAYLIST";
-        //        SqlCommand myCommand = new SqlCommand(strSQL, sqlc);
-        //        SqlDataReader dr = myCommand.ExecuteReader();
-        //        while (dr.Read())
-        //            MessageBox.Show(string.Format("ID: {0} Car Pet Name: {1}", dr[0].ToString(), dr[1].ToString()));
-        //    }
-        //    catch (Exception ee)
-        //    {
-        //        MessageBox.Show(ee.Message);
-        //    }
-
-        //}
-
-
-
-        /////////////////////////////
         public override string ToString()
         {
             string temp = null;
