@@ -17,6 +17,8 @@ using PlayL;
 using Microsoft.Win32;
 using System.Threading;
 using System.Windows.Threading;
+using System.IO;
+using System.Drawing;
 
 namespace AudioPlayer_v1._0
 {
@@ -28,7 +30,7 @@ namespace AudioPlayer_v1._0
         private MusicControl musiccontrol;
         private PlaylistControl playlistControl;
         public DispatcherTimer timerPlay;
-        
+
 
         public TimeSpan trackTime { get; set; }
         public MainWindow()
@@ -48,7 +50,7 @@ namespace AudioPlayer_v1._0
             refreshPlaylistsListBox();
             volume.Value = 0.5;
 
-           
+
 
         }
 
@@ -97,25 +99,15 @@ namespace AudioPlayer_v1._0
             musiccontrol.unraplay(sender, e);
         }
 
-        
-
-        private void mix_button_Click(object sender, RoutedEventArgs e)
-        {
-            musiccontrol.mixtracks(sender, e);
-        }
-        private void mix_returstartpos_button_Click(object sender, RoutedEventArgs e)
-        {
-            musiccontrol.mixreturnstartpos(sender, e);
-        }
 
 
         private void addplaylist_button_Click(object sender, RoutedEventArgs e)
         {
             PlaylistName pl_name = new PlaylistName();
-            pl_name.ShowDialog();          
-            if(pl_name.Plname!=null)
+            pl_name.ShowDialog();
+            if (pl_name.Plname != null)
                 playlistControl.addPlaylist(pl_name.Plname);
-            
+
         }
 
         private void stop_button_Click(object sender, RoutedEventArgs e)
@@ -155,10 +147,10 @@ namespace AudioPlayer_v1._0
         /// Изменение времени и положения ползунка
         private void setMusicCurentInfo(object sender, EventArgs e)
         {
-                PlaySlider.ValueChanged -= PlaySlider_ValueChanged;
-                PlaySlider.Value = musiccontrol.getTrackPosition();
-                PlaySlider.ValueChanged += PlaySlider_ValueChanged;
-                alltime_textbox.Text = musiccontrol.getTrackTimePosition().ToString(@"mm\:ss")+'/'+ trackTime.ToString(@"mm\:ss");
+            PlaySlider.ValueChanged -= PlaySlider_ValueChanged;
+            PlaySlider.Value = musiccontrol.getTrackPosition();
+            PlaySlider.ValueChanged += PlaySlider_ValueChanged;
+            alltime_textbox.Text = musiccontrol.getTrackTimePosition().ToString(@"mm\:ss") + '/' + trackTime.ToString(@"mm\:ss");
         }
 
         ///установить информвцию о треке
@@ -167,9 +159,11 @@ namespace AudioPlayer_v1._0
             trackTime = musiccontrol.getAllTrackTime().Time;
             PlaySlider.Maximum = _tr.trackinfo.Time.TotalSeconds;
             PlaySlider.Value = 0;
-            label_album.Content =  _tr.trackinfo.Album;
+            label_album.Content = _tr.trackinfo.Album;//483 890
             label_authorname.Content = _tr.trackinfo.Author;
             label_songname.Content = _tr.trackinfo.SongName;
+
+            Image_backgroundtrackimage.Source = _tr.trackinfo.Picture;
         }
 
         private void mix_button_Unchecked(object sender, RoutedEventArgs e)
@@ -184,6 +178,8 @@ namespace AudioPlayer_v1._0
             refreshPlaylistsDataGrid(listBox_playlists.SelectedItem);
             musiccontrol.setCurrentPlaylist((Playlist)listBox_playlists.SelectedItem);
             playlistControl.setCurrentPlaylist((Playlist)listBox_playlists.SelectedItem);
+            playlistControl.currentPlaylist.PlaylistsSoundCountResizeEvent += refreshPlaylistsDataGrid;
+
         }
 
 
@@ -203,16 +199,59 @@ namespace AudioPlayer_v1._0
             timerPlay.Start();
         }
 
+
+
+
         private void refreshPlaylistsListBox()
         {
             listBox_playlists.ItemsSource = playlistControl.getallplaylists();
             listBox_playlists.Items.Refresh();
-          //  playlistControl.getallplaylists().ToList<Playlist>().ForEach(s=>MessageBox.Show(s.ToString()));
 
         }
         private void refreshPlaylistsDataGrid(object tracks)
         {
-            currentplaylist_datagrid.ItemsSource = (IEnumerable<Track>)tracks;
+            currentplaylist_datagrid.Items.Clear();
+            foreach (Track tr in (IEnumerable<Track>)tracks)
+            {
+                currentplaylist_datagrid.Items.Add(tr);
+            }
+        }
+
+        //удалить трек из плейлиста
+        private void deletetrackfromcurentplaylist_button_Click(object sender, RoutedEventArgs e)
+        {
+            playlistControl.removeTrackFromCurentPlaylist((Track)currentplaylist_datagrid.SelectedItem);
+        }
+
+        /// перетаскивание музыки/папок в плейлист
+        private void currentplaylist_datagrid_Drop(object sender, DragEventArgs e)
+        {
+            var data = e.Data as DataObject;
+            if (data.ContainsFileDropList())
+            {
+                List<string> filepath = new List<string>();
+                var files = data.GetFileDropList();
+                foreach (string s in files)
+                {
+                    if (Directory.Exists(s))
+                    {
+                        filepath = Directory.GetFiles(s).ToList();
+                        filepath.ForEach(file =>
+                        {
+                            if ("mp3".Contains(file.Split('.').Last()))
+                                playlistControl.currentPlaylist.addTrackToPlaylist(file);
+                        });
+                    }
+                    else
+                       if ("mp3".Contains(s.Split('.').Last()))
+                        playlistControl.currentPlaylist.addTrackToPlaylist(s);
+                }
+            }
+        }
+
+        private void currentplaylist_datagrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            playlistControl.currentPlaylist.removeRangeTracks(e.AddedCells);
         }
     }
 }

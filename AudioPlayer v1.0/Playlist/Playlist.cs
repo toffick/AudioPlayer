@@ -8,11 +8,17 @@ using System.Windows;
 using Music;
 using DB;
 using System.Collections;
+using System.Windows.Controls;
 
 namespace PlayL
 {
     class Playlist: IEnumerable<Track>
     {
+        public delegate void MyDel(object obj);
+        public event MyDel PlaylistsSoundCountResizeEvent;
+
+
+
         public string Playlistname { get; private set; }
 
         public int Count
@@ -48,6 +54,8 @@ namespace PlayL
             //созранить норм
             //перемешать все треки
         }
+
+
         public void setcurrentTrack(Track _tr)
         {
             currentTrack = _tr;
@@ -60,8 +68,25 @@ namespace PlayL
         public void addTrackToPlaylist(string path)
         {
             DBOperate.addSongToPlaylist(Playlistname, path);
+            allTracks.Add(new Track(path, getNewPLnumber()));
+            PlaylistsSoundCountResizeEvent?.Invoke(allTracks);
         }
 
+        public void removeTrack(Track track)
+        {
+            DBOperate.removeSongFromPlaylist(Playlistname, track.filepath);
+            allTracks.Remove(track);
+            PlaylistsSoundCountResizeEvent?.Invoke(allTracks);
+
+        }
+
+        public void removeRangeTracks(IList<DataGridCellInfo> _tr)
+        {
+            foreach (var t in _tr)
+            {
+             //   MessageBox.Show(((Track)t).ToString)
+            }
+        }
         ///получить первый трек из плейлиста
         public Track getFirstTrack()
         {
@@ -124,5 +149,17 @@ namespace PlayL
         {
             return ((IEnumerable<Track>)allTracks).GetEnumerator();
         }
+
+        private int getNewPLnumber()
+        {
+            int i = -1;
+            List<int> plnumbers = allTracks.Select(s => s.Number).ToList<int>();
+            while (i < plnumbers.Count)
+                if (!plnumbers.Contains(++i))
+                    break;
+            return i;
+
+        }
+
     }
 }

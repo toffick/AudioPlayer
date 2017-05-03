@@ -166,18 +166,6 @@ namespace Music
         }
 
 
-        ///перемешать треки
-        public void mixtracks(object sender, EventArgs e)
-        {
-            //TODO перемешивааем треки. пока не ебу, каким образом
-        }
-
-        ///вернуть начальное положение треков после перемешания
-        public void mixreturnstartpos(object sender, EventArgs e)
-        {
-            //TODO тут возвращаем первоначальное раположение треков
-        }
-
         ///остановить воспроизведение
         public void stop(object sender, EventArgs e)
         {

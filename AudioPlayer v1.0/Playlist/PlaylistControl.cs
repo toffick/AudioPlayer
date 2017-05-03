@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Windows;
 using DB;
 using Microsoft.Win32;
+using Music;
 
 namespace PlayL
 {
@@ -18,7 +19,7 @@ namespace PlayL
 
 
         List<Playlist> allplaylists;
-        Playlist currentPlaylist;
+        public Playlist currentPlaylist { get; private set; }
 
         public PlaylistControl()
         {
@@ -49,6 +50,15 @@ namespace PlayL
             return allplaylists;
         }
 
+        public void removeTrackFromCurentPlaylist(Track _tr)
+        {
+            currentPlaylist.removeTrack(_tr);
+        }
+
+        public void removeTrackFromCurentPlaylist(IList<object> _tr)
+        {
+           // currentPlaylist.removeRangeTracks(_tr);
+        }
 
         public void addSongToCurrentPlaylist()
         {

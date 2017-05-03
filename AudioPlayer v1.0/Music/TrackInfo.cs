@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using TagLib;
 
 namespace Music
@@ -19,9 +21,9 @@ namespace Music
         public string Album { get; private set; }
         public TimeSpan Time { get; private set; }
 
-        public byte[] Picture { get; set; }
+        public BitmapImage Picture { get; private set; }
 
-        private File file;
+        private TagLib.File file;
         public TrackInfo()
         {
             SongName = UNKNSONGNAME;
@@ -48,11 +50,24 @@ namespace Music
 
         }
 
-        private byte[] getPicture()
+        private BitmapImage getPicture()
         {
+
             try
             {
-                return file.Tag.Pictures[0].Data.Data;
+                byte[] data = file.Tag.Pictures[0].Data.Data;
+
+                BitmapImage image = new BitmapImage();
+                using (var mem = new MemoryStream(data))
+                {
+                    mem.Position = 0;
+                    image.BeginInit();
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.StreamSource = mem;
+                    image.EndInit();
+                }
+
+                return image;
             }
             catch
             {

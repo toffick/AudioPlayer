@@ -151,5 +151,25 @@ namespace DB
             }
         }
 
+        static public void removeSongFromPlaylist(string plname, string path)
+        {
+            string cmdText = "DELETE FROM MUSIC WHERE MUSIC_PLAYLIST = @pl AND MUSICFILE_PATH = @mp";
+            SqlCommand command = new SqlCommand(cmdText, sqlconnection);
+            try
+            {
+                command.Parameters.AddWithValue("@pl", plname);
+                command.Parameters.AddWithValue("@mp", path);
+                command.ExecuteNonQuery();
+
+            }
+            catch (SqlException ee)
+            {
+                MessageBox.Show("Ошибка чтения с базы данных:" + Environment.NewLine + ee.Message);
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show(ee.Message);
+            }
+        }
     }
 }
