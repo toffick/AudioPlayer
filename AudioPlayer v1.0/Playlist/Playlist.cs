@@ -67,9 +67,12 @@ namespace PlayL
 
         public void addTrackToPlaylist(string path)
         {
-            DBOperate.addSongToPlaylist(Playlistname, path);
-            allTracks.Add(new Track(path, getNewPLnumber()));
-            PlaylistsSoundCountResizeEvent?.Invoke(allTracks);
+            if (!isRepeateTrackInPlaylist(path))
+            {
+                DBOperate.addSongToPlaylist(Playlistname, path);
+                allTracks.Add(new Track(path, getNewPLnumber()));
+                PlaylistsSoundCountResizeEvent?.Invoke(allTracks);
+            }
         }
 
         public void removeTrack(Track track)
@@ -159,6 +162,11 @@ namespace PlayL
                     break;
             return i;
 
+        }
+
+        private bool isRepeateTrackInPlaylist(string path)
+        {
+            return allTracks.Select(s => s.filepath).Contains(path);
         }
 
     }

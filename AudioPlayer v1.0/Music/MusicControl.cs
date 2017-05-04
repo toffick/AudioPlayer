@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Resources;
@@ -76,13 +77,14 @@ namespace Music
 
         public void setaudiofile(Track track)
         {
-            try 
+            try
             {
+
                 IsPlaying = true;
                 mediaplayer.Open(new Uri(track.filepath));
                 currentPlaylist.setcurrentTrack(track);
                 trackChange?.Invoke(currentPlaylist.getCurrentTrack());
-                mediaplayer.Play();             
+                mediaplayer.Play();
             }
             catch (Exception ee)
             {
@@ -183,14 +185,25 @@ namespace Music
             mediaplayer.Volume = storeVolumeValue;
         }
 
-        public void setVolume(double _newVolume)
+        public void setVolume(object sender, double _newVolume)
         {
+            ToggleButton but = sender as ToggleButton;
+            if (but != null)
+            {
+                if (_newVolume == 0)
+                {
+                    but.IsChecked = true;
+                    storeVolumeValue = 0;
+                }
+                else
+                    but.IsChecked = false;
+            }
             mediaplayer.Volume = _newVolume;
         }
 
         #endregion
 
-        
+
         /// установить текущий плейлист
         public void setCurrentPlaylist(Playlist _pl)
         {
@@ -206,7 +219,7 @@ namespace Music
         /// получить текущую позицию трека в секундах 
         public double getTrackPosition()
         {
-            return mediaplayer.Position.Minutes*60+ mediaplayer.Position.Seconds ;
+            return mediaplayer.Position.Minutes * 60 + mediaplayer.Position.Seconds;
         }
 
         ///получить текущее время трека 

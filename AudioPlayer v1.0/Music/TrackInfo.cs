@@ -80,7 +80,7 @@ namespace Music
             try
             {
 
-                return file.Tag.Title != null ? file.Tag.Title : file.Name.Split('\\').Last<string>();
+                return file.Tag.Title != null ? file.Tag.Title : file.Name.Split('\\').Last();
             }
             catch
             {

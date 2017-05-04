@@ -28,7 +28,17 @@ namespace DB
                 return false;
             }
         }
-
+        static public void Disconnect()
+        {
+            try
+            {
+                sqlconnection.Close();
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show(ee.Message);
+            }
+        }
 
         static public List<Playlist> getAllPlaylists()
         {
@@ -108,28 +118,6 @@ namespace DB
             }
         }
 
-        static public void deletePlaylist(string plname)
-        {
-
-            //TODO
-            //string cmdText = "INSERT PLAYLIST(PL_NUMBER, PL_NAME)    VALUES(@plnumber, @plname)";
-            //SqlCommand command = new SqlCommand(cmdText, sqlconnection);
-            //try
-            //{
-            //    command.Parameters.AddWithValue("@plnumber", plnumber);
-            //    command.ExecuteNonQuery();
-
-            //}
-            //catch (SqlException ee)
-            //{
-            //    MessageBox.Show("Ошибка чтения с базы данных:" + Environment.NewLine + ee.Message);
-            //}
-            //catch (Exception ee)
-            //{
-            //    MessageBox.Show(ee.Message);
-            //}
-        }
-
         static public void addSongToPlaylist(string plname, string path)
         {
             string cmdText = "INSERT MUSIC ( MUSIC_PLAYLIST,MUSICFILE_PATH) VALUES(@plname,@musicpath)";
@@ -159,6 +147,27 @@ namespace DB
             {
                 command.Parameters.AddWithValue("@pl", plname);
                 command.Parameters.AddWithValue("@mp", path);
+                command.ExecuteNonQuery();
+
+            }
+            catch (SqlException ee)
+            {
+                MessageBox.Show("Ошибка чтения с базы данных:" + Environment.NewLine + ee.Message);
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show(ee.Message);
+            }
+        }
+
+        static public void removePlaylist(string plname)
+        {
+            string cmdText = "DELETE FROM MUSIC WHERE MUSIC_PLAYLIST = @pl DELETE FROM PLAYLIST WHERE PL_NAME = @pl1";
+            SqlCommand command = new SqlCommand(cmdText, sqlconnection);
+            try
+            {
+                command.Parameters.AddWithValue("@pl", plname);
+                command.Parameters.AddWithValue("@pl1", plname);
                 command.ExecuteNonQuery();
 
             }

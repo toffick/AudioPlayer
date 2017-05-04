@@ -9,6 +9,7 @@ using System.Windows;
 using DB;
 using Microsoft.Win32;
 using Music;
+using System.Windows.Data;
 
 namespace PlayL
 {
@@ -18,16 +19,19 @@ namespace PlayL
         public event MyDel PlaylistsResizeEvent;
 
 
-        List<Playlist> allplaylists;
+        Playlist defaultpl;
+        List<Playlist>  allplaylists;
         public Playlist currentPlaylist { get; private set; }
 
         public PlaylistControl()
         {
             try
             {
+                defaultpl = new Playlist("Default", 0);
                 DBOperate.InitDB();
                 allplaylists = DBOperate.getAllPlaylists();
                 InitTracksInPlaylists();
+                currentPlaylist = allplaylists.Count == 0 ? defaultpl : allplaylists[0];
             }
             catch
             {
@@ -55,10 +59,6 @@ namespace PlayL
             currentPlaylist.removeTrack(_tr);
         }
 
-        public void removeTrackFromCurentPlaylist(IList<object> _tr)
-        {
-           // currentPlaylist.removeRangeTracks(_tr);
-        }
 
         public void addSongToCurrentPlaylist()
         {
@@ -95,13 +95,21 @@ namespace PlayL
 
         }
 
+        public void removePlaylist(Playlist _pl)
+        {
+            DBOperate.removePlaylist(_pl.Playlistname) ;
+            allplaylists.Remove(_pl);
+            currentPlaylist = allplaylists.Count == 0 ? defaultpl : allplaylists[0];
+            PlaylistsResizeEvent?.Invoke();
+
+        }
         private int getNewPLnumber()
         {
             int i = -1;
-            List<int> plnumbers = allplaylists.Select(s => s.Playlistnumber).ToList<int>();
-            while (i < plnumbers.Count)
-                if (!plnumbers.Contains(++i))
-                    break;
+          List<int> plnumbers = allplaylists.Select(s => s.Playlistnumber).ToList<int>();
+          while (i < plnumbers.Count)
+              if (!plnumbers.Contains(++i))
+                  break;
             return i;
 
         }
@@ -114,6 +122,11 @@ namespace PlayL
         public void setCurrentPlaylist(Playlist _pl)
         {
             currentPlaylist = _pl;
+        }
+
+        public Track getCurentTrack()
+        {
+            return currentPlaylist.getCurrentTrack();
         }
     }
 }

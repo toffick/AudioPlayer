@@ -19,6 +19,8 @@ using System.Threading;
 using System.Windows.Threading;
 using System.IO;
 using System.Drawing;
+using VM;
+using DB;
 
 namespace AudioPlayer_v1._0
 {
@@ -46,12 +48,15 @@ namespace AudioPlayer_v1._0
             musiccontrol.trackChange += setTrackInfo;                                   //получить информацию о треке при его 
             playlistControl.PlaylistsResizeEvent += refreshPlaylistsListBox;            //обновлять кол-во плейлистов при смене их количества
 
-            listBox_playlists.DisplayMemberPath = "Playlistname";
             refreshPlaylistsListBox();
-            volume.Value = 0.5;
 
 
+        }
 
+        #region Control buttons/sliders
+        private void stop_button_Click(object sender, RoutedEventArgs e)
+        {
+            musiccontrol.stop(sender, e);
         }
 
         private void prevTrack_Click(object sender, RoutedEventArgs e)
@@ -80,15 +85,6 @@ namespace AudioPlayer_v1._0
             musiccontrol.playEndtrack(sender, e);
         }
 
-        private void menu_button_Click(object sender, RoutedEventArgs e)
-        {
-
-
-
-        }
-
-
-
         private void replay_button_Click(object sender, RoutedEventArgs e)
         {
             musiccontrol.raplay(sender, e);
@@ -99,8 +95,6 @@ namespace AudioPlayer_v1._0
             musiccontrol.unraplay(sender, e);
         }
 
-
-
         private void addplaylist_button_Click(object sender, RoutedEventArgs e)
         {
             PlaylistName pl_name = new PlaylistName();
@@ -110,17 +104,13 @@ namespace AudioPlayer_v1._0
 
         }
 
-        private void stop_button_Click(object sender, RoutedEventArgs e)
-        {
-            musiccontrol.stop(sender, e);
-        }
-
         private void PlaySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             musiccontrol.setTrackPosition(e.NewValue);
         }
+        #endregion
 
-        #region работа с громкостью звука
+        #region Volume
         //выключить звук
         private void mute_Checked(object sender, RoutedEventArgs e)
         {
@@ -136,9 +126,10 @@ namespace AudioPlayer_v1._0
         //регулировка звука
         private void volume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            musiccontrol.setVolume(e.NewValue);
+            musiccontrol.setVolume(button_mute, e.NewValue);
         }
         #endregion
+
         private void addtracktocurentplaylist_button_Click(object sender, RoutedEventArgs e)
         {
             playlistControl.addSongToCurrentPlaylist();
@@ -147,50 +138,51 @@ namespace AudioPlayer_v1._0
         /// Изменение времени и положения ползунка
         private void setMusicCurentInfo(object sender, EventArgs e)
         {
+
             PlaySlider.ValueChanged -= PlaySlider_ValueChanged;
             PlaySlider.Value = musiccontrol.getTrackPosition();
             PlaySlider.ValueChanged += PlaySlider_ValueChanged;
-            alltime_textbox.Text = musiccontrol.getTrackTimePosition().ToString(@"mm\:ss") + '/' + trackTime.ToString(@"mm\:ss");
+            alltime_textbox.Content = musiccontrol.getTrackTimePosition().ToString(@"mm\:ss") + '/' + trackTime.ToString(@"mm\:ss");
         }
 
         ///установить информвцию о треке
         private void setTrackInfo(Track _tr)
         {
+            volume.Value = 0.5;
             trackTime = musiccontrol.getAllTrackTime().Time;
             PlaySlider.Maximum = _tr.trackinfo.Time.TotalSeconds;
             PlaySlider.Value = 0;
             label_album.Content = _tr.trackinfo.Album;//483 890
             label_authorname.Content = _tr.trackinfo.Author;
             label_songname.Content = _tr.trackinfo.SongName;
-
             Image_backgroundtrackimage.Source = _tr.trackinfo.Picture;
         }
 
-        private void mix_button_Unchecked(object sender, RoutedEventArgs e)
-        {
-
-        }
 
 
         /// Выбор плейлиста
         private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            refreshPlaylistsDataGrid(listBox_playlists.SelectedItem);
-            musiccontrol.setCurrentPlaylist((Playlist)listBox_playlists.SelectedItem);
-            playlistControl.setCurrentPlaylist((Playlist)listBox_playlists.SelectedItem);
-            playlistControl.currentPlaylist.PlaylistsSoundCountResizeEvent += refreshPlaylistsDataGrid;
-
+            if (listBox_playlists.SelectedItem != null)
+            {
+                refreshPlaylistsDataGrid(listBox_playlists.SelectedItem);
+                musiccontrol.setCurrentPlaylist((Playlist)listBox_playlists.SelectedItem);
+                playlistControl.setCurrentPlaylist((Playlist)listBox_playlists.SelectedItem);
+                playlistControl.currentPlaylist.PlaylistsSoundCountResizeEvent += refreshPlaylistsDataGrid;
+            }
         }
 
 
         /// Отрытие трека из списка треков плейлиста
         private void currentplaylist_datagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
             Track temptrack = (Track)currentplaylist_datagrid.SelectedItem;
-            if (temptrack != null)
+            if (temptrack != null && temptrack != playlistControl.getCurentTrack())
             {
                 openTrack(temptrack);
             }
+
         }
 
         private void openTrack(Track _tr)
@@ -204,6 +196,7 @@ namespace AudioPlayer_v1._0
 
         private void refreshPlaylistsListBox()
         {
+            //если нет плейлистов, то заносить дефолтный плейлист в список плейлистов
             listBox_playlists.ItemsSource = playlistControl.getallplaylists();
             listBox_playlists.Items.Refresh();
 
@@ -211,6 +204,7 @@ namespace AudioPlayer_v1._0
         private void refreshPlaylistsDataGrid(object tracks)
         {
             currentplaylist_datagrid.Items.Clear();
+            if(tracks!=null)
             foreach (Track tr in (IEnumerable<Track>)tracks)
             {
                 currentplaylist_datagrid.Items.Add(tr);
@@ -220,38 +214,69 @@ namespace AudioPlayer_v1._0
         //удалить трек из плейлиста
         private void deletetrackfromcurentplaylist_button_Click(object sender, RoutedEventArgs e)
         {
-            playlistControl.removeTrackFromCurentPlaylist((Track)currentplaylist_datagrid.SelectedItem);
+            Track _tmp = (currentplaylist_datagrid.SelectedItem) as Track;
+            if (_tmp != null)
+                playlistControl.removeTrackFromCurentPlaylist(_tmp);
         }
 
         /// перетаскивание музыки/папок в плейлист
         private void currentplaylist_datagrid_Drop(object sender, DragEventArgs e)
         {
-            var data = e.Data as DataObject;
-            if (data.ContainsFileDropList())
-            {
-                List<string> filepath = new List<string>();
-                var files = data.GetFileDropList();
-                foreach (string s in files)
-                {
-                    if (Directory.Exists(s))
-                    {
-                        filepath = Directory.GetFiles(s).ToList();
-                        filepath.ForEach(file =>
-                        {
-                            if ("mp3".Contains(file.Split('.').Last()))
-                                playlistControl.currentPlaylist.addTrackToPlaylist(file);
-                        });
-                    }
-                    else
-                       if ("mp3".Contains(s.Split('.').Last()))
-                        playlistControl.currentPlaylist.addTrackToPlaylist(s);
-                }
-            }
+            ViewModel.datagrid_Drop(playlistControl, e);            
         }
 
         private void currentplaylist_datagrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
             playlistControl.currentPlaylist.removeRangeTracks(e.AddedCells);
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                switch (e.Key)
+                {
+                    case Key.Space:
+                        musiccontrol.PlayPause(playpause_button, e);
+                        break;
+                    case Key.Delete:
+                        playlistControl.removeTrackFromCurentPlaylist((Track)currentplaylist_datagrid.SelectedItem);
+                        break;
+                    default:break;
+                }
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show(ee.Message);
+            }
+        }
+
+
+        #region Closed form
+        private void menu_close_Click(object sender, RoutedEventArgs e)
+        {
+            musiccontrol.stop(null, null);
+            DBOperate.Disconnect();
+            this.Close();
+        }
+
+     
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            musiccontrol.stop(null, null);
+            DBOperate.Disconnect();
+        }
+        #endregion
+
+
+        private void MenuItemDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (listBox_playlists.SelectedIndex == -1) return;
+
+
+            playlistControl.removePlaylist((Playlist)listBox_playlists.SelectedItem);
+
+         //   listBox_playlists.Items.RemoveAt(listBox_playlists.SelectedIndex);
         }
     }
 }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:AudioPlayer_v1._0"
         xmlns:ee="http://schemas.microsoft.com/expression/2010/effects" x:Class="AudioPlayer_v1._0.MainWindow"
         mc:Ignorable="d"
-        Title="AudioPlayer v1.0"   MinHeight="400"  MinWidth="630" Height="580" Width="950" BorderThickness="0" WindowStartupLocation="CenterScreen" Background="#FF578A94">
+        Title="AudioPlayer v1.0"   MinHeight="400"  MinWidth="630" Height="580" Width="950" BorderThickness="0" WindowStartupLocation="CenterScreen" Background="#FF578A94" KeyDown="Window_KeyDown" Closing="Window_Closing">
 
     <Window.Resources>
 
@@ -16,7 +16,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="TabItem">
                         <Grid Name="Panel">
-                            <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0" Margin="2,0">
+                            <Border Name="Border" BorderThickness="0,0,0,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0" Margin="2,0">
                                 <ContentPresenter x:Name="ContentSite" 
                                     VerticalAlignment="Center" 
                                     HorizontalAlignment="Center" 
@@ -54,18 +54,19 @@
             <RowDefinition Height="20*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="8*"/>
             <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="2.5*"/>
         </Grid.ColumnDefinitions>
 
-
-        <Grid x:Name="currentplaylist_container" Grid.Row="1" Grid.Column="1"  >
-            <Image Name="Image_backgroundtrackimage"  Stretch="Fill"
+        <Image Name="Image_backgroundtrackimage"  Stretch="Fill" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2"
                        Source="D:\Картинки. Фото\КАРТИНКИ\обои\14263801045630.jpg" />
 
+        <Grid x:Name="currentplaylist_container" Grid.Row="1" Grid.Column="1"  >
+
+
             <DataGrid x:Name="currentplaylist_datagrid" AutoGenerateColumns="False" AllowDrop="True"
-                  FontFamily="Calibri" SelectionChanged="currentplaylist_datagrid_SelectionChanged"  SelectedCellsChanged="currentplaylist_datagrid_SelectedCellsChanged"
+                  FontFamily="Calibri" SelectionChanged="currentplaylist_datagrid_SelectionChanged"
                           Opacity="0.86"  Grid.Row="1" Grid.Column="1" DragDrop.Drop="currentplaylist_datagrid_Drop" >
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название" Width="4*" 
@@ -83,8 +84,17 @@
 
 
 
-        <Grid Grid.Row="1" Grid.Column="2" Background="#3F51B5">
-            <ListBox x:Name="listBox_playlists" Background="#FF578A94" Opacity="0.7" SelectionChanged="listBox_SelectionChanged"/>
+        <Grid Grid.Row="1" Grid.Column="2" Background="#3F51B5" Opacity="0.93" >
+            <Label Content="Плейлист" HorizontalAlignment="Center"  VerticalAlignment="Top" Padding="0"/>
+            <ListBox x:Name="listBox_playlists"  SelectionMode="Single"  Margin="0,20,0,0" DisplayMemberPath="Playlistname" Background="#FF578A94" Opacity="0.7" 
+                     SelectionChanged="listBox_SelectionChanged">
+
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Удалить" Click="MenuItemDelete_Click"/>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+            </ListBox>
 
         </Grid>
 
@@ -103,10 +113,11 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button x:Name="deletetrackfromcurentplaylist_button" Margin="0,0,10,0" Content="Button"
-                         Width="27" Height="27" Padding="0" HorizontalAlignment="Right" Click="deletetrackfromcurentplaylist_button_Click"  />
-                <Button x:Name="addtracktocurentplaylist_button" HorizontalAlignment="Right"  Margin="0,0,10,0" Content="Button"  
-                         Width="27" Height="27" Padding="0" Click="addtracktocurentplaylist_button_Click" Grid.Column="1"/>
+                <Button x:Name="deletetrackfromcurentplaylist_button" ToolTip="Добавить трек" Margin="0,0,10,0" Content="+"
+                       FontSize="20" Width="27" Height="27" Padding="0" HorizontalAlignment="Right" Click=" addtracktocurentplaylist_button_Click "/>
+
+                <Button x:Name="addtracktocurentplaylist_button" ToolTip="Удалить трек" HorizontalAlignment="Right"  Margin="0,0,10,0" Content="-"  
+                       FontSize="20"  Width="27" Height="27" Padding="0" Click="deletetrackfromcurentplaylist_button_Click" Grid.Column="1"/>
 
             </StackPanel>
 
@@ -114,16 +125,16 @@
                 <Label x:Name="label_songname" Margin="0,0,0,10"  HorizontalContentAlignment="Center" VerticalContentAlignment="Top"
                    TextBlock.FontSize="20" Padding="0" Height="31" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="298.847"/>
 
-                <Label x:Name="label_authorname" Width="185" HorizontalAlignment="Left" Margin="10,33.707,0,25" Padding="0"
-                   HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
-                <Label x:Name="label_album" Width="185"  HorizontalAlignment="Left" Margin="10,10,0,0" Padding="0" 
-                    HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Height="23.707" VerticalAlignment="Top"/>
+                <Label x:Name="label_authorname" Margin="10,33.707,0,0" Padding="0"
+                   HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Height="21.266" VerticalAlignment="Top" HorizontalAlignment="Left" Width="185"/>
+                <Label x:Name="label_album" Margin="10,10,0,0" Padding="0" 
+                    HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Height="23.707" VerticalAlignment="Top" HorizontalAlignment="Left" Width="185"/>
 
             </Grid>
         </Grid>
 
 
-        <Grid x:Name="ControlContainer"   Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Background="#5C6BC0">
+        <Grid x:Name="ControlContainer" Opacity="0.92"  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Background="#5C6BC0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4*"/>
                 <ColumnDefinition Width="1.7*"/>
@@ -134,7 +145,15 @@
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" >
-                <Button x:Name="firsttrack_button"  Margin="140,0,0,0"  Width="27" Height="27"  Opacity="0.8" Click="firsttrack_button_Click" />
+
+
+                <ToggleButton x:Name="replay_button"   Margin="10,0,0,0"  VerticalAlignment="Center"
+                          Width="35"  Background="#FF578A94" BorderBrush="#FF578A94"   Opacity="0.8" Checked="replay_button_Click" 
+                          Unchecked="unreplay_button_Click">
+                    <Image Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\replay.png" Height="22"  Width="21"  />
+                </ToggleButton>
+
+                <Button x:Name="firsttrack_button"  Margin="120,0,0,0"  Width="27" Height="27"  Opacity="0.8" Click="firsttrack_button_Click" />
                 <Button x:Name="prevTrack_button"  Margin="10,0,0,0" Width="27" Height="27"  Opacity="0.8"  Click="prevTrack_Click" />
                 <Button x:Name="playpause_button"   Margin="10,0,0,0" Width="40" Height="40"  Opacity="0.8" Click="playpause_Click"/>
                 <Button x:Name="nexttrack_button"  Margin="10,0,0,0"  Width="27" Height="27"  Opacity="0.8" Click="nexttrack_button_Click" />
@@ -144,13 +163,13 @@
             </StackPanel>
 
 
-            <StackPanel Grid.Row="0" Grid.Column="0">
+            <StackPanel Name="spelement" Grid.Row="0" Grid.Column="0" >
 
-                <TextBlock x:Name="alltime_textbox" Margin="0,5,0,0" Text="00:00/00:00" HorizontalAlignment="Right"
-                       VerticalAlignment="Center"  Height="16"  Grid.Row="1" Grid.ColumnSpan="2"  />
+                <Label x:Name="alltime_textbox" Margin="0,5,0,0" Content="00:00/00:00" HorizontalAlignment="Right"
+                       VerticalAlignment="Center" Padding="0" Height="16"  Grid.Row="1" Grid.ColumnSpan="2"  />
 
 
-                <Slider x:Name="PlaySlider" Margin="0,-5,0,0" IsMoveToPointEnabled="True" Minimum="0"  
+                <Slider x:Name="PlaySlider" Margin="10,-5,0,10"   IsMoveToPointEnabled="True" Minimum="0"  
                       ValueChanged="PlaySlider_ValueChanged"   />
 
 
@@ -162,13 +181,8 @@
 
                 <ToggleButton x:Name="button_mute" Margin="7,0,0,0"  Width="35"  Opacity="0.8" Checked="mute_Checked" Unchecked="unmute" />
 
-                <Slider x:Name="volume"  Width="110" Margin="7,0,0,0"  VerticalAlignment="Center" ValueChanged="volume_ValueChanged" Maximum="1" />
+                <Slider x:Name="volume"  Width="110" Margin="7,0,0,0" VerticalAlignment="Center" ValueChanged="volume_ValueChanged" Maximum="1" />
 
-                <ToggleButton x:Name="replay_button"   Margin="7,0,0,0"  VerticalAlignment="Center"
-                          Width="35"  Background="#FF578A94" BorderBrush="#FF578A94"   Opacity="0.8" Checked="replay_button_Click" 
-                          Unchecked="unreplay_button_Click">
-                    <Image Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\replay.png" Height="22"  Width="21"  />
-                </ToggleButton>
 
             </StackPanel>
 
@@ -179,15 +193,26 @@
 
 
 
-        <Grid x:Name="MenuContainer" Grid.Column="0" Grid.Row="0" d:LayoutOverrides="HorizontalAlignment" Grid.RowSpan="2">
-            <TabControl  Margin="0,0,10,0">
+        <Grid x:Name="MenuContainer" Grid.Column="0" Grid.Row="1"  d:LayoutOverrides="HorizontalAlignment" Margin="0,-29.973,0,0">
+            <TabControl  Margin="10,0,10,0">
                 <TabItem Width="45" Height="30">
                     <TabItem.Header>
                         <Image Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\menu.png"/>
                     </TabItem.Header>
-                    <Grid Margin="-3,-3,-2.6,-2.8" />
+                    <Grid Margin="1,1,1,1" >
+                        <StackPanel>
+                            <Button Content="О Программе"></Button>
+                            <Separator/>
+
+                            <Button Content="Добавить файл"></Button>
+                            <Button Content="Добавить папку" Padding="0"></Button>
+                            <Separator/>
+
+                            <Button Name="menu_close" Content="Закрыть" Click="menu_close_Click"/>
+                        </StackPanel>
+                    </Grid>
                 </TabItem>
-                
+
                 <TabItem Width="45" Height="30">
                     <TabItem.Header>
                         <Image Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\world.png"/>
@@ -199,14 +224,8 @@
                         </TextBox>
                     </Grid>
                 </TabItem>
-                
-                <TabItem Width="45" Height="30">
-                    <TabItem.Header>
-                        <Image Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\magnifier.png"/>
-                    </TabItem.Header>
-                    <Grid Margin="-3,-3,-2.6,-2.8" />
-                </TabItem>
-                
+
+
             </TabControl>
         </Grid>
 
