@@ -1,4 +1,5 @@
-﻿using PlayL;
+﻿using Microsoft.Win32;
+using PlayL;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,6 +37,20 @@ namespace VM
                         playlistControl.currentPlaylist.addTrackToPlaylist(s);
                 }
             }
+        }
+
+        private void addnewfilew()
+        {
+
+        }
+
+        static public void addnewfiles(PlaylistControl playlistControl)
+        {
+            System.Windows.Forms.FolderBrowserDialog ofd = new System.Windows.Forms.FolderBrowserDialog();
+            //ofd.InitialDirectory = @"D:\БГТУ\КУРСОВОЙ ПРОЕКТ\Tracks";
+            ofd.ShowDialog();
+
+
         }
     }
 }

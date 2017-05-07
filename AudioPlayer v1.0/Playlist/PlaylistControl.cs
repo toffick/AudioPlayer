@@ -63,14 +63,16 @@ namespace PlayL
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.InitialDirectory = ofd.InitialDirectory = @"D:\БГТУ\КУРСОВОЙ ПРОЕКТ\Tracks";
             ofd.Filter = "Файлы mp3 |*.mp3";
-            ofd.ShowDialog();
-            try
+            if (ofd.ShowDialog() == true)
             {
-                currentPlaylist.addTrackToPlaylist(ofd.FileName);
-            }
-            catch(Exception ee) 
-            {
-                MessageBox.Show(ee.Message);
+                try
+                {
+                    currentPlaylist.addTrackToPlaylist(ofd.FileName);
+                }
+                catch (Exception ee)
+                {
+                    MessageBox.Show(ee.Message);
+                }
             }
 
         }

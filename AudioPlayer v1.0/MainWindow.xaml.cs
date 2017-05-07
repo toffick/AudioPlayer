@@ -136,10 +136,7 @@ namespace AudioPlayer_v1._0
         }
         #endregion
 
-        private void addtracktocurentplaylist_button_Click(object sender, RoutedEventArgs e)
-        {
-            playlistControl.addSongToCurrentPlaylist();
-        }
+
 
         /// Изменение времени и положения ползунка
         private void setMusicCurentInfo(object sender, EventArgs e)
@@ -227,7 +224,10 @@ namespace AudioPlayer_v1._0
             if (_tmp != null)
                 playlistControl.removeTrackFromCurentPlaylist(_tmp);
         }
-
+        private void addtracktocurentplaylist_button_Click(object sender, RoutedEventArgs e)
+        {
+            playlistControl.addSongToCurrentPlaylist();
+        }
         /// перетаскивание музыки/папок в плейлист
         private void currentplaylist_datagrid_Drop(object sender, DragEventArgs e)
         {
@@ -255,7 +255,7 @@ namespace AudioPlayer_v1._0
             }
         }
 
-        //TODO дефолтный фон. доабвить одиночное воспроизведение трека. добавить кнопки меню
+        //TODO дефолтный фон. доабвить одиночное воспроизведение трека. добавить кнопки меню. картинки кнопок воспроизведения
 
         #region Closed form
         private void menu_close_Click(object sender, RoutedEventArgs e)
@@ -316,9 +316,13 @@ namespace AudioPlayer_v1._0
 
         }
 
+
         #endregion
 
-
+        private void addfoldertocurentplaylist_button_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.addnewfiles(playlistControl);
+        }
     }
 }
 

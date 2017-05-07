@@ -123,7 +123,7 @@
 
             <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button x:Name="deletetrackfromcurentplaylist_button" ToolTip="Добавить трек" Margin="0,0,10,0" Content="+"
-                       FontSize="20" Width="27" Height="27" Padding="0" HorizontalAlignment="Right" Click=" addtracktocurentplaylist_button_Click "/>
+                       FontSize="20" Width="27" Height="27" Padding="0" HorizontalAlignment="Right" Click="addtracktocurentplaylist_button_Click "/>
 
                 <Button x:Name="addtracktocurentplaylist_button" ToolTip="Удалить трек" HorizontalAlignment="Right"  Margin="0,0,10,0" Content="-"  
                        FontSize="20"  Width="27" Height="27" Padding="0" Click="deletetrackfromcurentplaylist_button_Click" Grid.Column="1"/>
@@ -215,7 +215,7 @@
                             <Separator/>
 
                             <Button Content="Добавить файл" Click="addtracktocurentplaylist_button_Click"></Button>
-                            <Button Content="Добавить папку" Padding="0"></Button>
+                            <Button Content="Добавить папку" Padding="0"  Click="addfoldertocurentplaylist_button_Click"></Button>
                             <Separator/>
 
                             <Button Name="menu_close" Content="Закрыть" Click="menu_close_Click"/>

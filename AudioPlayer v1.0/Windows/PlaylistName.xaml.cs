@@ -26,7 +26,7 @@ namespace AudioPlayer_v1._0
             InitializeComponent();
             textBox.MaxLength = 99;
         }
-
+        //TODO enter добавить
         private void button_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -37,7 +37,7 @@ namespace AudioPlayer_v1._0
                     this.Close();
                 }
             }
-            catch 
+            catch
             {
                 MessageBox.Show("Попробуйте другое имя");
             }
@@ -49,6 +49,30 @@ namespace AudioPlayer_v1._0
         {
 
             this.Close();
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Enter:
+                    try
+                    {
+                        if (!textBox.Text.Equals(""))
+                        {
+                            Plname = textBox.Text;
+                            this.Close();
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Попробуйте другое имя");
+                    }
+                    break;
+                case Key.Escape:
+                    this.Close();
+                    break;
+            }
         }
     }
 }
