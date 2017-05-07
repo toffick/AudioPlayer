@@ -28,13 +28,10 @@ namespace PlayL
         }
         public int Playlistnumber { get; private set; }
 
-        private List<Track> allTracks;
+        public List<Track> allTracks { get; private set; }
 
         private Track currentTrack;
 
-
-        //TODO   миксование треков
-        //TODO  нумерация треков во время восппрозведения
         public Playlist()
         {
             allTracks = new List<Track>();
@@ -47,14 +44,8 @@ namespace PlayL
             allTracks = new List<Track>();
             Playlistname = _playlistname;
             Playlistnumber = _playlistnumber;
+            
         }
-
-        public void mixAllTracks()
-        {
-            //созранить норм
-            //перемешать все треки
-        }
-
 
         public void setcurrentTrack(Track _tr)
         {
@@ -83,24 +74,39 @@ namespace PlayL
 
         }
 
-        public void removeRangeTracks(IList<DataGridCellInfo> _tr)
+        public void clearPlaylist()
         {
-            foreach (var t in _tr)
-            {
-             //   MessageBox.Show(((Track)t).ToString)
-            }
+            int c = Count;
+            for (int i = c-1; i >=0; i--)
+                removeTrack(allTracks[i]);
         }
+
+
         ///получить первый трек из плейлиста
         public Track getFirstTrack()
         {
-            return allTracks.Count >= 0 ? allTracks[0] : null;
+            try
+            {
+                return allTracks.Count >= 0 ? allTracks[0] : null;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
 
         ///получить последний трек из плейлиста
         public Track getEndTrack()
         {
-            return allTracks.Count > 0 ? allTracks[allTracks.Count - 1] : null;
+            try
+            {
+                return allTracks.Count > 0 ? allTracks[allTracks.Count - 1] : null;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public Track getTrackWithId(int i)
@@ -119,23 +125,37 @@ namespace PlayL
             return  temp + Environment.NewLine + "Playlist: " + Playlistname + " number " + Playlistnumber;
         }
 
+      
 
         public Track getNextTrack()
         {
-            int playnumber = currentTrack.Number;
-            if (playnumber < Count)
-                return allTracks[playnumber];
-            else
-                return allTracks[0];
+            try
+            {
+                int playnumber = currentTrack.Number;
+                if (playnumber < Count)
+                    return allTracks[playnumber];
+                else
+                    return allTracks[0];
+            }
+            catch {
+                return null;
+            }
         }
         
         public Track getPrevTrack()
         {
-            int playnumber = currentTrack.Number - 2;
-            if (playnumber > -1)
-                return allTracks[playnumber];
-            else
-                return allTracks[0];
+            try
+            {
+                int playnumber = currentTrack.Number - 2;
+                if (playnumber > -1)
+                    return allTracks[playnumber];
+                else
+                    return allTracks[0];
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public Track getCurrentTrack()

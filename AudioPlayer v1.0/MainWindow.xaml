@@ -78,6 +78,14 @@
                     <DataGridTextColumn Header="Альбом" Width="4*"
                              Binding="{Binding trackinfo.Album}"/>
                 </DataGrid.Columns>
+
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Инфо" Click="MenuItemDataGridInfo_Click"/>
+                        <MenuItem Header="Удалить" Click="MenuItemDataGridDelete_Click"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                
             </DataGrid>
 
         </Grid>
@@ -91,6 +99,7 @@
 
                 <ListBox.ContextMenu>
                     <ContextMenu>
+                        <MenuItem Header="Очистить плейлист" Click="MenuItemClear_Click"/>
                         <MenuItem Header="Удалить" Click="MenuItemDelete_Click"/>
                     </ContextMenu>
                 </ListBox.ContextMenu>
@@ -156,7 +165,8 @@
                 <Button x:Name="firsttrack_button"  Margin="120,0,0,0"  Width="27" Height="27"  Opacity="0.8" Click="firsttrack_button_Click" />
                 <Button x:Name="prevTrack_button"  Margin="10,0,0,0" Width="27" Height="27"  Opacity="0.8"  Click="prevTrack_Click" />
                 <Button x:Name="playpause_button"   Margin="10,0,0,0" Width="40" Height="40"  Opacity="0.8" Click="playpause_Click"/>
-                <Button x:Name="nexttrack_button"  Margin="10,0,0,0"  Width="27" Height="27"  Opacity="0.8" Click="nexttrack_button_Click" />
+                <Button x:Name="nexttrack_button"  Content="pack://application:,,,/resources/icons/back.png" Margin="10,0,0,0"  Width="27" Height="27"  Opacity="0.8" Click="nexttrack_button_Click" >
+                </Button>
                 <Button x:Name="finishtrack"        Margin="10,0,0,0"  Width="27" Height="27" Opacity="0.8" Click="finishtrack_Click" />
                 <Button x:Name="stop_button"        Margin="10,0,0,0" Height="27"  Width="27" Opacity="0.8" Click="stop_button_Click"  />
 
@@ -204,7 +214,7 @@
                             <Button Content="О Программе"></Button>
                             <Separator/>
 
-                            <Button Content="Добавить файл"></Button>
+                            <Button Content="Добавить файл" Click="addtracktocurentplaylist_button_Click"></Button>
                             <Button Content="Добавить папку" Padding="0"></Button>
                             <Separator/>
 

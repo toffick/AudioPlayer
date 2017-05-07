@@ -19,7 +19,8 @@ namespace Music
     {
 
         public delegate void MyDel(Track _tr);
-        public event MyDel trackChange;
+
+        public event MyDel trackChangeEvent;
 
 
         private MediaPlayer mediaplayer;
@@ -48,7 +49,6 @@ namespace Music
 
         public void PlayPause(object sender, EventArgs e)
         {
-            //TODO смена картинок
             Button temp_image = sender as Button;
 
             var brushpa = new ImageBrush();
@@ -83,13 +83,12 @@ namespace Music
                 IsPlaying = true;
                 mediaplayer.Open(new Uri(track.filepath));
                 currentPlaylist.setcurrentTrack(track);
-                trackChange?.Invoke(currentPlaylist.getCurrentTrack());
+                trackChangeEvent?.Invoke(currentPlaylist.getCurrentTrack());
                 mediaplayer.Play();
             }
-            catch (Exception ee)
+            catch
             {
-                MessageBox.Show(ee.Message);
-
+                stop(null,null);
             }
         }
 
@@ -110,9 +109,9 @@ namespace Music
                 }
 
             }
-            catch (Exception ee)
+            catch 
             {
-                MessageBox.Show("Не удалось воспроизвести трек" + ee.Message);
+                stop(null, null);
             }
         }
 
@@ -123,9 +122,9 @@ namespace Music
             {
                 setaudiofile(currentPlaylist.getPrevTrack());
             }
-            catch (Exception ee)
+            catch 
             {
-                MessageBox.Show("Не удалось воспроизвести трек" + ee.Message);
+                stop(null, null);
             }
         }
 
@@ -136,9 +135,9 @@ namespace Music
             {
                 setaudiofile(currentPlaylist.getFirstTrack());
             }
-            catch (Exception ee)
+            catch
             {
-                MessageBox.Show("Не удалось воспроизвести трек" + ee.Message);
+                stop(null, null);
             }
         }
 
@@ -149,9 +148,9 @@ namespace Music
             {
                 setaudiofile(currentPlaylist.getEndTrack());
             }
-            catch (Exception ee)
+            catch
             {
-                MessageBox.Show("Не удалось воспроизвести трек" + ee.Message);
+                stop(null, null);
             }
         }
 
@@ -163,7 +162,6 @@ namespace Music
         }
         public void unraplay(object sender, EventArgs e)
         {
-            //TODO сделать нормальное впоспроизведение
             isreplay = false;
         }
 
@@ -172,6 +170,7 @@ namespace Music
         public void stop(object sender, EventArgs e)
         {
             mediaplayer.Stop();
+            PlayPause(sender, e);
         }
 
         #region Работа со звуком

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Music
 {
-    class Track
+   public class Track
     {
         public string filepath { get; }
       
-        public TrackInfo trackinfo { get; }
+        public TrackInfo trackinfo { get; private set; }
 
         public int Number { get; private set;  }
         public Track()

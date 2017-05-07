@@ -19,7 +19,6 @@ namespace PlayL
         public event MyDel PlaylistsResizeEvent;
 
 
-        Playlist defaultpl;
         List<Playlist>  allplaylists;
         public Playlist currentPlaylist { get; private set; }
 
@@ -27,11 +26,10 @@ namespace PlayL
         {
             try
             {
-                defaultpl = new Playlist("Default", 0);
                 DBOperate.InitDB();
                 allplaylists = DBOperate.getAllPlaylists();
                 InitTracksInPlaylists();
-                currentPlaylist = allplaylists.Count == 0 ? defaultpl : allplaylists[0];
+                currentPlaylist = allplaylists.Count == 0 ? null : allplaylists[0];
             }
             catch
             {
@@ -84,7 +82,9 @@ namespace PlayL
                 if (isRepeatedName(plname))
                     throw new Exception("Плейлист с таким именем уже существует");
                 int plnumber = getNewPLnumber();
+                
                 allplaylists.Add(new Playlist(plname, plnumber));
+                setCurrentPlaylist(allplaylists[allplaylists.Count - 1]);
                 DBOperate.addPlatlist(plnumber, plname);
                 PlaylistsResizeEvent?.Invoke();
             }
@@ -99,10 +99,18 @@ namespace PlayL
         {
             DBOperate.removePlaylist(_pl.Playlistname) ;
             allplaylists.Remove(_pl);
-            currentPlaylist = allplaylists.Count == 0 ? defaultpl : allplaylists[0];
+            currentPlaylist = allplaylists.Count == 0 ? null : allplaylists[0];
             PlaylistsResizeEvent?.Invoke();
 
+
         }
+
+        public void clearPlaylist(Playlist _pl)
+        {
+            currentPlaylist.clearPlaylist();
+                
+        }
+
         private int getNewPLnumber()
         {
             int i = -1;
@@ -128,5 +136,7 @@ namespace PlayL
         {
             return currentPlaylist.getCurrentTrack();
         }
+
+      
     }
 }

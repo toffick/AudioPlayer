@@ -21,6 +21,7 @@ using System.IO;
 using System.Drawing;
 using VM;
 using DB;
+using AudioPlayer_v1._0.Windows;
 
 namespace AudioPlayer_v1._0
 {
@@ -45,18 +46,21 @@ namespace AudioPlayer_v1._0
             timerPlay.Interval = TimeSpan.FromMilliseconds(500);
 
             timerPlay.Tick += setMusicCurentInfo;
-            musiccontrol.trackChange += setTrackInfo;                                   //получить информацию о треке при его 
+            musiccontrol.trackChangeEvent += setTrackInfo;                                   //получить информацию о треке при его 
             playlistControl.PlaylistsResizeEvent += refreshPlaylistsListBox;            //обновлять кол-во плейлистов при смене их количества
+
 
             refreshPlaylistsListBox();
 
 
         }
 
+  
+
         #region Control buttons/sliders
         private void stop_button_Click(object sender, RoutedEventArgs e)
         {
-            musiccontrol.stop(sender, e);
+            musiccontrol.stop(playpause_button, e);
         }
 
         private void prevTrack_Click(object sender, RoutedEventArgs e)
@@ -100,7 +104,10 @@ namespace AudioPlayer_v1._0
             PlaylistName pl_name = new PlaylistName();
             pl_name.ShowDialog();
             if (pl_name.Plname != null)
+            {
                 playlistControl.addPlaylist(pl_name.Plname);
+                listBox_playlists.SelectedItem = playlistControl.currentPlaylist;
+            }
 
         }
 
@@ -119,7 +126,6 @@ namespace AudioPlayer_v1._0
         //включить звук
         private void unmute(object sender, RoutedEventArgs e)
         {
-            //TODO ставишь мут - двигаешь ползунок - убираешь мут - звук как до мута
             musiccontrol.unmute(sender, e);
         }
 
@@ -152,15 +158,19 @@ namespace AudioPlayer_v1._0
             trackTime = musiccontrol.getAllTrackTime().Time;
             PlaySlider.Maximum = _tr.trackinfo.Time.TotalSeconds;
             PlaySlider.Value = 0;
-            label_album.Content = _tr.trackinfo.Album;//483 890
+            label_album.Content = _tr.trackinfo.Album;
             label_authorname.Content = _tr.trackinfo.Author;
             label_songname.Content = _tr.trackinfo.SongName;
             Image_backgroundtrackimage.Source = _tr.trackinfo.Picture;
+
+            currentplaylist_datagrid.SelectedItem=_tr;
+
         }
 
+        /// очистить форму при оставке трека
 
 
-        /// Выбор плейлиста
+        /// Выбор плейлиста 
         private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (listBox_playlists.SelectedItem != null)
@@ -170,13 +180,13 @@ namespace AudioPlayer_v1._0
                 playlistControl.setCurrentPlaylist((Playlist)listBox_playlists.SelectedItem);
                 playlistControl.currentPlaylist.PlaylistsSoundCountResizeEvent += refreshPlaylistsDataGrid;
             }
+            
         }
 
 
         /// Отрытие трека из списка треков плейлиста
         private void currentplaylist_datagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             Track temptrack = (Track)currentplaylist_datagrid.SelectedItem;
             if (temptrack != null && temptrack != playlistControl.getCurentTrack())
             {
@@ -185,22 +195,21 @@ namespace AudioPlayer_v1._0
 
         }
 
+        ///установить трек
         private void openTrack(Track _tr)
         {
             musiccontrol.setaudiofile(_tr);
             timerPlay.Start();
         }
 
-
-
-
+        ///обновить список плейлистов
         private void refreshPlaylistsListBox()
         {
-            //если нет плейлистов, то заносить дефолтный плейлист в список плейлистов
             listBox_playlists.ItemsSource = playlistControl.getallplaylists();
             listBox_playlists.Items.Refresh();
-
         }
+
+        ///обновит ьсписок треков
         private void refreshPlaylistsDataGrid(object tracks)
         {
             currentplaylist_datagrid.Items.Clear();
@@ -211,7 +220,7 @@ namespace AudioPlayer_v1._0
             }
         }
 
-        //удалить трек из плейлиста
+        ///удалить трек из текущего плейлиста
         private void deletetrackfromcurentplaylist_button_Click(object sender, RoutedEventArgs e)
         {
             Track _tmp = (currentplaylist_datagrid.SelectedItem) as Track;
@@ -223,11 +232,6 @@ namespace AudioPlayer_v1._0
         private void currentplaylist_datagrid_Drop(object sender, DragEventArgs e)
         {
             ViewModel.datagrid_Drop(playlistControl, e);            
-        }
-
-        private void currentplaylist_datagrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
-        {
-            playlistControl.currentPlaylist.removeRangeTracks(e.AddedCells);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -251,11 +255,12 @@ namespace AudioPlayer_v1._0
             }
         }
 
+        //TODO дефолтный фон. доабвить одиночное воспроизведение трека. добавить кнопки меню
 
         #region Closed form
         private void menu_close_Click(object sender, RoutedEventArgs e)
         {
-            musiccontrol.stop(null, null);
+            musiccontrol.stop(playpause_button, null);
             DBOperate.Disconnect();
             this.Close();
         }
@@ -263,20 +268,57 @@ namespace AudioPlayer_v1._0
      
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            musiccontrol.stop(null, null);
+            musiccontrol.stop(playpause_button, null);
             DBOperate.Disconnect();
         }
         #endregion
 
-
+        #region ContexMenuButtons
         private void MenuItemDelete_Click(object sender, RoutedEventArgs e)
         {
-            if (listBox_playlists.SelectedIndex == -1) return;
-
-
+            if (listBox_playlists.SelectedIndex == -1)
+                return;
             playlistControl.removePlaylist((Playlist)listBox_playlists.SelectedItem);
+            if (playlistControl.currentPlaylist != null)
+            {
+                refreshPlaylistsDataGrid(playlistControl.currentPlaylist.allTracks);
+                listBox_playlists.SelectedItem = playlistControl.currentPlaylist;
+                musiccontrol.setCurrentPlaylist(playlistControl.currentPlaylist);
+            }
+            else
+            {
+                musiccontrol.setCurrentPlaylist(null);
+                refreshPlaylistsDataGrid(null);
+            }
 
-         //   listBox_playlists.Items.RemoveAt(listBox_playlists.SelectedIndex);
+
         }
+
+        private void MenuItemClear_Click(object sender, RoutedEventArgs e)
+        {
+            if (listBox_playlists.SelectedIndex == -1)
+                return;
+            playlistControl.clearPlaylist((Playlist)listBox_playlists.SelectedItem);
+        }
+
+
+
+        private void MenuItemDataGridDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentplaylist_datagrid.SelectedIndex == -1)
+                return;
+            playlistControl.removeTrackFromCurentPlaylist((Track)currentplaylist_datagrid.SelectedItem);
+        }
+
+        private void MenuItemDataGridInfo_Click(object sender, RoutedEventArgs e)
+        {
+            new TrackInfoWindoww((Track)currentplaylist_datagrid.SelectedItem).ShowDialog();
+
+        }
+
+        #endregion
+
+
     }
 }
+

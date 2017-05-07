@@ -10,11 +10,12 @@ using TagLib;
 
 namespace Music
 {
-    class TrackInfo
+   public class TrackInfo
     {
         private const string UNKNSONGNAME = "unknown_song_name";
         private const string UNNKAUTHOR = "unknown_author_name";
         private const string UNKNALBUM = "unknown_album_name";
+        private const string UNKNYEAR = "unknown_album_year";
 
         public string SongName { get; private set; }
         public string Author { get; private set; }
@@ -23,6 +24,12 @@ namespace Music
 
         public BitmapImage Picture { get; private set; }
 
+        public uint BPM { get; private set; }
+        public int AudioBitrate { get; private set; }
+
+        public string Year { get; private set; }
+
+
         private TagLib.File file;
         public TrackInfo()
         {
@@ -30,6 +37,7 @@ namespace Music
             Author = UNNKAUTHOR;
             Album = UNKNALBUM;
             Time = new TimeSpan(0, 0, 0);
+
         }
 
         public TrackInfo(string _path)
@@ -42,12 +50,20 @@ namespace Music
                 Author = getAuthor();
                 Time = getTime();
                 Picture = getPicture();
+                BPM = getBPM();
+                AudioBitrate = getBittrate();
+                Year = getYear();
             }
             catch (Exception ee)
             {
                 MessageBox.Show(ee.Message);
             }
 
+        }
+
+        private string getYear()
+        {
+            return file.Tag.Year==0? UNKNYEAR:file.Tag.Year.ToString();
         }
 
         private BitmapImage getPicture()
@@ -91,7 +107,7 @@ namespace Music
         private string getAlbum()
         {
             try
-            {
+            { 
                 return file.Tag.Album;
             }
             catch
@@ -129,5 +145,14 @@ namespace Music
             return $"{SongName} {Author} {Album} {Time.ToString()}";
         }
 
+        private uint getBPM()
+        {
+           return file.Tag.BeatsPerMinute==0?9999: file.Tag.BeatsPerMinute;
+        }
+
+        private int getBittrate()
+        {
+            return file.Properties.AudioBitrate;
+        }
     }
 }
