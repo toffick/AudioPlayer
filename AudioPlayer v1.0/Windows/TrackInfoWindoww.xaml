@@ -8,8 +8,45 @@
         Title="Информация о треке" Height="300" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="ToolWindow">
     <Grid>
         <Image x:Name="image" Stretch="Fill" Opacity="0.35"/>
-        <Grid Opacity="0.8">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Название трека" Width="117"/>
+                    <Label  Name="songname" FontSize="20"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Исполнитель" Width="117"/>
+                    <Label  Name="author" FontSize="15"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Год" Width="117"/>
+                    <Label  Name="year" FontSize="15"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Альбом" Width="117"/>
+                    <Label  Name="album" FontSize="15"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="1">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Длина трека" Width="117"/>
+                    <Label  Name="time" FontSize="15"/>
+                </StackPanel>
 
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="BPM" Width="117"/>
+                    <Label  Name="bpm" FontSize="15"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Bitrate" Width="117"/>
+                    <Label  Name="bitrate" FontSize="15"/>
+                </StackPanel>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>

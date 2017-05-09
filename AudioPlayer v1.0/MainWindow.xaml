@@ -47,16 +47,16 @@
 
 
 
-    <Grid x:Name="mainGrid" Background="#3F51B5" >
+    <Grid x:Name="mainGrid" Background="#3F51B5"  >
         <Grid.RowDefinitions>
-            <RowDefinition Height="17*"/>
+            <RowDefinition Height="17*" />
             <RowDefinition Height="80*"/>
             <RowDefinition Height="20*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*" MinWidth="170"/>
             <ColumnDefinition Width="7*"/>
-            <ColumnDefinition Width="2.5*"/>
+            <ColumnDefinition Width="2.5*" MinWidth="180"/>
         </Grid.ColumnDefinitions>
 
         <Image Name="Image_backgroundtrackimage"  Stretch="Fill" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2"
@@ -203,21 +203,22 @@
 
 
 
-        <Grid x:Name="MenuContainer" Grid.Column="0" Grid.Row="1"  d:LayoutOverrides="HorizontalAlignment" Margin="0,-29.973,0,0">
-            <TabControl  Margin="10,0,10,0">
-                <TabItem Width="45" Height="30">
+        <Grid x:Name="MenuContainer" Grid.Column="0" Grid.Row="1"  d:LayoutOverrides="HorizontalAlignment" Margin="0,-29.973,0,0" MinWidth="145">
+            <TabControl  Margin="10,0,10,0" >
+                <TabItem Width="45" Height="30" >
                     <TabItem.Header>
                         <Image Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\menu.png"/>
                     </TabItem.Header>
                     <Grid Margin="1,1,1,1" >
-                        <StackPanel>
-                            <Button Content="О Программе"></Button>
+                        <StackPanel >
+                            <Button Content="Открыть" Click="openoncetrack"></Button>
+
                             <Separator/>
 
                             <Button Content="Добавить файл" Click="addtracktocurentplaylist_button_Click"></Button>
                             <Button Content="Добавить папку" Padding="0"  Click="addfoldertocurentplaylist_button_Click"></Button>
                             <Separator/>
-
+                            <Button Content="О Программе"></Button>
                             <Button Name="menu_close" Content="Закрыть" Click="menu_close_Click"/>
                         </StackPanel>
                     </Grid>

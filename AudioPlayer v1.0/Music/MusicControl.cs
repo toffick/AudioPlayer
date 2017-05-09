@@ -61,13 +61,11 @@ namespace Music
             if (IsPlaying)
             {
                 timmer.Stop();
-                temp_image.Background = brushpl;
                 mediaplayer.Pause();
             }
             else
             {
                 timmer.Start();
-                temp_image.Background = brushpa;
                 mediaplayer.Play();
 
             }

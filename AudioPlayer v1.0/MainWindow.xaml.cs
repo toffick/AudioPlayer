@@ -39,18 +39,14 @@ namespace AudioPlayer_v1._0
         public MainWindow()
         {
             InitializeComponent();
+            InitPlayerComponents();
 
-            timerPlay = new DispatcherTimer();
-            musiccontrol = new MusicControl(PlaySlider, timerPlay);
-            playlistControl = new PlaylistControl();
-            timerPlay.Interval = TimeSpan.FromMilliseconds(500);
 
-            timerPlay.Tick += setMusicCurentInfo;
+
             musiccontrol.trackChangeEvent += setTrackInfo;                                   //получить информацию о треке при его 
             playlistControl.PlaylistsResizeEvent += refreshPlaylistsListBox;            //обновлять кол-во плейлистов при смене их количества
 
 
-            refreshPlaylistsListBox();
 
 
         }
@@ -99,6 +95,7 @@ namespace AudioPlayer_v1._0
             musiccontrol.unraplay(sender, e);
         }
 
+        //показать информацию о треке 
         private void addplaylist_button_Click(object sender, RoutedEventArgs e)
         {
             PlaylistName pl_name = new PlaylistName();
@@ -123,20 +120,48 @@ namespace AudioPlayer_v1._0
         {
             musiccontrol.mute(sender, e);
         }
-        //включить звук
+        ///включить звук
         private void unmute(object sender, RoutedEventArgs e)
         {
             musiccontrol.unmute(sender, e);
         }
 
-        //регулировка звука
+        ///регулировка звука
         private void volume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             musiccontrol.setVolume(button_mute, e.NewValue);
         }
         #endregion
 
+        private void InitPlayerComponents()
+        {
+            try
+            {
+                timerPlay = new DispatcherTimer();
+                musiccontrol = new MusicControl(PlaySlider, timerPlay);
+                playlistControl = new PlaylistControl();
+                timerPlay.Interval = TimeSpan.FromMilliseconds(500);
+                timerPlay.Tick += setMusicCurentInfo;
 
+
+                refreshPlaylistsListBox();
+
+                if (playlistControl.CountPL > 0)
+                {
+                    playlistControl.setCurrentPlaylist(playlistControl.getallplaylists()[0]);
+                    musiccontrol.setCurrentPlaylist(playlistControl.getallplaylists()[0]);
+                    refreshPlaylistsDataGrid(playlistControl.currentPlaylist.allTracks);
+
+                }
+            }
+            catch(Exception ee)
+            {
+                MessageBox.Show("Произошел сбой запуска приложения");
+                musiccontrol.stop(playpause_button, null);
+                DBOperate.Disconnect();
+                this.Close();
+            }
+        }
 
         /// Изменение времени и положения ползунка
         private void setMusicCurentInfo(object sender, EventArgs e)
@@ -164,9 +189,6 @@ namespace AudioPlayer_v1._0
 
         }
 
-        /// очистить форму при оставке трека
-
-
         /// Выбор плейлиста 
         private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -191,7 +213,7 @@ namespace AudioPlayer_v1._0
             }
 
         }
-
+        //TODO  бобавить дефолтный фон. ожиночное воспроизвдедление треков
         ///установить трек
         private void openTrack(Track _tr)
         {
@@ -254,6 +276,7 @@ namespace AudioPlayer_v1._0
                 MessageBox.Show(ee.Message);
             }
         }
+
 
         //TODO дефолтный фон. доабвить одиночное воспроизведение трека. добавить кнопки меню. картинки кнопок воспроизведения
 
@@ -322,6 +345,11 @@ namespace AudioPlayer_v1._0
         private void addfoldertocurentplaylist_button_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.addnewfiles(playlistControl);
+        }
+
+        private void openoncetrack(object sender, RoutedEventArgs e)
+        {
+                //тут ищем в вебе last.fm api 
         }
     }
 }

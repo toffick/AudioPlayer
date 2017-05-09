@@ -19,9 +19,20 @@ namespace PlayL
         public event MyDel PlaylistsResizeEvent;
 
 
-        List<Playlist>  allplaylists;
+        List<Playlist> allplaylists;
         public Playlist currentPlaylist { get; private set; }
 
+        public int CountPL
+        {
+            get
+            {
+                return allplaylists.Count;
+            }
+            private set
+            {
+
+            }
+        }
         public PlaylistControl()
         {
             try
@@ -69,9 +80,9 @@ namespace PlayL
                 {
                     currentPlaylist.addTrackToPlaylist(ofd.FileName);
                 }
-                catch (Exception ee)
+                catch
                 {
-                    MessageBox.Show(ee.Message);
+                    MessageBox.Show("Создайте плейлист");
                 }
             }
 
@@ -84,7 +95,7 @@ namespace PlayL
                 if (isRepeatedName(plname))
                     throw new Exception("Плейлист с таким именем уже существует");
                 int plnumber = getNewPLnumber();
-                
+
                 allplaylists.Add(new Playlist(plname, plnumber));
                 setCurrentPlaylist(allplaylists[allplaylists.Count - 1]);
                 DBOperate.addPlatlist(plnumber, plname);
@@ -92,14 +103,14 @@ namespace PlayL
             }
             catch (Exception ee)
             {
-                MessageBox.Show("Не удалось добавить плейлист "+ee.Message);
+                MessageBox.Show("Не удалось добавить плейлист " + ee.Message);
             }
 
         }
 
         public void removePlaylist(Playlist _pl)
         {
-            DBOperate.removePlaylist(_pl.Playlistname) ;
+            DBOperate.removePlaylist(_pl.Playlistname);
             allplaylists.Remove(_pl);
             currentPlaylist = allplaylists.Count == 0 ? null : allplaylists[0];
             PlaylistsResizeEvent?.Invoke();
@@ -110,16 +121,16 @@ namespace PlayL
         public void clearPlaylist(Playlist _pl)
         {
             currentPlaylist.clearPlaylist();
-                
+
         }
 
         private int getNewPLnumber()
         {
             int i = -1;
-          List<int> plnumbers = allplaylists.Select(s => s.Playlistnumber).ToList<int>();
-          while (i < plnumbers.Count)
-              if (!plnumbers.Contains(++i))
-                  break;
+            List<int> plnumbers = allplaylists.Select(s => s.Playlistnumber).ToList<int>();
+            while (i < plnumbers.Count)
+                if (!plnumbers.Contains(++i))
+                    break;
             return i;
 
         }
@@ -139,6 +150,6 @@ namespace PlayL
             return currentPlaylist.getCurrentTrack();
         }
 
-      
+
     }
 }

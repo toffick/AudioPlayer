@@ -147,7 +147,7 @@ namespace Music
 
         private uint getBPM()
         {
-           return file.Tag.BeatsPerMinute==0?9999: file.Tag.BeatsPerMinute;
+           return file.Tag.BeatsPerMinute;
         }
 
         private int getBittrate()
