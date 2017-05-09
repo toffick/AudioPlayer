@@ -40,7 +40,6 @@ namespace Music
             isreplay = false;
             slider_play = _sl;
             timmer = _dt;
-
             mediaplayer.MediaEnded += playNexttrack;                              //по завершению трека играть следующий
         }
 

@@ -25,6 +25,7 @@ namespace AudioPlayer_v1._0
         {
             InitializeComponent();
             textBox.MaxLength = 99;
+            textBox.Focus();
         }
         //TODO enter добавить
         private void button_Click(object sender, RoutedEventArgs e)

@@ -51,7 +51,7 @@ namespace AudioPlayer_v1._0
 
         }
 
-  
+
 
         #region Control buttons/sliders
         private void stop_button_Click(object sender, RoutedEventArgs e)
@@ -151,12 +151,11 @@ namespace AudioPlayer_v1._0
                     playlistControl.setCurrentPlaylist(playlistControl.getallplaylists()[0]);
                     musiccontrol.setCurrentPlaylist(playlistControl.getallplaylists()[0]);
                     refreshPlaylistsDataGrid(playlistControl.currentPlaylist.allTracks);
-
                 }
             }
-            catch(Exception ee)
+            catch (Exception ee)
             {
-                MessageBox.Show("Произошел сбой запуска приложения");
+                MessageBox.Show("Произошел сбой запуска приложения"+Environment.NewLine+ ee.Message);
                 musiccontrol.stop(playpause_button, null);
                 DBOperate.Disconnect();
                 this.Close();
@@ -185,7 +184,7 @@ namespace AudioPlayer_v1._0
             label_songname.Content = _tr.trackinfo.SongName;
             Image_backgroundtrackimage.Source = _tr.trackinfo.Picture;
 
-            currentplaylist_datagrid.SelectedItem=_tr;
+            currentplaylist_datagrid.SelectedItem = _tr;
 
         }
 
@@ -199,7 +198,7 @@ namespace AudioPlayer_v1._0
                 playlistControl.setCurrentPlaylist((Playlist)listBox_playlists.SelectedItem);
                 playlistControl.currentPlaylist.PlaylistsSoundCountResizeEvent += refreshPlaylistsDataGrid;
             }
-            
+
         }
 
 
@@ -232,11 +231,11 @@ namespace AudioPlayer_v1._0
         private void refreshPlaylistsDataGrid(object tracks)
         {
             currentplaylist_datagrid.Items.Clear();
-            if(tracks!=null)
-            foreach (Track tr in (IEnumerable<Track>)tracks)
-            {
-                currentplaylist_datagrid.Items.Add(tr);
-            }
+            if (tracks != null)
+                foreach (Track tr in (IEnumerable<Track>)tracks)
+                {
+                    currentplaylist_datagrid.Items.Add(tr);
+                }
         }
 
         ///удалить трек из текущего плейлиста
@@ -253,7 +252,7 @@ namespace AudioPlayer_v1._0
         /// перетаскивание музыки/папок в плейлист
         private void currentplaylist_datagrid_Drop(object sender, DragEventArgs e)
         {
-            ViewModel.datagrid_Drop(playlistControl, e);            
+            ViewModel.datagrid_Drop(playlistControl, e);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -268,7 +267,8 @@ namespace AudioPlayer_v1._0
                     case Key.Delete:
                         playlistControl.removeTrackFromCurentPlaylist((Track)currentplaylist_datagrid.SelectedItem);
                         break;
-                    default:break;
+
+                    default: break;
                 }
             }
             catch (Exception ee)
@@ -279,6 +279,8 @@ namespace AudioPlayer_v1._0
 
 
         //TODO дефолтный фон. доабвить одиночное воспроизведение трека. добавить кнопки меню. картинки кнопок воспроизведения
+        //ебала с edititem при кейдаун
+        //TODO лобавить в ресурсы картинки
 
         #region Closed form
         private void menu_close_Click(object sender, RoutedEventArgs e)
@@ -288,7 +290,7 @@ namespace AudioPlayer_v1._0
             this.Close();
         }
 
-     
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             musiccontrol.stop(playpause_button, null);
@@ -335,7 +337,8 @@ namespace AudioPlayer_v1._0
 
         private void MenuItemDataGridInfo_Click(object sender, RoutedEventArgs e)
         {
-            new TrackInfoWindoww((Track)currentplaylist_datagrid.SelectedItem).ShowDialog();
+            if ((Track)currentplaylist_datagrid.SelectedItem != null)
+                new TrackInfoWindoww((Track)currentplaylist_datagrid.SelectedItem).ShowDialog();
 
         }
 
@@ -349,8 +352,11 @@ namespace AudioPlayer_v1._0
 
         private void openoncetrack(object sender, RoutedEventArgs e)
         {
-                //тут ищем в вебе last.fm api 
+            //огтдельное окно
+            //тут ищем в вебе last.fm api 
         }
+
+   
     }
 }
 
