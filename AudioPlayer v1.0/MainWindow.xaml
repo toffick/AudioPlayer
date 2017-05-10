@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AudioPlayer_v1._0"
         xmlns:ee="http://schemas.microsoft.com/expression/2010/effects" x:Class="AudioPlayer_v1._0.MainWindow"
-        mc:Ignorable="d"
-        Title="AudioPlayer v1.0"   MinHeight="400"  MinWidth="630" Height="580" Width="950" BorderThickness="0" WindowStartupLocation="CenterScreen" Background="#FF578A94" Closing="Window_Closing">
+        mc:Ignorable ="d"
+        Title="AudioPlayer v1.0"   MinHeight="400"  MinWidth="630" Height="580" Width="950" BorderThickness="0" 
+        WindowStartupLocation="CenterScreen" Background="#FF578A94" Closing="Window_Closing" 
+                 xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    Icon="resources\Images\tupak.jpg"
+    >
 
     <Window.Resources>
 
@@ -51,12 +55,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="17*" />
             <RowDefinition Height="80*"/>
-            <RowDefinition Height="20*"/>
+            <RowDefinition Height="20*" MinHeight="85"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" MinWidth="170"/>
             <ColumnDefinition Width="7*"/>
-            <ColumnDefinition Width="2.5*" MinWidth="180"/>
+            <ColumnDefinition Width="2.5*" />
         </Grid.ColumnDefinitions>
 
         <Image Name="Image_backgroundtrackimage"  Stretch="Fill" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2"
@@ -67,7 +71,7 @@
 
             <DataGrid x:Name="currentplaylist_datagrid" AllowDrop="True"
                   FontFamily="Calibri" SelectionChanged="currentplaylist_datagrid_SelectionChanged" 
-                          Opacity="0.86"  Grid.Row="1" Grid.Column="1" DragDrop.Drop="currentplaylist_datagrid_Drop"  >
+                          Opacity="0.86"  Grid.Row="1" Grid.Column="1" DragDrop.Drop="currentplaylist_datagrid_Drop">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название" Width="4*" 
                              Binding="{Binding trackinfo.SongName}"/>
@@ -92,7 +96,7 @@
 
 
 
-        <Grid Grid.Row="1" Grid.Column="2" Background="#3F51B5" Opacity="0.93" >
+        <Grid Grid.Row="1" Grid.Column="2" Background="#3F51B5" Opacity="0.93">
             <Label Content="Плейлист" HorizontalAlignment="Center"  VerticalAlignment="Top" Padding="0"/>
             <ListBox x:Name="listBox_playlists"  SelectionMode="Single"  Margin="0,20,0,0" DisplayMemberPath="Playlistname" Background="#FF578A94" Opacity="0.7" 
                      SelectionChanged="listBox_SelectionChanged">
@@ -149,26 +153,90 @@
                 <ColumnDefinition Width="1.7*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="25*"/>
+                <RowDefinition Height="25*" />
                 <RowDefinition Height="41*"/>
             </Grid.RowDefinitions>
 
-            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" >
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" >
 
 
-                <ToggleButton x:Name="replay_button"   Margin="10,0,0,0"  VerticalAlignment="Center"
-                          Width="35"  Background="#FF578A94" BorderBrush="#FF578A94"   Opacity="0.8" Checked="replay_button_Click" 
-                          Unchecked="unreplay_button_Click">
-                    <Image Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\replay.png" Height="22"  Width="21"  />
-                </ToggleButton>
 
-                <Button x:Name="firsttrack_button"  Margin="120,0,0,0"  Width="27" Height="27"  Opacity="0.8" Click="firsttrack_button_Click" />
-                <Button x:Name="prevTrack_button"  Margin="10,0,0,0" Width="27" Height="27"  Opacity="0.8"  Click="prevTrack_Click" />
-                <Button x:Name="playpause_button"   Margin="10,0,0,0" Width="40" Height="40"  Opacity="0.8" Click="playpause_Click"/>
-                <Button x:Name="nexttrack_button"  Content="pack://application:,,,/resources/icons/back.png" Margin="10,0,0,0"  Width="27" Height="27"  Opacity="0.8" Click="nexttrack_button_Click" >
+
+                <Button x:Name="firsttrack_button"   Padding="0" Width="30" Height="30"  Opacity="0.8" Click="firsttrack_button_Click" >
+                    <materialDesign:PackIcon Kind="SkipPreviousCircleOutline"  RenderTransformOrigin="0.5,0.5" >
+                        <materialDesign:PackIcon.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </materialDesign:PackIcon.RenderTransform>
+                    </materialDesign:PackIcon>
                 </Button>
-                <Button x:Name="finishtrack"        Margin="10,0,0,0"  Width="27" Height="27" Opacity="0.8" Click="finishtrack_Click" />
-                <Button x:Name="stop_button"        Margin="10,0,0,0" Height="27"  Width="27" Opacity="0.8" Click="stop_button_Click"  />
+                <Button x:Name="prevTrack_button"  Margin="10,0,0,0" Width="30" Height="30"  Padding="0"  Opacity="0.8"  Click="prevTrack_Click" >
+                    <materialDesign:PackIcon Kind="SkipPrevious"  RenderTransformOrigin="0.5,0.5" >
+                        <materialDesign:PackIcon.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </materialDesign:PackIcon.RenderTransform>
+                    </materialDesign:PackIcon>
+                </Button>
+                <Button x:Name="playpause_button"   Margin="10,0,0,0"  Padding="0" Width="40" Height="40"  Opacity="0.8" Click="playpause_Click">
+                    <materialDesign:PackIcon Kind="Play" RenderTransformOrigin="0.5,0.5" >
+                        <materialDesign:PackIcon.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </materialDesign:PackIcon.RenderTransform>
+                    </materialDesign:PackIcon>
+                </Button>
+                <Button x:Name="nexttrack_button"   Padding="0" Margin="10,0,0,0"  Width="30" Height="30"  Opacity="0.8" Click="nexttrack_button_Click" >
+                    <materialDesign:PackIcon Kind="SkipNext" RenderTransformOrigin="0.5,0.5" >
+                        <materialDesign:PackIcon.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </materialDesign:PackIcon.RenderTransform>
+                    </materialDesign:PackIcon>
+                </Button>
+
+                <Button x:Name="finishtrack"   Padding="0"     Margin="10,0,0,0"  Width="30" Height="30"  Opacity="0.8" Click="finishtrack_Click" >
+                    <materialDesign:PackIcon Kind="SkipNextCircleOutline" RenderTransformOrigin="0.5,0.5" >
+                        <materialDesign:PackIcon.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </materialDesign:PackIcon.RenderTransform>
+                    </materialDesign:PackIcon>
+                </Button>
+
+                <Button x:Name="stop_button"   Padding="0"     Margin="10,0,0,0" Width="30" Height="30" Opacity="0.8" Click="stop_button_Click"  >
+                    <materialDesign:PackIcon Kind="Stop" RenderTransformOrigin="0.5,0.5" >
+                        <materialDesign:PackIcon.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </materialDesign:PackIcon.RenderTransform>
+                    </materialDesign:PackIcon>
+                </Button>
+
 
             </StackPanel>
 
@@ -193,7 +261,11 @@
 
                 <Slider x:Name="volume"  Width="110" Margin="7,0,0,0" VerticalAlignment="Center" ValueChanged="volume_ValueChanged" Maximum="1" />
 
-
+                <ToggleButton x:Name="replay_button"  HorizontalAlignment="Left"  Margin="10,0,0,0"  VerticalAlignment="Center"
+                          Width="35"  Background="#FF578A94" BorderBrush="#FF578A94"   Opacity="0.8" Checked="replay_button_Click" 
+                          Unchecked="unreplay_button_Click">
+                    <materialDesign:PackIcon Kind="Repeat" />
+                </ToggleButton>
             </StackPanel>
 
 

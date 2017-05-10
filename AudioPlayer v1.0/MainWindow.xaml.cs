@@ -41,12 +41,8 @@ namespace AudioPlayer_v1._0
             InitializeComponent();
             InitPlayerComponents();
 
-
-
             musiccontrol.trackChangeEvent += setTrackInfo;                                   //получить информацию о треке при его 
             playlistControl.PlaylistsResizeEvent += refreshPlaylistsListBox;            //обновлять кол-во плейлистов при смене их количества
-
-
 
 
         }
@@ -151,6 +147,8 @@ namespace AudioPlayer_v1._0
                     playlistControl.setCurrentPlaylist(playlistControl.getallplaylists()[0]);
                     musiccontrol.setCurrentPlaylist(playlistControl.getallplaylists()[0]);
                     refreshPlaylistsDataGrid(playlistControl.currentPlaylist.allTracks);
+                    playlistControl.currentPlaylist.PlaylistsSoundCountResizeEvent += refreshPlaylistsDataGrid;
+
                 }
             }
             catch (Exception ee)
@@ -255,38 +253,20 @@ namespace AudioPlayer_v1._0
             ViewModel.datagrid_Drop(playlistControl, e);
         }
 
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            try
-            {
-                switch (e.Key)
-                {
-                    case Key.Space:
-                        musiccontrol.PlayPause(playpause_button, e);
-                        break;
-                    case Key.Delete:
-                        playlistControl.removeTrackFromCurentPlaylist((Track)currentplaylist_datagrid.SelectedItem);
-                        break;
-
-                    default: break;
-                }
-            }
-            catch (Exception ee)
-            {
-                MessageBox.Show(ee.Message);
-            }
-        }
+    
 
 
-        //TODO дефолтный фон. доабвить одиночное воспроизведение трека. добавить кнопки меню. картинки кнопок воспроизведения
+        //TODO дефолтный фон. доабвить одиночное воспроизведение трека. добавить кнопки меню. 
         //ебала с edititem при кейдаун
         //TODO лобавить в ресурсы картинки
+        //испраавить ебалу с масштабированием
 
         #region Closed form
         private void menu_close_Click(object sender, RoutedEventArgs e)
         {
             musiccontrol.stop(playpause_button, null);
             DBOperate.Disconnect();
+            App.Current.Shutdown();
             this.Close();
         }
 
@@ -295,6 +275,7 @@ namespace AudioPlayer_v1._0
         {
             musiccontrol.stop(playpause_button, null);
             DBOperate.Disconnect();
+            App.Current.Shutdown();
         }
         #endregion
 
@@ -326,13 +307,11 @@ namespace AudioPlayer_v1._0
             playlistControl.clearPlaylist((Playlist)listBox_playlists.SelectedItem);
         }
 
-
-
         private void MenuItemDataGridDelete_Click(object sender, RoutedEventArgs e)
         {
-            if (currentplaylist_datagrid.SelectedIndex == -1)
-                return;
-            playlistControl.removeTrackFromCurentPlaylist((Track)currentplaylist_datagrid.SelectedItem);
+            Track _tmp = (currentplaylist_datagrid.SelectedItem) as Track;
+            if (_tmp != null)
+                playlistControl.removeTrackFromCurentPlaylist(_tmp);
         }
 
         private void MenuItemDataGridInfo_Click(object sender, RoutedEventArgs e)
@@ -356,7 +335,32 @@ namespace AudioPlayer_v1._0
             //тут ищем в вебе last.fm api 
         }
 
-   
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                switch (e.Key)
+                {
+                    case Key.Space:
+                        musiccontrol.PlayPause(playpause_button, e);
+                        break;
+                    case Key.Delete:
+                        playlistControl.removeTrackFromCurentPlaylist((Track)currentplaylist_datagrid.SelectedItem);
+                        break;
+
+                    default: break;
+                }
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show(ee.Message);
+            }
+        }
+
+        private void currentplaylist_datagrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            e.Cancel = true;
+        }
     }
 }
 

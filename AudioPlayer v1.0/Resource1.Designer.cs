@@ -63,6 +63,16 @@ namespace AudioPlayer_v1._0 {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap _90913214_TupakSHakur {
+            get {
+                object obj = ResourceManager.GetObject("_90913214_TupakSHakur", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap back {
             get {
                 object obj = ResourceManager.GetObject("back", resourceCulture);
@@ -176,6 +186,26 @@ namespace AudioPlayer_v1._0 {
         public static System.Drawing.Bitmap stop {
             get {
                 object obj = ResourceManager.GetObject("stop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap tupac_mutulu_shakur {
+            get {
+                object obj = ResourceManager.GetObject("tupac_mutulu_shakur", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap tupak {
+            get {
+                object obj = ResourceManager.GetObject("tupak", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
