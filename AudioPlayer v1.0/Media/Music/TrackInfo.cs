@@ -10,7 +10,7 @@ using TagLib;
 
 namespace Music
 {
-   public class TrackInfo
+    public class TrackInfo
     {
         private const string UNKNSONGNAME = "unknown_song_name";
         private const string UNNKAUTHOR = "unknown_author_name";
@@ -63,7 +63,7 @@ namespace Music
 
         private string getYear()
         {
-            return file.Tag.Year==0? UNKNYEAR:file.Tag.Year.ToString();
+            return file.Tag.Year == 0 ? UNKNYEAR : file.Tag.Year.ToString();
         }
 
         private BitmapImage getPicture()
@@ -93,39 +93,17 @@ namespace Music
 
         private string getSongName()
         {
-            try
-            {
-
-                return file.Tag.Title != null ? file.Tag.Title : file.Name.Split('\\').Last();
-            }
-            catch
-            {
-                return UNKNSONGNAME;
-            }
+            return file.Tag.Title != null ? file.Tag.Title : file.Name.Split('\\').Last();
         }
 
         private string getAlbum()
         {
-            try
-            { 
-                return file.Tag.Album;
-            }
-            catch
-            {
-                return UNKNALBUM;
-            }
+            return file.Tag.Album;
         }
 
         private string getAuthor()
         {
-            try
-            {
-                return file.Tag.FirstPerformer;
-            }
-            catch
-            {
-                return UNNKAUTHOR;
-            }
+            return file.Tag.FirstPerformer;
         }
 
         private TimeSpan getTime()
@@ -147,7 +125,7 @@ namespace Music
 
         private uint getBPM()
         {
-           return file.Tag.BeatsPerMinute;
+            return file.Tag.BeatsPerMinute;
         }
 
         private int getBittrate()

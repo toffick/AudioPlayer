@@ -26,11 +26,12 @@ namespace PlayL
             get{ return allTracks.Count; }
             private set { }
         }
+
         public int Playlistnumber { get; private set; }
 
         public List<Track> allTracks { get; private set; }
 
-        private Track currentTrack;
+        private Track currentTrack { get; set; }
 
         public Playlist()
         {
@@ -43,8 +44,7 @@ namespace PlayL
             currentTrack = null;
             allTracks = new List<Track>();
             Playlistname = _playlistname;
-            Playlistnumber = _playlistnumber;
-            
+            Playlistnumber = _playlistnumber;         
         }
 
         public void setcurrentTrack(Track _tr)
@@ -132,7 +132,7 @@ namespace PlayL
             try
             {
                 int playnumber = currentTrack.Number;
-                if (playnumber < Count)
+                if (++playnumber < Count)
                     return allTracks[playnumber];
                 else
                     return allTracks[0];
@@ -146,8 +146,8 @@ namespace PlayL
         {
             try
             {
-                int playnumber = currentTrack.Number - 2;
-                if (playnumber > -1)
+                int playnumber = currentTrack.Number;
+                if (--playnumber > -1)
                     return allTracks[playnumber];
                 else
                     return allTracks[0];

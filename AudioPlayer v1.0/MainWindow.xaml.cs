@@ -22,9 +22,15 @@ using System.Drawing;
 using VM;
 using DB;
 using AudioPlayer_v1._0.Windows;
+using WSearch;
 
 namespace AudioPlayer_v1._0
 {
+
+
+    //TODO смена картинки на кнопке
+    //TODO прикрутить поиск
+    //сделать для него форму
 
     public partial class MainWindow : Window
     {
@@ -33,20 +39,48 @@ namespace AudioPlayer_v1._0
         private MusicControl musiccontrol;
         private PlaylistControl playlistControl;
         public DispatcherTimer timerPlay;
-
+        
 
         public TimeSpan trackTime { get; set; }
+        private bool isWSopen = false;
         public MainWindow()
         {
             InitializeComponent();
-            InitPlayerComponents();
+            InitializePlayerComponents();
 
             musiccontrol.trackChangeEvent += setTrackInfo;                                   //получить информацию о треке при его 
             playlistControl.PlaylistsResizeEvent += refreshPlaylistsListBox;            //обновлять кол-во плейлистов при смене их количества
-
-
         }
 
+        private void InitializePlayerComponents()
+        {
+            try
+            {
+                timerPlay = new DispatcherTimer();
+                playlistControl = new PlaylistControl();
+                musiccontrol = new MusicControl(PlaySlider, timerPlay);
+                timerPlay.Interval = TimeSpan.FromMilliseconds(500);
+                timerPlay.Tick += setMusicCurentInfo;
+
+
+                refreshPlaylistsListBox();
+
+                if (playlistControl.CountPL > 0)
+                {
+                    playlistControl.setCurrentPlaylist(playlistControl.getallplaylists()[0]);
+                    musiccontrol.setCurrentPlaylist(playlistControl.getallplaylists()[0]);
+                    refreshPlaylistsDataGrid(playlistControl.currentPlaylist.allTracks);
+                    playlistControl.currentPlaylist.PlaylistsSoundCountResizeEvent += refreshPlaylistsDataGrid;
+                }
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show("Произошел сбой запуска приложения" + Environment.NewLine + ee.Message);
+                musiccontrol.stop(playpause_button, null);
+                DBOperate.Disconnect();
+                this.Close();
+            }
+        }
 
 
         #region Control buttons/sliders
@@ -110,6 +144,7 @@ namespace AudioPlayer_v1._0
         }
         #endregion
 
+
         #region Volume
         //выключить звук
         private void mute_Checked(object sender, RoutedEventArgs e)
@@ -129,37 +164,8 @@ namespace AudioPlayer_v1._0
         }
         #endregion
 
-        private void InitPlayerComponents()
-        {
-            try
-            {
-                timerPlay = new DispatcherTimer();
-                musiccontrol = new MusicControl(PlaySlider, timerPlay);
-                playlistControl = new PlaylistControl();
-                timerPlay.Interval = TimeSpan.FromMilliseconds(500);
-                timerPlay.Tick += setMusicCurentInfo;
 
-
-                refreshPlaylistsListBox();
-
-                if (playlistControl.CountPL > 0)
-                {
-                    playlistControl.setCurrentPlaylist(playlistControl.getallplaylists()[0]);
-                    musiccontrol.setCurrentPlaylist(playlistControl.getallplaylists()[0]);
-                    refreshPlaylistsDataGrid(playlistControl.currentPlaylist.allTracks);
-                    playlistControl.currentPlaylist.PlaylistsSoundCountResizeEvent += refreshPlaylistsDataGrid;
-
-                }
-            }
-            catch (Exception ee)
-            {
-                MessageBox.Show("Произошел сбой запуска приложения"+Environment.NewLine+ ee.Message);
-                musiccontrol.stop(playpause_button, null);
-                DBOperate.Disconnect();
-                this.Close();
-            }
-        }
-
+        #region Set static/curent track info
         /// Изменение времени и положения ползунка
         private void setMusicCurentInfo(object sender, EventArgs e)
         {
@@ -185,6 +191,7 @@ namespace AudioPlayer_v1._0
             currentplaylist_datagrid.SelectedItem = _tr;
 
         }
+        #endregion
 
         /// Выбор плейлиста 
         private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -195,10 +202,10 @@ namespace AudioPlayer_v1._0
                 musiccontrol.setCurrentPlaylist((Playlist)listBox_playlists.SelectedItem);
                 playlistControl.setCurrentPlaylist((Playlist)listBox_playlists.SelectedItem);
                 playlistControl.currentPlaylist.PlaylistsSoundCountResizeEvent += refreshPlaylistsDataGrid;
+                currentplaylist_datagrid.SelectedItem = playlistControl.currentPlaylist.getCurrentTrack();
             }
 
         }
-
 
         /// Отрытие трека из списка треков плейлиста
         private void currentplaylist_datagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -210,7 +217,9 @@ namespace AudioPlayer_v1._0
             }
 
         }
-        //TODO  бобавить дефолтный фон. ожиночное воспроизвдедление треков
+
+
+
         ///установить трек
         private void openTrack(Track _tr)
         {
@@ -218,6 +227,8 @@ namespace AudioPlayer_v1._0
             timerPlay.Start();
         }
 
+
+        #region Refresh controls
         ///обновить список плейлистов
         private void refreshPlaylistsListBox()
         {
@@ -236,6 +247,11 @@ namespace AudioPlayer_v1._0
                 }
         }
 
+        #endregion
+
+
+
+
         ///удалить трек из текущего плейлиста
         private void deletetrackfromcurentplaylist_button_Click(object sender, RoutedEventArgs e)
         {
@@ -243,10 +259,13 @@ namespace AudioPlayer_v1._0
             if (_tmp != null)
                 playlistControl.removeTrackFromCurentPlaylist(_tmp);
         }
+
+        /// добавить новый терк в текущий плейлист
         private void addtracktocurentplaylist_button_Click(object sender, RoutedEventArgs e)
         {
             playlistControl.addSongToCurrentPlaylist();
         }
+
         /// перетаскивание музыки/папок в плейлист
         private void currentplaylist_datagrid_Drop(object sender, DragEventArgs e)
         {
@@ -254,13 +273,6 @@ namespace AudioPlayer_v1._0
         }
 
     
-
-
-        //TODO дефолтный фон. доабвить одиночное воспроизведение трека. добавить кнопки меню. 
-        //ебала с edititem при кейдаун
-        //TODO лобавить в ресурсы картинки
-        //испраавить ебалу с масштабированием
-
         #region Closed form
         private void menu_close_Click(object sender, RoutedEventArgs e)
         {
@@ -329,11 +341,6 @@ namespace AudioPlayer_v1._0
             ViewModel.addnewfiles(playlistControl);
         }
 
-        private void openoncetrack(object sender, RoutedEventArgs e)
-        {
-            //огтдельное окно
-            //тут ищем в вебе last.fm api 
-        }
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -357,9 +364,29 @@ namespace AudioPlayer_v1._0
             }
         }
 
-        private void currentplaylist_datagrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+
+        private void Web_search_Button_Click(object sender, RoutedEventArgs e)
         {
-            e.Cancel = true;
+            if (!(isWSopen=!isWSopen))
+            {
+                currentplaylist_container.Visibility = Visibility.Visible;
+               grid_websearch.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                grid_websearch.Visibility = Visibility.Visible;
+                currentplaylist_container.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void find_web_search_button_Click(object sender, RoutedEventArgs e)
+        {
+            MainSearcher mainsearcher = new MainSearcher();
+            if (webSearch_textbox.Text.Length != 0)
+            {
+                datagrid_web_search.ItemsSource = mainsearcher.getFindedTrack(webSearch_textbox.Text);
+            }
+
         }
     }
 }

@@ -36,7 +36,7 @@ namespace VM
         private static void addnewfilefromfolder(PlaylistControl playlistControl, string path)
         {
             try
-            {
+            {               
                 List<string> filepath = Directory.GetFiles(path).ToList();
                 List<string> directoriespath = Directory.GetDirectories(path).ToList();
 
@@ -53,8 +53,6 @@ namespace VM
             {
                 MessageBox.Show("Создайте плейлист");
             }
-
-            //TODO ебала с парсингом пути
         }
 
         static public void addnewfiles(PlaylistControl playlistControl)

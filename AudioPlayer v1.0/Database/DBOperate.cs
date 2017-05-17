@@ -14,6 +14,7 @@ namespace DB
     {
         static private string connstr = "Data Source=DESKTOP-FFV5E68\\SQLEXPRESS;Initial Catalog=AUDIOPLAYERDB;Integrated Security=true;";
         static private SqlConnection sqlconnection;
+
         static public bool InitDB()
         {
             try
@@ -66,7 +67,6 @@ namespace DB
 
             return list;
         }
-
         static public List<Track> getAllTracksFromPlaylist(string plname)
         {
             List<Track> list = new List<Track>();
@@ -81,7 +81,7 @@ namespace DB
                 {
                     while (dr.Read())
                     {
-                        list.Add(new Track(dr[0].ToString(), list.Count + 1));
+                        list.Add(new Track(dr[0].ToString(), list.Count));
                     }
                 }
             }
@@ -96,6 +96,7 @@ namespace DB
 
             return list;
         }
+
 
         static public void addPlatlist(int plnumber, string plname)
         {
@@ -117,7 +118,6 @@ namespace DB
                 MessageBox.Show(ee.Message);
             }
         }
-
         static public void addSongToPlaylist(string plname, string path)
         {
             string cmdText = "INSERT MUSIC ( MUSIC_PLAYLIST,MUSICFILE_PATH) VALUES(@plname,@musicpath)";
@@ -139,6 +139,7 @@ namespace DB
             }
         }
 
+
         static public void removeSongFromPlaylist(string plname, string path)
         {
             string cmdText = "DELETE FROM MUSIC WHERE MUSIC_PLAYLIST = @pl AND MUSICFILE_PATH = @mp";
@@ -159,7 +160,6 @@ namespace DB
                 MessageBox.Show(ee.Message);
             }
         }
-
         static public void removePlaylist(string plname)
         {
             string cmdText = "DELETE FROM MUSIC WHERE MUSIC_PLAYLIST = @pl DELETE FROM PLAYLIST WHERE PL_NAME = @pl1";

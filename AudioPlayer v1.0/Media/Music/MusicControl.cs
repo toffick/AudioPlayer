@@ -45,17 +45,38 @@ namespace Music
 
 
 
+        #region Set curent PLAYLIST/TRACK
+        /// установить текущий плейлист
+        public void setCurrentPlaylist(Playlist _pl)
+        {
+            currentPlaylist = _pl;
+        }
+
+
+        public void setaudiofile(Track track)
+        {
+            try
+            {
+                IsPlaying = true;
+                mediaplayer.Open(new Uri(track.filepath));
+                currentPlaylist.setcurrentTrack(track);
+                trackChangeEvent?.Invoke(currentPlaylist.getCurrentTrack());
+                mediaplayer.Play();
+            }
+            catch
+            {
+                stop(null,null);
+            }
+        }
+
+        #endregion
+
+
+        #region Play controls methods
 
         public void PlayPause(object sender, EventArgs e)
         {
             Button temp_image = sender as Button;
-
-            var brushpa = new ImageBrush();
-            brushpa.ImageSource = new BitmapImage(
-                new Uri(@"D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\pause.png", UriKind.Absolute));
-            var brushpl = new ImageBrush();
-            brushpl.ImageSource = new BitmapImage(
-                new Uri(@"D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\icons\play-button.png", UriKind.Absolute));
 
             if (IsPlaying)
             {
@@ -71,26 +92,6 @@ namespace Music
             IsPlaying = !IsPlaying;
 
         }
-
-        public void setaudiofile(Track track)
-        {
-            try
-            {
-
-                IsPlaying = true;
-                mediaplayer.Open(new Uri(track.filepath));
-                currentPlaylist.setcurrentTrack(track);
-                trackChangeEvent?.Invoke(currentPlaylist.getCurrentTrack());
-                mediaplayer.Play();
-            }
-            catch
-            {
-                stop(null,null);
-            }
-        }
-
-
-
         ///играть следующий трэк из плейлиста
         public void playNexttrack(object sender, EventArgs e)
         {
@@ -151,7 +152,6 @@ namespace Music
             }
         }
 
-
         ///повторять трек
         public void raplay(object sender, EventArgs e)
         {
@@ -162,13 +162,14 @@ namespace Music
             isreplay = false;
         }
 
-
         ///остановить воспроизведение
         public void stop(object sender, EventArgs e)
         {
             mediaplayer.Stop();
             PlayPause(sender, e);
         }
+        #endregion
+
 
         #region Работа со звуком
         public void mute(object sender, EventArgs e)
@@ -200,12 +201,7 @@ namespace Music
         #endregion
 
 
-        /// установить текущий плейлист
-        public void setCurrentPlaylist(Playlist _pl)
-        {
-            currentPlaylist = _pl;
-        }
-
+        #region Track position
         /// установить текуую поизицтю трека 
         public void setTrackPosition(double _pos)
         {
@@ -229,6 +225,6 @@ namespace Music
         {
             return currentPlaylist.getCurrentTrack().trackinfo;
         }
-
+        #endregion
     }
 }

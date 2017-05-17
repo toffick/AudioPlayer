@@ -121,7 +121,6 @@ namespace PlayL
         public void clearPlaylist(Playlist _pl)
         {
             currentPlaylist.clearPlaylist();
-
         }
 
         private int getNewPLnumber()
