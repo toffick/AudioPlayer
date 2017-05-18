@@ -100,14 +100,15 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="5*"/>
+                <RowDefinition Height="5*"/>
                 <RowDefinition Height="50*"/>
             </Grid.RowDefinitions>
 
-
+            <Label Content="Искать трек на zaycev.net" Background="DarkSlateGray" Grid.ColumnSpan="2" FontSize="14" HorizontalContentAlignment="Center"/>
             <extToolkit:WatermarkTextBox Name="webSearch_textbox" Watermark="Найти..." 
-                                         Grid.Column="0" Grid.Row="0" Background="AntiqueWhite"
+                                         Grid.Column="0" Grid.Row="1" Background="AntiqueWhite"
                      VerticalContentAlignment="Center"/>
-            <Button Name="find_web_search_button"  Grid.Column="1" Grid.Row="0" Padding="0" Click="find_web_search_button_Click">
+            <Button Name="find_web_search_button"  Grid.Column="1" Grid.Row="1" Padding="0" Click="find_web_search_button_Click">
                 <materialDesign:PackIcon Kind="Magnify" RenderTransformOrigin="1,1" >
                     <materialDesign:PackIcon.RenderTransform>
                         <TransformGroup>
@@ -120,9 +121,8 @@
                 </materialDesign:PackIcon>
             </Button>
 
-
-            <DataGrid Name="datagrid_web_search" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                      AllowDrop="True" IsReadOnly="True"  AutoGenerateColumns="False"
+                <DataGrid Name="datagrid_web_search" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Background="DarkSlateGray"
+                      AllowDrop="True" IsReadOnly="True"  AutoGenerateColumns="False" SelectionChanged="datagrid_web_search_SelectionChanged"
                       >
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Автор" Width="3*" 

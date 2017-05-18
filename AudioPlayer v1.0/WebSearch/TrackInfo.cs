@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WSearch
 {
-    class TrackInfo
+    public class TrackInfo
     {
         public  static  string badTime = "null";
 

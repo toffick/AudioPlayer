@@ -17,16 +17,22 @@ namespace WSearch
         /// скачать трек по прямой ссылке
         /// </summary>
         /// <param name="track"></param>
-        public async void downloadTrackByLink(TrackInfo track)
+        public async void downloadTrackByLink(string path, TrackInfo track)
         {
-            Console.WriteLine("Идет загрузка");
-            using (var client = new WebClient())
+            try
             {
-                await client.DownloadFileTaskAsync(
-                    new Uri(track.Downloadlink),
-                     $@"D:\БГТУ\КУРСОВОЙ ПРОЕКТ\my_api_test\folderwithtracks\{track.Author}-{track.Title}.mp3");
+                using (var client = new WebClient())
+                {
+                    await client.DownloadFileTaskAsync(
+                        new Uri(track.Downloadlink),
+                         path + $"\\{track.Author}-{track.Title}.mp3");
+                }
+
+
             }
-            Console.WriteLine($"Загрузка {track.Author}-{track.Title}.mp3 завершена");
+            catch(Exception ee) {
+              throw  new Exception(ee.Message + Environment.NewLine + "Невозможно скачать трек");
+            }
         }
 
 
@@ -35,23 +41,26 @@ namespace WSearch
         /// </summary>
         /// <param name="link"></param>
         /// <returns></returns>
-        public string getHtmltextFromPageByLink(string link)
+        public async Task<string> getHtmltextFromPageByLink(string link)
         {
 
             try
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(link);
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                Task<System.Net.WebResponse> wr = request.GetResponseAsync();
+                HttpWebResponse response = (HttpWebResponse)(await wr);
 
 
                 if (response != null)
                 {
                     var strreader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
                     var responseToString = strreader.ReadToEnd();
-                    return responseToString;
-                }
+                   return responseToString;
 
-                return null;
+                }
+                else
+                    return null;
+
             }
             catch (Exception ee)
             {
@@ -59,9 +68,12 @@ namespace WSearch
 
                 return null;
 
+
             }
 
         }
+
+
 
 
         /// <summary>
@@ -69,22 +81,38 @@ namespace WSearch
         /// </summary>
         /// <param name="jsonDownpage"></param>
         /// <returns></returns>
-        public string getLinkToDownload(string secondPartOfLink)
+        public async Task<string> getLinkToDownload(string secondPartOfLink)
         {
             string downloadpagelink = mainpageString + secondPartOfLink;
 
             try
             {
-                return getHtmltextFromPageByLink(downloadpagelink).Split('\"')[3];
+                string link = await getHtmltextFromPageByLink(downloadpagelink);
+                return link.Split('\"')[3];
             }
             catch
             {
                 return TrackInfo.badLinkValue;
             }
-
-
         }
 
 
+
+
+
+
+
+
+        /// <summary>
+        /// Получить текст хтмл страницы из html
+        /// </summary>
+        /// <param name="filepath"></param>
+        /// <returns></returns>
+        public string getHtmlText(string filepath)
+        {
+            FileStream fs = new FileStream(filepath, FileMode.OpenOrCreate);
+            StreamReader sr = new StreamReader(fs);
+            return sr.ReadToEnd();
+        }
     }
 }

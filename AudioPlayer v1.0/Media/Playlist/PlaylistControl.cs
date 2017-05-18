@@ -13,7 +13,7 @@ using System.Windows.Data;
 
 namespace PlayL
 {
-    class PlaylistControl
+    public class PlaylistControl
     {
         public delegate void MyDel();
         public event MyDel PlaylistsResizeEvent;

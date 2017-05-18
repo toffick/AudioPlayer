@@ -12,7 +12,7 @@ using System.Windows.Controls;
 
 namespace PlayL
 {
-    class Playlist: IEnumerable<Track>
+   public class Playlist: IEnumerable<Track>
     {
         public delegate void MyDel(object obj);
         public event MyDel PlaylistsSoundCountResizeEvent;

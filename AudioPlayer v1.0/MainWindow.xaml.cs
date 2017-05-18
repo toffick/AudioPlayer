@@ -29,8 +29,6 @@ namespace AudioPlayer_v1._0
 
 
     //TODO смена картинки на кнопке
-    //TODO прикрутить поиск
-    //сделать для него форму
 
     public partial class MainWindow : Window
     {
@@ -39,7 +37,7 @@ namespace AudioPlayer_v1._0
         private MusicControl musiccontrol;
         private PlaylistControl playlistControl;
         public DispatcherTimer timerPlay;
-        
+        private MainSearcher mainsearcher;
 
         public TimeSpan trackTime { get; set; }
         private bool isWSopen = false;
@@ -56,6 +54,7 @@ namespace AudioPlayer_v1._0
         {
             try
             {
+                mainsearcher = new MainSearcher();
                 timerPlay = new DispatcherTimer();
                 playlistControl = new PlaylistControl();
                 musiccontrol = new MusicControl(PlaySlider, timerPlay);
@@ -354,6 +353,11 @@ namespace AudioPlayer_v1._0
                     case Key.Delete:
                         playlistControl.removeTrackFromCurentPlaylist((Track)currentplaylist_datagrid.SelectedItem);
                         break;
+                    case Key.Enter:
+                        if (!isWSopen)
+                            find_web_search_button.Focus();
+                            find_web_search_button_Click(sender, e);
+                        break;
 
                     default: break;
                 }
@@ -379,15 +383,41 @@ namespace AudioPlayer_v1._0
             }
         }
 
-        private void find_web_search_button_Click(object sender, RoutedEventArgs e)
+        #region WEBSEARCH
+        private async void find_web_search_button_Click(object sender, RoutedEventArgs e)
         {
-            MainSearcher mainsearcher = new MainSearcher();
-            if (webSearch_textbox.Text.Length != 0)
+
+            try
             {
-                datagrid_web_search.ItemsSource = mainsearcher.getFindedTrack(webSearch_textbox.Text);
+                if (webSearch_textbox.Text.Length != 0)
+                {
+                    List<object> tracks;
+                    if ((tracks = await mainsearcher.getFindedTracks(webSearch_textbox.Text)) != null)
+                    {
+                        datagrid_web_search.ItemsSource = tracks;
+                    }
+                    else
+                        MessageBox.Show("Ничего не найдено");
+
+                    webSearch_textbox.Clear();
+
+
+                }
             }
+            catch (Exception ee)
+            {
+                MessageBox.Show(ee.Message);
+            }
+           
 
         }
+
+        private void datagrid_web_search_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            mainsearcher.downloadbutton(e.AddedItems[0],playlistControl);
+        }
+
+        #endregion
     }
 }
 

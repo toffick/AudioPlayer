@@ -105,6 +105,8 @@ namespace Music
                 {
                     setaudiofile(currentPlaylist.getNextTrack());
                 }
+                timmer.Start();
+
 
             }
             catch 
@@ -119,6 +121,8 @@ namespace Music
             try
             {
                 setaudiofile(currentPlaylist.getPrevTrack());
+                timmer.Start();
+
             }
             catch 
             {
@@ -132,6 +136,8 @@ namespace Music
             try
             {
                 setaudiofile(currentPlaylist.getFirstTrack());
+                timmer.Start();
+
             }
             catch
             {
@@ -145,6 +151,8 @@ namespace Music
             try
             {
                 setaudiofile(currentPlaylist.getEndTrack());
+                timmer.Start();
+
             }
             catch
             {
