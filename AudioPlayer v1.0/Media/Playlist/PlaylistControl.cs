@@ -38,7 +38,7 @@ namespace PlayL
             try
             {
                 DBOperate.InitDB();
-                allplaylists = DBOperate.getAllPlaylists();
+                allplaylists = DBOperate.GetAllPlaylistsFromTable();
                 InitTracksInPlaylists();
                 currentPlaylist = allplaylists.Count == 0 ? null : allplaylists[0];
             }
@@ -98,7 +98,7 @@ namespace PlayL
 
                 allplaylists.Add(new Playlist(plname, plnumber));
                 setCurrentPlaylist(allplaylists[allplaylists.Count - 1]);
-                DBOperate.addPlatlist(plnumber, plname);
+                DBOperate.AddPlatlist(plnumber, plname);
                 PlaylistsResizeEvent?.Invoke();
             }
             catch (Exception ee)
@@ -110,7 +110,7 @@ namespace PlayL
 
         public void removePlaylist(Playlist _pl)
         {
-            DBOperate.removePlaylist(_pl.Playlistname);
+            DBOperate.RemovePlaylist(_pl.Playlistname);
             allplaylists.Remove(_pl);
             currentPlaylist = allplaylists.Count == 0 ? null : allplaylists[0];
             PlaylistsResizeEvent?.Invoke();

@@ -17,21 +17,23 @@ namespace WSearch
         /// скачать трек по прямой ссылке
         /// </summary>
         /// <param name="track"></param>
-        public async void downloadTrackByLink(string path, TrackInfo track)
+        public async Task<string> DownloadTrackByLinkAsync(string path, TrackInfo track)
         {
             try
             {
                 using (var client = new WebClient())
                 {
+                    string downloadedeTrackPath = path + $"\\{track.Author}-{track.Title}.mp3";
                     await client.DownloadFileTaskAsync(
-                        new Uri(track.Downloadlink),
-                         path + $"\\{track.Author}-{track.Title}.mp3");
+                        new Uri(track.Downloadlink), 
+                        downloadedeTrackPath);
+
+                    return downloadedeTrackPath;
                 }
-
-
             }
-            catch(Exception ee) {
-              throw  new Exception(ee.Message + Environment.NewLine + "Невозможно скачать трек");
+            catch (Exception ee)
+            {
+                throw new Exception(ee.Message + Environment.NewLine + "Невозможно скачать трек");
             }
         }
 
@@ -41,9 +43,8 @@ namespace WSearch
         /// </summary>
         /// <param name="link"></param>
         /// <returns></returns>
-        public async Task<string> getHtmltextFromPageByLink(string link)
+        public async Task<string> GetHtmltextFromPageByLinkAsync(string link)
         {
-
             try
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(link);
@@ -55,7 +56,7 @@ namespace WSearch
                 {
                     var strreader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
                     var responseToString = strreader.ReadToEnd();
-                   return responseToString;
+                    return responseToString;
 
                 }
                 else
@@ -81,13 +82,13 @@ namespace WSearch
         /// </summary>
         /// <param name="jsonDownpage"></param>
         /// <returns></returns>
-        public async Task<string> getLinkToDownload(string secondPartOfLink)
+        public async Task<string> GetLinkToDownloadAsync(string secondPartOfLink)
         {
             string downloadpagelink = mainpageString + secondPartOfLink;
 
             try
             {
-                string link = await getHtmltextFromPageByLink(downloadpagelink);
+                string link = await GetHtmltextFromPageByLinkAsync(downloadpagelink);
                 return link.Split('\"')[3];
             }
             catch

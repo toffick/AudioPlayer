@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace VM
 {
-    class ViewModel
+    class AddTracks
     {
 
         /// перетаскивание музыки/папок в плейлист
@@ -24,7 +24,7 @@ namespace VM
                 {
                     if (Directory.Exists(s))
                     {
-                        addnewfilefromfolder(playlistControl, s);
+                        AddNewTrackByPath(playlistControl, s);
                     }
                     else
                        if ("mp3".Contains(s.Split('.').Last()))
@@ -33,7 +33,7 @@ namespace VM
             }
         }
 
-        private static void addnewfilefromfolder(PlaylistControl playlistControl, string path)
+        public static void AddNewTrackByPath(PlaylistControl playlistControl, string path)
         {
             try
             {               
@@ -47,7 +47,7 @@ namespace VM
 
                 });
 
-                directoriespath.ForEach(s => addnewfilefromfolder(playlistControl, s));
+                directoriespath.ForEach(s => AddNewTrackByPath(playlistControl, s));
             }
             catch
             {
@@ -55,16 +55,12 @@ namespace VM
             }
         }
 
+
         static public void addnewfiles(PlaylistControl playlistControl)
         {
             System.Windows.Forms.FolderBrowserDialog ofd = new System.Windows.Forms.FolderBrowserDialog();
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                addnewfilefromfolder(playlistControl, ofd.SelectedPath);
-
-
-
-
-
+                AddNewTrackByPath(playlistControl, ofd.SelectedPath);
         }
     }
 }

@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using VM;
 using WSearch;
 
 namespace AudioPlayer_v1._0.WebSearch
@@ -38,6 +39,7 @@ namespace AudioPlayer_v1._0.WebSearch
             playlistControl = _playlistControl;
             InitializeComponent();
             comboboxplaylists.ItemsSource = playlistControl.getallplaylists();
+            comboboxplaylists.SelectedIndex = 0;
 
         }
 
@@ -49,24 +51,31 @@ namespace AudioPlayer_v1._0.WebSearch
         }
 
         //TODO добавить трек в плейлист из скачанных
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
             WebResponse webresponse = new WebResponse();
             try
             {
                 if (Directory.Exists(path.Text))
                 {
-                    webresponse.downloadTrackByLink(path.Text, trackinfo);
-                    if(File.Exists(path.Text))
+                    this.Close();
+
+                    string downloadedTrackPath = await webresponse.DownloadTrackByLinkAsync(path.Text, trackinfo);
+
+                    if((bool)cbaddtopl.IsChecked && File.Exists(downloadedTrackPath))
                     {
+                        (comboboxplaylists.SelectedItem as Playlist).addTrackToPlaylist(downloadedTrackPath);
 
                     }
+
+
                 }
                 else
                     MessageBox.Show("Неверный путь");
             }
             catch (Exception ee)
             {
+                this.Close();
                 MessageBox.Show(ee.Message);
             }
         }

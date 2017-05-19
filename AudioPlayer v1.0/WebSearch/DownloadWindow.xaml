@@ -8,6 +8,9 @@
         Title="Скачать трек" Height="240" Width="300" ResizeMode="NoResize" Background="#5C6BC0"
         WindowStartupLocation="CenterScreen"
         >
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="bvc"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"/>
@@ -26,10 +29,19 @@
 
         <Grid Grid.Row="1">
             <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-                <Label Content="Добавить в плейлист" FontSize="15" VerticalContentAlignment="Center"/>
-                <ComboBox Name="comboboxplaylists" VerticalContentAlignment="Center" FontSize="15" Foreground="White"                         
-                              DisplayMemberPath="Playlistname"
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Name="cbaddtopl" IsChecked="True"/>
+                    <Label Content="Добавить в плейлист(после загрузки)"/>
+                </StackPanel>
+                
+                <ComboBox Name="comboboxplaylists"
+                          Visibility="{Binding IsChecked, ElementName=cbaddtopl, Converter={StaticResource bvc}}"
+                          VerticalContentAlignment="Center" 
+                          FontSize="15"  
+                          Foreground="White"                         
+                          DisplayMemberPath="Playlistname"
                           Height="50"/>
+                
             </StackPanel>
         </Grid>
 

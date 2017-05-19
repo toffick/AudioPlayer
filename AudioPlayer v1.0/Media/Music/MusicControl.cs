@@ -19,41 +19,40 @@ namespace Music
     {
 
         public delegate void MyDel(Track _tr);
-
         public event MyDel trackChangeEvent;
 
 
+
+        private Slider slider_play;
+        private DispatcherTimer timmer;
         private MediaPlayer mediaplayer;
         private Playlist currentPlaylist;
 
         private double storeVolumeValue;                                        //уровень звука для восстановления
-        private bool isreplay;                                                  //повторять ли текущий трек
+        public bool IsReplay {get; private set;}                                           //повторять ли текущий трек
         public bool IsPlaying { get; private set; }
 
-
-        Slider slider_play;
-        DispatcherTimer timmer;
         public MusicControl(Slider _sl, DispatcherTimer _dt)
         {
             mediaplayer = new MediaPlayer();
             IsPlaying = false;
-            isreplay = false;
+            IsReplay = false;
             slider_play = _sl;
             timmer = _dt;
-            mediaplayer.MediaEnded += playNexttrack;                              //по завершению трека играть следующий
+            mediaplayer.MediaEnded += PlayNextTrack;                              //по завершению трека играть следующий
         }
 
 
 
         #region Set curent PLAYLIST/TRACK
         /// установить текущий плейлист
-        public void setCurrentPlaylist(Playlist _pl)
+        public void RetCurrentPlaylist(Playlist _pl)
         {
             currentPlaylist = _pl;
         }
 
 
-        public void setaudiofile(Track track)
+        public void SetTrack(Track track)
         {
             try
             {
@@ -93,17 +92,17 @@ namespace Music
 
         }
         ///играть следующий трэк из плейлиста
-        public void playNexttrack(object sender, EventArgs e)
+        public void PlayNextTrack(object sender, EventArgs e)
         {
             try
             {
-                if (isreplay)
+                if (IsReplay)
                 {
-                    setaudiofile(currentPlaylist.getCurrentTrack());
+                    SetTrack(currentPlaylist.getCurrentTrack());
                 }
                 else
                 {
-                    setaudiofile(currentPlaylist.getNextTrack());
+                    SetTrack(currentPlaylist.getNextTrack());
                 }
                 timmer.Start();
 
@@ -116,11 +115,11 @@ namespace Music
         }
 
         ///играть следующий трэк из плейлиста
-        public void playPrevtrack(object sender, EventArgs e)
+        public void PlayPrevTrack(object sender, EventArgs e)
         {
             try
             {
-                setaudiofile(currentPlaylist.getPrevTrack());
+                SetTrack(currentPlaylist.getPrevTrack());
                 timmer.Start();
 
             }
@@ -131,11 +130,11 @@ namespace Music
         }
 
         ///играть первый трэк из плейлиста
-        public void playFirsttrack(object sender, EventArgs e)
+        public void PlayFirstTrack(object sender, EventArgs e)
         {
             try
             {
-                setaudiofile(currentPlaylist.getFirstTrack());
+                SetTrack(currentPlaylist.getFirstTrack());
                 timmer.Start();
 
             }
@@ -146,11 +145,11 @@ namespace Music
         }
 
         ///играть последний трэк из плейлиста
-        public void playEndtrack(object sender, EventArgs e)
+        public void PlayEndTrack(object sender, EventArgs e)
         {
             try
             {
-                setaudiofile(currentPlaylist.getEndTrack());
+                SetTrack(currentPlaylist.getEndTrack());
                 timmer.Start();
 
             }
@@ -161,13 +160,13 @@ namespace Music
         }
 
         ///повторять трек
-        public void raplay(object sender, EventArgs e)
+        public void Replay(object sender, EventArgs e)
         {
-            isreplay = true;
+            IsReplay = true;
         }
-        public void unraplay(object sender, EventArgs e)
+        public void UnReplay(object sender, EventArgs e)
         {
-            isreplay = false;
+            IsReplay = false;
         }
 
         ///остановить воспроизведение
@@ -180,17 +179,17 @@ namespace Music
 
 
         #region Работа со звуком
-        public void mute(object sender, EventArgs e)
+        public void Mute(object sender, EventArgs e)
         {
             storeVolumeValue = mediaplayer.Volume;
             mediaplayer.Volume = 0d;
         }
-        public void unmute(object sender, EventArgs e)
+        public void UnMute(object sender, EventArgs e)
         {
             mediaplayer.Volume = storeVolumeValue;
         }
 
-        public void setVolume(object sender, double _newVolume)
+        public void SetVolume(object sender, double _newVolume)
         {
             ToggleButton but = sender as ToggleButton;
             if (but != null)
@@ -211,25 +210,25 @@ namespace Music
 
         #region Track position
         /// установить текуую поизицтю трека 
-        public void setTrackPosition(double _pos)
+        public void SetTrackPosition(double _pos)
         {
             mediaplayer.Position = TimeSpan.FromSeconds(_pos);
         }
 
         /// получить текущую позицию трека в секундах 
-        public double getTrackPosition()
+        public double GetTrackPosition()
         {
             return mediaplayer.Position.Minutes * 60 + mediaplayer.Position.Seconds;
         }
 
         ///получить текущее время трека 
-        public TimeSpan getTrackTimePosition()
+        public TimeSpan GetTrackTimePosition()
         {
             return mediaplayer.Position;
         }
 
         /// получить инфомацию о треке
-        public TrackInfo getAllTrackTime()
+        public TrackInfo GetAllTrackTime()
         {
             return currentPlaylist.getCurrentTrack().trackinfo;
         }

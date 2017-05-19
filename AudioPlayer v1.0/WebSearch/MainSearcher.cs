@@ -11,26 +11,26 @@ namespace WSearch
 {
     class MainSearcher
     {
-        public async Task<List<object>> getFindedTracks(string query)
+        public async Task<List<object>> GetFindedTrackListAsync(string query)
         {
             WebResponse webresponse = new WebResponse();
             HtmlParse htmlparser = new HtmlParse();
 
-            string html =await webresponse.getHtmltextFromPageByLink(
+            string html =await webresponse.GetHtmltextFromPageByLinkAsync(
                 WebResponse.queryString + query);
 
             if (html != null)
             {
-                Task<List<object>> lo = htmlparser.search(html);
+                Task<List<object>> lo = htmlparser.SearchTracksAsync(html);
                 return await lo;
             }
             else
                 throw new Exception("Невозможно подключиться к серверу");
         }
 
-        public void downloadbutton(object obj_track, PlaylistControl _pl)
+        public void DownloadButton_Click(object obj_track, PlaylistControl _pl)
         {
-            var trinf = obj_track as TrackInfo;
+            TrackInfo trinf = obj_track as TrackInfo;
             DownloadWindow dw = new DownloadWindow(_pl, trinf);
             dw.ShowDialog();
         }

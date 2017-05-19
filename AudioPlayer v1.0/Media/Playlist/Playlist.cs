@@ -53,14 +53,14 @@ namespace PlayL
         }
         public void getAllTracksFromPlaylists()
         {
-            allTracks = DBOperate.getAllTracksFromPlaylist(Playlistname);
+            allTracks = DBOperate.GetAllTracksFromPlaylist(Playlistname);
         }
 
         public void addTrackToPlaylist(string path)
         {
             if (!isRepeateTrackInPlaylist(path))
             {
-                DBOperate.addSongToPlaylist(Playlistname, path);
+                DBOperate.AddSongToPlaylist(Playlistname, path);
                 allTracks.Add(new Track(path, getNewPLnumber()));
                 PlaylistsSoundCountResizeEvent?.Invoke(allTracks);
             }
@@ -68,7 +68,7 @@ namespace PlayL
 
         public void removeTrack(Track track)
         {
-            DBOperate.removeSongFromPlaylist(Playlistname, track.filepath);
+            DBOperate.RemoveSongFromPlaylist(Playlistname, track.filepath);
             allTracks.Remove(track);
             PlaylistsSoundCountResizeEvent?.Invoke(allTracks);
 

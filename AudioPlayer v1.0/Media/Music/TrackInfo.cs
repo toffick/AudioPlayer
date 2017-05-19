@@ -96,6 +96,7 @@ namespace Music
             return file.Tag.Title != null ? file.Tag.Title : file.Name.Split('\\').Last();
         }
 
+
         private string getAlbum()
         {
             return file.Tag.Album;

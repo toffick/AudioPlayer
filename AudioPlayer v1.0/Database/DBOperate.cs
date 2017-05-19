@@ -41,7 +41,7 @@ namespace DB
             }
         }
 
-        static public List<Playlist> getAllPlaylists()
+        static public List<Playlist> GetAllPlaylistsFromTable()
         {
             List<Playlist> list = new List<Playlist>();
             string cmdText = "Select PL_NAME, PL_NUMBER  From PLAYLIST";
@@ -67,7 +67,7 @@ namespace DB
 
             return list;
         }
-        static public List<Track> getAllTracksFromPlaylist(string plname)
+        static public List<Track> GetAllTracksFromPlaylist(string plname)
         {
             List<Track> list = new List<Track>();
             string cmdText = $"Select MUSICFILE_PATH  From MUSIC " +
@@ -98,7 +98,7 @@ namespace DB
         }
 
 
-        static public void addPlatlist(int plnumber, string plname)
+        static public void AddPlatlist(int plnumber, string plname)
         {
             string cmdText = "INSERT PLAYLIST(PL_NUMBER, PL_NAME)    VALUES(@plnumber, @plname)";
             SqlCommand command = new SqlCommand(cmdText, sqlconnection);
@@ -118,7 +118,7 @@ namespace DB
                 MessageBox.Show(ee.Message);
             }
         }
-        static public void addSongToPlaylist(string plname, string path)
+        static public void AddSongToPlaylist(string plname, string path)
         {
             string cmdText = "INSERT MUSIC ( MUSIC_PLAYLIST,MUSICFILE_PATH) VALUES(@plname,@musicpath)";
             SqlCommand command = new SqlCommand(cmdText, sqlconnection);
@@ -140,7 +140,7 @@ namespace DB
         }
 
 
-        static public void removeSongFromPlaylist(string plname, string path)
+        static public void RemoveSongFromPlaylist(string plname, string path)
         {
             string cmdText = "DELETE FROM MUSIC WHERE MUSIC_PLAYLIST = @pl AND MUSICFILE_PATH = @mp";
             SqlCommand command = new SqlCommand(cmdText, sqlconnection);
@@ -160,7 +160,7 @@ namespace DB
                 MessageBox.Show(ee.Message);
             }
         }
-        static public void removePlaylist(string plname)
+        static public void RemovePlaylist(string plname)
         {
             string cmdText = "DELETE FROM MUSIC WHERE MUSIC_PLAYLIST = @pl DELETE FROM PLAYLIST WHERE PL_NAME = @pl1";
             SqlCommand command = new SqlCommand(cmdText, sqlconnection);

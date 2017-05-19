@@ -27,7 +27,7 @@ using WSearch;
 namespace AudioPlayer_v1._0
 {
 
-
+    //TODO ебала с масштабированием
     //TODO смена картинки на кнопке
 
     public partial class MainWindow : Window
@@ -67,7 +67,7 @@ namespace AudioPlayer_v1._0
                 if (playlistControl.CountPL > 0)
                 {
                     playlistControl.setCurrentPlaylist(playlistControl.getallplaylists()[0]);
-                    musiccontrol.setCurrentPlaylist(playlistControl.getallplaylists()[0]);
+                    musiccontrol.RetCurrentPlaylist(playlistControl.getallplaylists()[0]);
                     refreshPlaylistsDataGrid(playlistControl.currentPlaylist.allTracks);
                     playlistControl.currentPlaylist.PlaylistsSoundCountResizeEvent += refreshPlaylistsDataGrid;
                 }
@@ -90,7 +90,7 @@ namespace AudioPlayer_v1._0
 
         private void prevTrack_Click(object sender, RoutedEventArgs e)
         {
-            musiccontrol.playPrevtrack(sender, e);
+            musiccontrol.PlayPrevTrack(sender, e);
         }
 
         private void playpause_Click(object sender, RoutedEventArgs e)
@@ -101,27 +101,27 @@ namespace AudioPlayer_v1._0
 
         private void nexttrack_button_Click(object sender, RoutedEventArgs e)
         {
-            musiccontrol.playNexttrack(sender, e);
+            musiccontrol.PlayNextTrack(sender, e);
         }
 
         private void firsttrack_button_Click(object sender, RoutedEventArgs e)
         {
-            musiccontrol.playFirsttrack(sender, e);
+            musiccontrol.PlayFirstTrack(sender, e);
         }
 
         private void finishtrack_Click(object sender, RoutedEventArgs e)
         {
-            musiccontrol.playEndtrack(sender, e);
+            musiccontrol.PlayEndTrack(sender, e);
         }
 
         private void replay_button_Click(object sender, RoutedEventArgs e)
         {
-            musiccontrol.raplay(sender, e);
+            musiccontrol.Replay(sender, e);
         }
 
         private void unreplay_button_Click(object sender, RoutedEventArgs e)
         {
-            musiccontrol.unraplay(sender, e);
+            musiccontrol.UnReplay(sender, e);
         }
 
         //показать информацию о треке 
@@ -139,7 +139,7 @@ namespace AudioPlayer_v1._0
 
         private void PlaySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            musiccontrol.setTrackPosition(e.NewValue);
+            musiccontrol.SetTrackPosition(e.NewValue);
         }
         #endregion
 
@@ -148,18 +148,18 @@ namespace AudioPlayer_v1._0
         //выключить звук
         private void mute_Checked(object sender, RoutedEventArgs e)
         {
-            musiccontrol.mute(sender, e);
+            musiccontrol.Mute(sender, e);
         }
         ///включить звук
         private void unmute(object sender, RoutedEventArgs e)
         {
-            musiccontrol.unmute(sender, e);
+            musiccontrol.UnMute(sender, e);
         }
 
         ///регулировка звука
         private void volume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            musiccontrol.setVolume(button_mute, e.NewValue);
+            musiccontrol.SetVolume(button_mute, e.NewValue);
         }
         #endregion
 
@@ -170,16 +170,16 @@ namespace AudioPlayer_v1._0
         {
 
             PlaySlider.ValueChanged -= PlaySlider_ValueChanged;
-            PlaySlider.Value = musiccontrol.getTrackPosition();
+            PlaySlider.Value = musiccontrol.GetTrackPosition();
             PlaySlider.ValueChanged += PlaySlider_ValueChanged;
-            alltime_textbox.Content = musiccontrol.getTrackTimePosition().ToString(@"mm\:ss") + '/' + trackTime.ToString(@"mm\:ss");
+            alltime_textbox.Content = musiccontrol.GetTrackTimePosition().ToString(@"mm\:ss") + '/' + trackTime.ToString(@"mm\:ss");
         }
 
         ///установить информвцию о треке
         private void setTrackInfo(Track _tr)
         {
             volume.Value = 0.5;
-            trackTime = musiccontrol.getAllTrackTime().Time;
+            trackTime = musiccontrol.GetAllTrackTime().Time;
             PlaySlider.Maximum = _tr.trackinfo.Time.TotalSeconds;
             PlaySlider.Value = 0;
             label_album.Content = _tr.trackinfo.Album;
@@ -198,7 +198,7 @@ namespace AudioPlayer_v1._0
             if (listBox_playlists.SelectedItem != null)
             {
                 refreshPlaylistsDataGrid(listBox_playlists.SelectedItem);
-                musiccontrol.setCurrentPlaylist((Playlist)listBox_playlists.SelectedItem);
+                musiccontrol.RetCurrentPlaylist((Playlist)listBox_playlists.SelectedItem);
                 playlistControl.setCurrentPlaylist((Playlist)listBox_playlists.SelectedItem);
                 playlistControl.currentPlaylist.PlaylistsSoundCountResizeEvent += refreshPlaylistsDataGrid;
                 currentplaylist_datagrid.SelectedItem = playlistControl.currentPlaylist.getCurrentTrack();
@@ -222,7 +222,7 @@ namespace AudioPlayer_v1._0
         ///установить трек
         private void openTrack(Track _tr)
         {
-            musiccontrol.setaudiofile(_tr);
+            musiccontrol.SetTrack(_tr);
             timerPlay.Start();
         }
 
@@ -268,7 +268,7 @@ namespace AudioPlayer_v1._0
         /// перетаскивание музыки/папок в плейлист
         private void currentplaylist_datagrid_Drop(object sender, DragEventArgs e)
         {
-            ViewModel.datagrid_Drop(playlistControl, e);
+            AddTracks.datagrid_Drop(playlistControl, e);
         }
 
     
@@ -300,11 +300,11 @@ namespace AudioPlayer_v1._0
             {
                 refreshPlaylistsDataGrid(playlistControl.currentPlaylist.allTracks);
                 listBox_playlists.SelectedItem = playlistControl.currentPlaylist;
-                musiccontrol.setCurrentPlaylist(playlistControl.currentPlaylist);
+                musiccontrol.RetCurrentPlaylist(playlistControl.currentPlaylist);
             }
             else
             {
-                musiccontrol.setCurrentPlaylist(null);
+                musiccontrol.RetCurrentPlaylist(null);
                 refreshPlaylistsDataGrid(null);
             }
 
@@ -337,7 +337,7 @@ namespace AudioPlayer_v1._0
 
         private void addfoldertocurentplaylist_button_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.addnewfiles(playlistControl);
+            AddTracks.addnewfiles(playlistControl);
         }
 
 
@@ -392,7 +392,7 @@ namespace AudioPlayer_v1._0
                 if (webSearch_textbox.Text.Length != 0)
                 {
                     List<object> tracks;
-                    if ((tracks = await mainsearcher.getFindedTracks(webSearch_textbox.Text)) != null)
+                    if ((tracks = await mainsearcher.GetFindedTrackListAsync(webSearch_textbox.Text)) != null)
                     {
                         datagrid_web_search.ItemsSource = tracks;
                     }
@@ -414,10 +414,16 @@ namespace AudioPlayer_v1._0
 
         private void datagrid_web_search_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            mainsearcher.downloadbutton(e.AddedItems[0],playlistControl);
+            mainsearcher.DownloadButton_Click(e.AddedItems[0],playlistControl);
         }
 
         #endregion
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            mainsearcher.DownloadButton_Click(null, playlistControl);
+
+        }
     }
 }
 

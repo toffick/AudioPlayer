@@ -26,7 +26,7 @@ namespace WSearch
 
 
 
-        public async Task<List<object>> search(string html)
+        public async Task<List<object>> SearchTracksAsync(string html)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace WSearch
                     CQ t = cq.Find("div.search-page__tracks").Find("div.musicset-track");
                     foreach (IDomObject obj in t)
                     {
-                       Task<TrackInfo> tr = getTrackInfo(obj);
+                       Task<TrackInfo> tr = GetTrackInfoAsync(obj);
                         tracksinfo.Add(await tr);
                     }
                     return tracksinfo.ToList<object>();
@@ -61,7 +61,7 @@ namespace WSearch
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        private  async Task<TrackInfo> getTrackInfo(IDomObject obj)
+        private  async Task<TrackInfo> GetTrackInfoAsync(IDomObject obj)
         {
             TrackInfo trackinfo = new TrackInfo();
             try
@@ -90,7 +90,7 @@ namespace WSearch
                 trackinfo.Title = TrackInfo.badTitle;
             }
 
-            Task<string> ts = webresponse.getLinkToDownload(obj.GetAttribute("data-url"));
+            Task<string> ts = webresponse.GetLinkToDownloadAsync(obj.GetAttribute("data-url"));
             trackinfo.Downloadlink = await ts;
 
             return trackinfo;
