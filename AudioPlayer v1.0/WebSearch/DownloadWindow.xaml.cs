@@ -1,4 +1,5 @@
-﻿using PlayL;
+﻿using AudioPlayer_v1._0.Windows;
+using PlayL;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -50,7 +51,7 @@ namespace AudioPlayer_v1._0.WebSearch
                 path.Text = ofd.SelectedPath;
         }
 
-        //TODO добавить трек в плейлист из скачанных
+
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
             WebResponse webresponse = new WebResponse();
@@ -62,13 +63,11 @@ namespace AudioPlayer_v1._0.WebSearch
 
                     string downloadedTrackPath = await webresponse.DownloadTrackByLinkAsync(path.Text, trackinfo);
 
-                    if((bool)cbaddtopl.IsChecked && File.Exists(downloadedTrackPath))
+                    DownloadNotificationPushWIndow.ShowPushNotification($"Загрузка {downloadedTrackPath.Split('/').Last()} заершена");
+                    if ((bool)cbaddtopl.IsChecked && File.Exists(downloadedTrackPath))
                     {
                         (comboboxplaylists.SelectedItem as Playlist).addTrackToPlaylist(downloadedTrackPath);
-
                     }
-
-
                 }
                 else
                     MessageBox.Show("Неверный путь");
@@ -78,6 +77,11 @@ namespace AudioPlayer_v1._0.WebSearch
                 this.Close();
                 MessageBox.Show(ee.Message);
             }
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:AudioPlayer_v1._0.Windows"
         mc:Ignorable="d"
         Title="Информация о треке" Height="300" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="ToolWindow">
+    
     <Grid>
         <Image x:Name="image" Stretch="Fill" Opacity="0.35"/>
         <Grid>
@@ -45,6 +46,10 @@
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Bitrate" Width="117"/>
                     <Label  Name="bitrate" FontSize="15"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Путь" Width="117"/>
+                    <Label  Name="path" FontSize="15"/>
                 </StackPanel>
             </StackPanel>
         </Grid>

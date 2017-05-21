@@ -17,6 +17,24 @@ namespace WSearch
         /// скачать трек по прямой ссылке
         /// </summary>
         /// <param name="track"></param>
+        /// 
+        public Task<bool> checkInternetConnection()
+        {
+            return Task.Run( ( ) => {
+                try
+                {
+                    using ( var client = new WebClient( ) )
+                    using ( var stream = client.OpenRead( "http://www.google.com" ) )
+                    {
+                        return true;
+                    }
+                }
+                catch
+                {
+                    return false;
+                }
+            } );
+        }
         public async Task<string> DownloadTrackByLinkAsync(string path, TrackInfo track)
         {
             try

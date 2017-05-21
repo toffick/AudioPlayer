@@ -1,6 +1,8 @@
-﻿using PlayL;
+﻿using AudioPlayer_v1._0.Windows;
+using PlayL;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -29,7 +31,7 @@ namespace Music
         private Playlist currentPlaylist;
 
         private double storeVolumeValue;                                        //уровень звука для восстановления
-        public bool IsReplay {get; private set;}                                           //повторять ли текущий трек
+        public bool IsReplay { get; private set; }                                           //повторять ли текущий трек
         public bool IsPlaying { get; private set; }
 
         public MusicControl(Slider _sl, DispatcherTimer _dt)
@@ -56,15 +58,27 @@ namespace Music
         {
             try
             {
-                IsPlaying = true;
-                mediaplayer.Open(new Uri(track.filepath));
-                currentPlaylist.setcurrentTrack(track);
-                trackChangeEvent?.Invoke(currentPlaylist.getCurrentTrack());
-                mediaplayer.Play();
+                if (File.Exists(track.filepath))
+                {
+                    DownloadNotificationPushWIndow.ShowPushNotification(
+                        string.Format("Играет трек\n {0}", track.trackinfo.Author + " " + track.trackinfo.SongName));
+                    mediaplayer.Open(new Uri(track.filepath));
+                    IsPlaying = true;
+                    currentPlaylist.setcurrentTrack(track);
+                    trackChangeEvent?.Invoke(currentPlaylist.getCurrentTrack());
+                    mediaplayer.Play();
+                }
+                else
+                {
+                    DownloadNotificationPushWIndow.ShowPushNotification(
+                        string.Format("Трек {0} отсуствует", track.trackinfo.Author + " " + track.trackinfo.SongName));
+                    currentPlaylist.removeTrack(track);
+                }
+
             }
             catch
             {
-                stop(null,null);
+                stop(null, null);
             }
         }
 
@@ -108,7 +122,7 @@ namespace Music
 
 
             }
-            catch 
+            catch
             {
                 stop(null, null);
             }
@@ -123,7 +137,7 @@ namespace Music
                 timmer.Start();
 
             }
-            catch 
+            catch
             {
                 stop(null, null);
             }

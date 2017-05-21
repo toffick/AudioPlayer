@@ -3,6 +3,7 @@ using PlayL;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -77,13 +78,19 @@ namespace DB
             {
                 command.Parameters.AddWithValue("@plname", plname);
 
+                var nonexiststracks = new List<string>();
                 using (SqlDataReader dr = command.ExecuteReader())
                 {
                     while (dr.Read())
                     {
-                        list.Add(new Track(dr[0].ToString(), list.Count));
+                        string filepath = dr[0].ToString();
+                        if (File.Exists(filepath))
+                            list.Add(new Track(filepath, list.Count));
+                        else
+                            nonexiststracks.Add(filepath);
                     }
                 }
+                nonexiststracks.ForEach(s => RemoveSongFromPlaylist(plname,s));
             }
             catch (SqlException ee)
             {
@@ -96,7 +103,6 @@ namespace DB
 
             return list;
         }
-
 
         static public void AddPlatlist(int plnumber, string plname)
         {

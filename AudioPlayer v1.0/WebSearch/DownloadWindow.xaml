@@ -5,48 +5,58 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AudioPlayer_v1._0.WebSearch"
         mc:Ignorable="d"
-        Title="Скачать трек" Height="240" Width="300" ResizeMode="NoResize" Background="#5C6BC0"
-        WindowStartupLocation="CenterScreen"
+        Title="Скачать трек" Height="240" Width="300" ResizeMode="NoResize" 
+        WindowStartupLocation="CenterScreen" WindowStyle="None" Background="Transparent"
+        AllowsTransparency="True"
         >
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="bvc"/>
     </Window.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="5*"/>
-            <RowDefinition Height="2*"/>
 
-        </Grid.RowDefinitions>
+    <Border BorderThickness="1" Background="#5C6BC0" BorderBrush="White" CornerRadius="10">
+        <Grid >
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="2*"/>
 
-        <Grid Grid.Row="0">
-            <StackPanel Orientation="Horizontal" Height="40" VerticalAlignment="Top">
-                <Label Content="Выберите путь" FontSize="15" VerticalContentAlignment="Center"/>
-                <Button Content="Обзор" Click="Button_Click"/>
-            </StackPanel>
-            <TextBox Name="path" Height="23.24" VerticalAlignment="Bottom"/>
-        </Grid>
+            </Grid.RowDefinitions>
 
-        <Grid Grid.Row="1">
-            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Name="cbaddtopl" IsChecked="True"/>
-                    <Label Content="Добавить в плейлист(после загрузки)"/>
+            <Grid Grid.Row="0">
+                <StackPanel Orientation="Horizontal" Height="40" VerticalAlignment="Top">
+                    <Label Content="Выберите путь" FontSize="15" VerticalContentAlignment="Center"/>
+                    <Button Content="Обзор" Click="Button_Click"/>
                 </StackPanel>
-                
-                <ComboBox Name="comboboxplaylists"
+                <TextBox Name="path" Height="23.24" VerticalAlignment="Bottom"/>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Name="cbaddtopl" IsChecked="True"/>
+                        <Label Content="Добавить в плейлист(после загрузки)"/>
+                    </StackPanel>
+
+                    <ComboBox Name="comboboxplaylists"
                           Visibility="{Binding IsChecked, ElementName=cbaddtopl, Converter={StaticResource bvc}}"
                           VerticalContentAlignment="Center" 
                           FontSize="15"  
                           Foreground="White"                         
                           DisplayMemberPath="Playlistname"
                           Height="50"/>
-                
-            </StackPanel>
-        </Grid>
 
-        <Grid Grid.Row="2">
-            <Button Content="Скачать" Click="Button_Click_1" HorizontalAlignment="Center" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="Скачать" Click="Button_Click_1" HorizontalAlignment="Center" Margin="0,0,10,0" />
+                    <Button Content="Отмена" Click="Button_Click_2" HorizontalAlignment="Center" />
+
+                </StackPanel>
+            </Grid>
+
         </Grid>
-    </Grid>
+    </Border>
 </Window>

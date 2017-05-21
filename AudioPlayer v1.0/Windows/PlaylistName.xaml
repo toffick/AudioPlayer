@@ -5,12 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AudioPlayer_v1._0"
         mc:Ignorable="d"
-        Title="Добавить плейлист" Height="94.95" Width="208.2" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" KeyDown="Window_KeyDown">
-    <Grid>
-        <Label x:Name="label" Padding="2,5" Content="Название" Margin="10,5,116.6,0" VerticalAlignment="Top" Height="25"/>
-        <TextBox x:Name="textBox" Height="45"  Padding="0" Margin="10,10,16.6,0"  VerticalAlignment="Top"/>
-        <Button x:Name="button" Content="Добавить" HorizontalAlignment="Left" Padding="0" Margin="16,66,0,0" Width="75" Height="19" VerticalAlignment="Top" Click="button_Click"/>
-        <Button x:Name="button1" Content="Отмена" Margin="116,66,17,0" Padding="0"  VerticalAlignment="Top" Height="19" Click="button1_Click"/>
+        Title="Добавить плейлист" Height="94.95" Width="208.2"
+        WindowStartupLocation="CenterScreen"  
+        AllowsTransparency="True"
+        Background="Transparent" WindowStyle="None" 
+        ResizeMode="NoResize" KeyDown="Window_KeyDown">
+    <Border BorderThickness="1" BorderBrush="#5C6BC0" Background="Beige" CornerRadius="10">
+        <Grid>
+            <Label x:Name="label" Padding="2,5" Foreground="Black" Content="Название" Margin="10,5,116.6,0" VerticalAlignment="Top" Height="25"/>
+            <TextBox x:Name="textBox" Height="45"  Padding="0" Margin="10,10,16.6,0"  VerticalAlignment="Top"/>
+            <Button x:Name="button" Content="Добавить" HorizontalAlignment="Left" Padding="0" Margin="16,66,0,0" Width="75" Height="19" VerticalAlignment="Top" Click="button_Click"/>
+            <Button x:Name="button1" Content="Отмена" Margin="116,66,17,0" Padding="0"  VerticalAlignment="Top" Height="19" Click="button1_Click"/>
+        </Grid>
+    </Border>
 
-    </Grid>
 </Window>

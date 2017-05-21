@@ -23,13 +23,11 @@ using VM;
 using DB;
 using AudioPlayer_v1._0.Windows;
 using WSearch;
+using System.Net.NetworkInformation;
+using System.Net;
 
 namespace AudioPlayer_v1._0
 {
-
-    //TODO ебала с масштабированием
-    //TODO смена картинки на кнопке
-
     public partial class MainWindow : Window
     {
 
@@ -164,7 +162,15 @@ namespace AudioPlayer_v1._0
         #endregion
 
 
-        #region Set static/curent track info
+        #region SET static/curent track | info | Set PL
+
+
+        ///установить трек
+        private void openTrack(Track _tr)
+        {
+            musiccontrol.SetTrack(_tr);
+            timerPlay.Start();
+        }
         /// Изменение времени и положения ползунка
         private void setMusicCurentInfo(object sender, EventArgs e)
         {
@@ -186,11 +192,9 @@ namespace AudioPlayer_v1._0
             label_authorname.Content = _tr.trackinfo.Author;
             label_songname.Content = _tr.trackinfo.SongName;
             Image_backgroundtrackimage.Source = _tr.trackinfo.Picture;
-
             currentplaylist_datagrid.SelectedItem = _tr;
 
         }
-        #endregion
 
         /// Выбор плейлиста 
         private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -217,17 +221,10 @@ namespace AudioPlayer_v1._0
 
         }
 
+        #endregion
 
 
-        ///установить трек
-        private void openTrack(Track _tr)
-        {
-            musiccontrol.SetTrack(_tr);
-            timerPlay.Start();
-        }
-
-
-        #region Refresh controls
+        #region REFRESH containers
         ///обновить список плейлистов
         private void refreshPlaylistsListBox()
         {
@@ -249,7 +246,7 @@ namespace AudioPlayer_v1._0
         #endregion
 
 
-
+        #region ADD Tracks
 
         ///удалить трек из текущего плейлиста
         private void deletetrackfromcurentplaylist_button_Click(object sender, RoutedEventArgs e)
@@ -271,24 +268,13 @@ namespace AudioPlayer_v1._0
             AddTracks.datagrid_Drop(playlistControl, e);
         }
 
-    
-        #region Closed form
-        private void menu_close_Click(object sender, RoutedEventArgs e)
+        /// добавтиь все треки из папок
+        private void addfoldertocurentplaylist_button_Click(object sender, RoutedEventArgs e)
         {
-            musiccontrol.stop(playpause_button, null);
-            DBOperate.Disconnect();
-            App.Current.Shutdown();
-            this.Close();
-        }
-
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            musiccontrol.stop(playpause_button, null);
-            DBOperate.Disconnect();
-            App.Current.Shutdown();
+            AddTracks.addnewfiles(playlistControl);
         }
         #endregion
+
 
         #region ContexMenuButtons
         private void MenuItemDelete_Click(object sender, RoutedEventArgs e)
@@ -329,17 +315,68 @@ namespace AudioPlayer_v1._0
         {
             if ((Track)currentplaylist_datagrid.SelectedItem != null)
                 new TrackInfoWindoww((Track)currentplaylist_datagrid.SelectedItem).ShowDialog();
-
         }
-
 
         #endregion
 
-        private void addfoldertocurentplaylist_button_Click(object sender, RoutedEventArgs e)
+
+        #region WEBSEARCH
+        private void Web_search_Button_Click(object sender, RoutedEventArgs e)
         {
-            AddTracks.addnewfiles(playlistControl);
+
+            if (!(isWSopen = !isWSopen))
+            {
+                currentplaylist_container.Visibility = Visibility.Visible;
+                grid_websearch.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                mainsearcher.CheckInternetConnection();                                                     //проверка интернет соединения
+                grid_websearch.Visibility = Visibility.Visible;
+                currentplaylist_container.Visibility = Visibility.Hidden;
+            }
+
         }
 
+
+        private async void find_web_search_button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (webSearch_textbox.Text.Length != 0)
+                {
+                    List<object> tracks;
+                    if ((tracks = await mainsearcher.GetFindedTrackListAsync(webSearch_textbox.Text)) != null)
+                    {
+                        datagrid_web_search.ItemsSource = tracks;
+                    }
+                    else
+                    {
+                        datagrid_web_search.ItemsSource = null;
+                        DownloadNotificationPushWIndow.ShowPushNotification("Ничего не найдено");
+                    }
+
+                    webSearch_textbox.Clear();
+                }
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show(ee.Message);
+            }
+
+
+        }
+
+        private void datagrid_web_search_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            mainsearcher.DownloadButton_Click(e.AddedItems[0], playlistControl);
+        }
+        #endregion
+
+        private void About(object sender, RoutedEventArgs e)
+        {
+           
+        }
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -356,9 +393,11 @@ namespace AudioPlayer_v1._0
                     case Key.Enter:
                         if (!isWSopen)
                             find_web_search_button.Focus();
-                            find_web_search_button_Click(sender, e);
+                        find_web_search_button_Click(sender, e);
                         break;
-
+                    case Key.F1:
+                        About(sender, e);
+                        break;
                     default: break;
                 }
             }
@@ -369,61 +408,24 @@ namespace AudioPlayer_v1._0
         }
 
 
-        private void Web_search_Button_Click(object sender, RoutedEventArgs e)
+
+        #region Closed form
+        private void menu_close_Click(object sender, RoutedEventArgs e)
         {
-            if (!(isWSopen=!isWSopen))
-            {
-                currentplaylist_container.Visibility = Visibility.Visible;
-               grid_websearch.Visibility = Visibility.Hidden;
-            }
-            else
-            {
-                grid_websearch.Visibility = Visibility.Visible;
-                currentplaylist_container.Visibility = Visibility.Hidden;
-            }
+            musiccontrol.stop(playpause_button, null);
+            DBOperate.Disconnect();
+            App.Current.Shutdown();
+            this.Close();
         }
 
-        #region WEBSEARCH
-        private async void find_web_search_button_Click(object sender, RoutedEventArgs e)
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-
-            try
-            {
-                if (webSearch_textbox.Text.Length != 0)
-                {
-                    List<object> tracks;
-                    if ((tracks = await mainsearcher.GetFindedTrackListAsync(webSearch_textbox.Text)) != null)
-                    {
-                        datagrid_web_search.ItemsSource = tracks;
-                    }
-                    else
-                        MessageBox.Show("Ничего не найдено");
-
-                    webSearch_textbox.Clear();
-
-
-                }
-            }
-            catch (Exception ee)
-            {
-                MessageBox.Show(ee.Message);
-            }
-           
-
+            musiccontrol.stop(playpause_button, null);
+            DBOperate.Disconnect();
+            App.Current.Shutdown();
         }
-
-        private void datagrid_web_search_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            mainsearcher.DownloadButton_Click(e.AddedItems[0],playlistControl);
-        }
-
         #endregion
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            mainsearcher.DownloadButton_Click(null, playlistControl);
-
-        }
     }
 }
 

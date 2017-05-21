@@ -1,4 +1,5 @@
 ﻿using AudioPlayer_v1._0.WebSearch;
+using AudioPlayer_v1._0.Windows;
 using PlayL;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,17 @@ namespace WSearch
 {
     class MainSearcher
     {
+
+        WebResponse webresponse;
+        HtmlParse htmlparser;
+
+        public MainSearcher()
+        {
+             webresponse = new WebResponse();
+             htmlparser = new HtmlParse();
+        }
         public async Task<List<object>> GetFindedTrackListAsync(string query)
         {
-            WebResponse webresponse = new WebResponse();
-            HtmlParse htmlparser = new HtmlParse();
-
             string html =await webresponse.GetHtmltextFromPageByLinkAsync(
                 WebResponse.queryString + query);
 
@@ -33,6 +40,13 @@ namespace WSearch
             TrackInfo trinf = obj_track as TrackInfo;
             DownloadWindow dw = new DownloadWindow(_pl, trinf);
             dw.ShowDialog();
+        }
+
+        public async void CheckInternetConnection()
+        {
+            if(!await webresponse.checkInternetConnection())
+                
+             DownloadNotificationPushWIndow.ShowPushNotification("Возможно, проблемы с интернет соединением");
         }
     }
 }
