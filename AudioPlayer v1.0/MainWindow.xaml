@@ -64,9 +64,13 @@
             <ColumnDefinition Width="7*"/>
             <ColumnDefinition Width="2.5*"/>
         </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Grid.Row="0" Background="#5C6BC0">
+            <Image  Source="resources\Images\dancer-with-music.png"/>
 
-        <Image Name="Image_backgroundtrackimage"  Stretch="Fill" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2"
-                       Source="D:\БГТУ\КУРСОВОЙ ПРОЕКТ\AudioPlayer v1.0\AudioPlayer v1.0\resources\Images\default_background.png" />
+        </Grid>
+        <Image Name="Image_backgroundtrackimage"  Stretch="Fill"
+               Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2"
+                       Source="resources\Images\default_background.png" />
 
         <Grid x:Name="currentplaylist_container" Grid.Row="1" Grid.Column="1" >
             <DataGrid x:Name="currentplaylist_datagrid" AllowDrop="True" IsReadOnly="True" 
@@ -112,7 +116,7 @@
             <extToolkit:WatermarkTextBox Name="webSearch_textbox" Watermark="Найти..." 
                                          Grid.Column="0" Grid.Row="1" Background="AntiqueWhite"
                      VerticalContentAlignment="Center"/>
-            
+
             <Button Name="find_web_search_button"  Grid.Column="1" Grid.Row="1" Padding="0" Click="find_web_search_button_Click">
                 <materialDesign:PackIcon Kind="Magnify" RenderTransformOrigin="1,1" >
                     <materialDesign:PackIcon.RenderTransform>
@@ -126,8 +130,11 @@
                 </materialDesign:PackIcon>
             </Button>
 
-                <DataGrid Name="datagrid_web_search" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Background="DarkSlateGray" 
-                      AllowDrop="True" IsReadOnly="True"  AutoGenerateColumns="False" SelectionChanged="datagrid_web_search_SelectionChanged" 
+            <DataGrid Name="datagrid_web_search" Grid.Row="2" Grid.Column="0" 
+                      Grid.ColumnSpan="2" Background="DarkSlateGray" 
+                      AllowDrop="True" IsReadOnly="True"  
+                      AutoGenerateColumns="False" 
+                      SelectionChanged="datagrid_web_search_SelectionChanged" 
                       >
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Автор" Width="3*" 
@@ -138,13 +145,12 @@
                              Binding="{Binding Time}"/>
                 </DataGrid.Columns>
             </DataGrid>
-                    
-            
         </Grid>
 
         <Grid Grid.Row="1" Grid.Column="2" Background="#3F51B5" Opacity="0.93">
             <Label Content="Плейлист" HorizontalAlignment="Center"  VerticalAlignment="Top" Padding="0"/>
-            <ListBox x:Name="listBox_playlists"  SelectionMode="Single"  Margin="0,20,0,0" DisplayMemberPath="Playlistname" Background="#FF578A94" Opacity="0.7" 
+            <ListBox x:Name="listBox_playlists"  SelectionMode="Single"  Margin="0,20,0,0"
+                     DisplayMemberPath="Playlistname" Background="#FF578A94" Opacity="0.7" 
                      SelectionChanged="listBox_SelectionChanged">
 
                 <ListBox.ContextMenu>
@@ -161,38 +167,56 @@
 
 
         <Grid Grid.Row="0" Grid.Column="2" Background="#3F51B5">
-            <Button x:Name="addplaylist_button" Content="Добавить"  Height="27" Padding="0" 
-                        Click="addplaylist_button_Click"  />
+            <Button x:Name="addplaylist_button" 
+                    Content="Добавить" 
+                    Height="27" Padding="0" 
+                    Margin="10,0,15,0"
+                    Click="addplaylist_button_Click"   
+                    ToolTip="Новый плейлист"/>
         </Grid>
 
         <Grid Grid.Row="0" Grid.Column="1"  Background="#3F51B5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="14*"/>
-                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="2.5*"/>
             </Grid.ColumnDefinitions>
 
+            <StackPanel Grid.Row="0" Grid.Column="0"  Margin="5">
+                
+
+                    <Label x:Name="label_authorname" Padding="0" ToolTip="Исполнитель"
+                   HorizontalContentAlignment="Left" VerticalContentAlignment="Top" 
+                           VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                    <Label x:Name="label_album"  Padding="0"   ToolTip="Альбом"
+                    HorizontalContentAlignment="Left" VerticalContentAlignment="Top"
+                           VerticalAlignment="Top" HorizontalAlignment="Left" />
+            </StackPanel>
+            <StackPanel VerticalAlignment="Bottom" Margin="5">
+                    <TextBlock x:Name="label_songname" TextWrapping="WrapWithOverflow"  Foreground="White" 
+                   TextBlock.FontSize="20" Padding="0"   HorizontalAlignment="Left" />
+                </StackPanel>
+
+                
+
+
+           
+       
             <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button x:Name="deletetrackfromcurentplaylist_button" ToolTip="Добавить трек" Margin="0,0,10,0" Content="+"
-                       FontSize="20" Width="27" Height="27" Padding="0" HorizontalAlignment="Right" Click="addtracktocurentplaylist_button_Click "/>
-                <Button x:Name="addtracktocurentplaylist_button" ToolTip="Удалить трек" HorizontalAlignment="Right"  Margin="0,0,10,0" Content="-"  
+                       FontSize="20" Width="27" Height="27" Padding="0"
+                        HorizontalAlignment="Right" Click="addtracktocurentplaylist_button_Click "/>
+
+                <Button x:Name="addtracktocurentplaylist_button" ToolTip="Удалить трек" 
+                        HorizontalAlignment="Right"  Margin="0,0,10,0" Content="-"  
                        FontSize="20"  Width="27" Height="27" Padding="0" Click="deletetrackfromcurentplaylist_button_Click" Grid.Column="1"/>
-            </StackPanel>
-
-            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
-                <StackPanel>
-                    <Label x:Name="label_authorname" Padding="0"
-                   HorizontalContentAlignment="Left" VerticalContentAlignment="Top"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                    <Label x:Name="label_album"  Padding="0" 
-                    HorizontalContentAlignment="Left" VerticalContentAlignment="Top"  VerticalAlignment="Top" HorizontalAlignment="Left" />
-                </StackPanel>
-                <Label x:Name="label_songname"  HorizontalContentAlignment="Center" VerticalContentAlignment="Top"
-                   TextBlock.FontSize="20" Padding="0"  VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
 
             </StackPanel>
+
+
         </Grid>
 
         <Grid x:Name="ControlContainer" Opacity="0.92"  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Background="#5C6BC0">
-            
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4*"/>
                 <ColumnDefinition Width="1.7*" MinWidth="250"/>
@@ -282,21 +306,25 @@
 
             <StackPanel Name="spelement" Grid.Row="0" Grid.Column="0"  >
                 <Label x:Name="alltime_textbox" Margin="0,5,0,0" Content="00:00/00:00" HorizontalAlignment="Right"
-                       VerticalAlignment="Center" Padding="0" Height="16"  Grid.Row="1" Grid.ColumnSpan="2"  />
+                        Padding="0" Height="16"  Grid.Row="1" Grid.ColumnSpan="2"  />
                 <Slider x:Name="PlaySlider" Margin="10,-5,0,10"   IsMoveToPointEnabled="True" Minimum="0"  
                       ValueChanged="PlaySlider_ValueChanged"   />
             </StackPanel>
 
 
             <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"  Orientation="Horizontal" HorizontalAlignment="Center">
-                <ToggleButton x:Name="button_mute" Margin="7,0,0,0"  Width="35"  Opacity="0.8" Checked="mute_Checked" Unchecked="unmute" >
+                <ToggleButton x:Name="button_mute"                              
+                              Checked="mute_Checked"
+                              Unchecked="unmute" 
+                              ToolTip="Выключить звук">
                     <materialDesign:PackIcon Kind="VolumeOff" />
                 </ToggleButton>
 
-                <Slider x:Name="volume"  Width="110" Margin="7,0,0,0" VerticalAlignment="Center" ValueChanged="volume_ValueChanged" Maximum="1" />
+                <Slider x:Name="volume"  Width="110" Margin="10,0,0,0" VerticalAlignment="Center"
+                        IsMoveToPointEnabled="True" ValueChanged="volume_ValueChanged" Maximum="1" />
 
-                <ToggleButton x:Name="replay_button"  HorizontalAlignment="Left"  Margin="10,0,0,0"  VerticalAlignment="Center"
-                          Width="35"  Background="#FF578A94" BorderBrush="#FF578A94"   Opacity="0.8" Checked="replay_button_Click" 
+                <ToggleButton x:Name="replay_button"  HorizontalAlignment="Left"  Margin="10,0,0,0"  
+                            Checked="replay_button_Click" 
                           Unchecked="unreplay_button_Click">
                     <materialDesign:PackIcon Kind="Repeat" />
                 </ToggleButton>
@@ -305,8 +333,8 @@
 
         </Grid>
 
-        <Grid Margin="5"  Grid.Column="0" Grid.Row="1" Background="#5C6BC0" >
-            <StackPanel >
+        <Grid   Grid.Column="0" Grid.Row="1" Background="#5C6BC0" >
+            <StackPanel Margin="5">
                 <Button Content="Web search" Click="Web_search_Button_Click"></Button>
                 <Separator/>
                 <Button Content="Добавить файл" Click="addtracktocurentplaylist_button_Click"></Button>
@@ -318,7 +346,4 @@
         </Grid>
 
     </Grid>
-
-
-
 </Window>

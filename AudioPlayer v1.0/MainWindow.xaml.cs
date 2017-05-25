@@ -48,6 +48,8 @@ namespace AudioPlayer_v1._0
             playlistControl.PlaylistsResizeEvent += refreshPlaylistsListBox;            //обновлять кол-во плейлистов при смене их количества
         }
 
+
+        /// TODO сделать нормальную инфу о треке с путем до трека
         private void InitializePlayerComponents()
         {
             try
@@ -58,6 +60,7 @@ namespace AudioPlayer_v1._0
                 musiccontrol = new MusicControl(PlaySlider, timerPlay);
                 timerPlay.Interval = TimeSpan.FromMilliseconds(500);
                 timerPlay.Tick += setMusicCurentInfo;
+                volume.Value = 0.5;
 
 
                 refreshPlaylistsListBox();
@@ -184,13 +187,12 @@ namespace AudioPlayer_v1._0
         ///установить информвцию о треке
         private void setTrackInfo(Track _tr)
         {
-            volume.Value = 0.5;
             trackTime = musiccontrol.GetAllTrackTime().Time;
             PlaySlider.Maximum = _tr.trackinfo.Time.TotalSeconds;
             PlaySlider.Value = 0;
             label_album.Content = _tr.trackinfo.Album;
             label_authorname.Content = _tr.trackinfo.Author;
-            label_songname.Content = _tr.trackinfo.SongName;
+            label_songname.Text = _tr.trackinfo.SongName;
             Image_backgroundtrackimage.Source = _tr.trackinfo.Picture;
             currentplaylist_datagrid.SelectedItem = _tr;
 
@@ -375,7 +377,7 @@ namespace AudioPlayer_v1._0
 
         private void About(object sender, RoutedEventArgs e)
         {
-           
+            new AboutWindow().ShowDialog();           
         }
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)

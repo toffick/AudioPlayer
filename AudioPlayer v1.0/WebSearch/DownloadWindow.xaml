@@ -5,30 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AudioPlayer_v1._0.WebSearch"
         mc:Ignorable="d"
-        Title="Скачать трек" Height="240" Width="300" ResizeMode="NoResize" 
-        WindowStartupLocation="CenterScreen" WindowStyle="None" Background="Transparent"
+        Title="Скачать трек" Height="200" Width="300" ResizeMode="NoResize" 
+        WindowStartupLocation="CenterScreen" WindowStyle="None" Background="#5C6BC0"
         AllowsTransparency="True"
         >
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="bvc"/>
     </Window.Resources>
 
-    <Border BorderThickness="1" Background="#5C6BC0" BorderBrush="White" CornerRadius="10">
         <Grid >
             
             <Grid.RowDefinitions>
-                <RowDefinition Height="3*"/>
+                <RowDefinition Height="4*"/>
                 <RowDefinition Height="5*"/>
                 <RowDefinition Height="2*"/>
 
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
-                <StackPanel Orientation="Horizontal" Height="40" VerticalAlignment="Top">
-                    <Label Content="Выберите путь" FontSize="15" VerticalContentAlignment="Center"/>
-                    <Button Content="Обзор" Click="Button_Click"/>
+                <StackPanel Orientation="Vertical"  VerticalAlignment="Top">
+                    <Label Content="Выберите путь" Margin="10,0,0,0" FontSize="15" VerticalContentAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Name="path" Margin="10,0,0,0" Width="255" VerticalAlignment="Bottom"/>
+                        <Button Content="..." Click="Button_Click" Width="25" Height="25" Padding="0"/>
+                    </StackPanel>
                 </StackPanel>
-                <TextBox Name="path" Height="23.24" VerticalAlignment="Bottom"/>
+               
             </Grid>
 
             <Grid Grid.Row="1">
@@ -42,6 +44,7 @@
                           Visibility="{Binding IsChecked, ElementName=cbaddtopl, Converter={StaticResource bvc}}"
                           VerticalContentAlignment="Center" 
                           FontSize="15"  
+                              Margin="10,0,10,0"
                           Foreground="White"                         
                           DisplayMemberPath="Playlistname"
                           Height="50"/>
@@ -58,5 +61,4 @@
             </Grid>
 
         </Grid>
-    </Border>
 </Window>

@@ -64,9 +64,10 @@ namespace AudioPlayer_v1._0.WebSearch
                     string downloadedTrackPath = await webresponse.DownloadTrackByLinkAsync(path.Text, trackinfo);
 
                     DownloadNotificationPushWIndow.ShowPushNotification($"Загрузка {downloadedTrackPath.Split('/').Last()} заершена");
-                    if ((bool)cbaddtopl.IsChecked && File.Exists(downloadedTrackPath))
+                    Playlist pl = comboboxplaylists.SelectedItem as Playlist;
+                    if ((bool)cbaddtopl.IsChecked && File.Exists(downloadedTrackPath) && pl!=null)
                     {
-                        (comboboxplaylists.SelectedItem as Playlist).addTrackToPlaylist(downloadedTrackPath);
+                        pl.addTrackToPlaylist(downloadedTrackPath);
                     }
                 }
                 else

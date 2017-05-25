@@ -5,53 +5,72 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AudioPlayer_v1._0.Windows"
         mc:Ignorable="d"
-        Title="Информация о треке" Height="300" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="ToolWindow">
-    
+        Title="Информация о треке" Height="310" Width="400" WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize" WindowStyle="None" KeyDown="Window_KeyDown" >
+
+
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+            <Setter Property="Control.VerticalAlignment" Value="Center"/>
+            <Setter Property="Control.Foreground" Value="Black" />
+            <Setter Property="Control.FontSize" Value="14" />
+
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="HorizontalContentAlignment" Value="Right" />
+            <Setter Property="Control.VerticalAlignment" Value="Center"/>
+
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        
+    </Window.Resources>
     <Grid>
-        <Image x:Name="image" Stretch="Fill" Opacity="0.35"/>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="5*"/>
-                <RowDefinition Height="3*"/>
+        <Image x:Name="image" Stretch="Fill" Source="pack://application:,,,/resources\Images\default_background.png"/>
+        
+        <Grid   Background="#3F51B5"  Opacity="0.9">
+            <Grid.RowDefinitions >
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition Height="1.5*"/>
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0">
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Название трека" Width="117"/>
-                    <Label  Name="songname" FontSize="20"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Исполнитель" Width="117"/>
-                    <Label  Name="author" FontSize="15"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Год" Width="117"/>
-                    <Label  Name="year" FontSize="15"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Альбом" Width="117"/>
-                    <Label  Name="album" FontSize="15"/>
-                </StackPanel>
-            </StackPanel>
-            <StackPanel Grid.Row="1">
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Длина трека" Width="117"/>
-                    <Label  Name="time" FontSize="15"/>
-                </StackPanel>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="3*"/>
 
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="BPM" Width="117"/>
-                    <Label  Name="bpm" FontSize="15"/>
-                </StackPanel>
+            </Grid.ColumnDefinitions>
 
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Bitrate" Width="117"/>
-                    <Label  Name="bitrate" FontSize="15"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Путь" Width="117"/>
-                    <Label  Name="path" FontSize="15"/>
-                </StackPanel>
-            </StackPanel>
+                <Label Content="Название трека:"  Grid.Column="0" Grid.Row="0"/>
+                <TextBlock Grid.Column="1" Grid.Row="0"  Name="songname"/>
+
+
+            <Label Content="Исполнитель:" Grid.Column="0" Grid.Row="1"/>
+            <TextBlock  Name="author" Grid.Column="1" Grid.Row="1"/>
+
+            <Label Content="Год:" Grid.Column="0" Grid.Row="2"/>
+            <TextBlock  Name="year" Grid.Column="1" Grid.Row="2"/>
+
+
+            <Label Content="Альбом:" Grid.Column="0" Grid.Row="3"/>
+            <TextBlock  Name="album" Grid.Column="1" Grid.Row="3"/>
+
+            <Label Content="Длина трека:" Grid.Column="0" Grid.Row="4"/>
+            <TextBlock  Name="time" Grid.Column="1" Grid.Row="4"/>
+
+            <Label Content="BPM:" Grid.Column="0" Grid.Row="5"/>
+            <TextBlock  Name="bpm" Grid.Column="1" Grid.Row="5"/>
+
+            <Label Content="Bitrate:" Grid.Column="0" Grid.Row="6"/>
+            <TextBlock  Name="bitrate" Grid.Column="1" Grid.Row="6"/>
+
+            <Label Content="Путь:" Grid.Column="0" Grid.Row="7"/>
+            <TextBlock  Name="path" Grid.Column="1" Grid.Row="7" />
         </Grid>
     </Grid>
 </Window>

@@ -31,17 +31,22 @@ namespace AudioPlayer_v1._0.Windows
 
         private void setTrackInfo()
         {
-            image.Source = _track.trackinfo.Picture;
-            songname.Content = _track.trackinfo.SongName;
-            author.Content = _track.trackinfo.Author;
-            year.Content = _track.trackinfo.Year;
-            album.Content = _track.trackinfo.Album;
+            if(_track.trackinfo.Picture!=null)
+                image.Source = _track.trackinfo.Picture;
+            songname.Text = _track.trackinfo.SongName;
+            author.Text = _track.trackinfo.Author;
+            year.Text = _track.trackinfo.Year;
+            album.Text = _track.trackinfo.Album;
 
-            time.Content = _track.trackinfo.Time.ToString(@"mm\:ss");
-            bitrate.Content = _track.trackinfo.AudioBitrate;
-            bpm.Content = _track.trackinfo.BPM;
+            time.Text = _track.trackinfo.Time.ToString(@"mm\:ss");
+            bitrate.Text = _track.trackinfo.AudioBitrate.ToString();
+            bpm.Text = _track.trackinfo.BPM.ToString();
+            path.Text = _track.filepath;
         }
 
-
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            this.Close();
+        }
     }
 }
