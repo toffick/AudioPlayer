@@ -27,6 +27,8 @@ namespace VM
                         AddNewTrackByPath(playlistControl, s);
                     }
                     else
+
+                    //TODO тут КАЛ 
                        if ("mp3".Contains(s.Split('.').Last()))
                         playlistControl.currentPlaylist.addTrackToPlaylist(s);
                 }
@@ -42,6 +44,7 @@ namespace VM
 
                 filepath.ForEach(file =>
                 {
+                    //передлеать вытаскиваение расширениы файла
                     if ("mp3".Contains(file.Split('.').Last()))
                         playlistControl.currentPlaylist.addTrackToPlaylist(file);               
 

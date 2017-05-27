@@ -49,7 +49,6 @@ namespace AudioPlayer_v1._0
         }
 
 
-        /// TODO сделать нормальную инфу о треке с путем до трека
         private void InitializePlayerComponents()
         {
             try
@@ -363,7 +362,8 @@ namespace AudioPlayer_v1._0
             }
             catch (Exception ee)
             {
-                MessageBox.Show(ee.Message);
+
+                DownloadNotificationPushWIndow.ShowPushNotification(ee.Message);
             }
 
 
@@ -377,39 +377,35 @@ namespace AudioPlayer_v1._0
 
         private void About(object sender, RoutedEventArgs e)
         {
-            new AboutWindow().ShowDialog();           
+            new AboutWindow().ShowDialog();
         }
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            try
+
+            switch (e.Key)
             {
-                switch (e.Key)
-                {
-                    case Key.Space:
-                        musiccontrol.PlayPause(playpause_button, e);
-                        break;
-                    case Key.Delete:
-                        playlistControl.removeTrackFromCurentPlaylist((Track)currentplaylist_datagrid.SelectedItem);
-                        break;
-                    case Key.Enter:
-                        if (!isWSopen)
-                            find_web_search_button.Focus();
-                        find_web_search_button_Click(sender, e);
-                        break;
-                    case Key.F1:
-                        About(sender, e);
-                        break;
-                    default: break;
-                }
+                case Key.Space:
+                    musiccontrol.PlayPause(playpause_button, e);
+                    break;
+                case Key.Delete:
+                    playlistControl.removeTrackFromCurentPlaylist((Track)currentplaylist_datagrid.SelectedItem);
+                    break;
+                case Key.Enter:
+                    if (!isWSopen)
+                        find_web_search_button.Focus();
+                    find_web_search_button_Click(sender, e);
+                    break;
+                case Key.F1:
+                    About(sender, e);
+                    break;
+                default: break;
             }
-            catch (Exception ee)
-            {
-                MessageBox.Show(ee.Message);
-            }
+
         }
 
 
+        //TODO исправить ебалу с разными форматами длля впосроизвелениея  
 
         #region Closed form
         private void menu_close_Click(object sender, RoutedEventArgs e)

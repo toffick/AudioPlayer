@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:AudioPlayer_v1._0.Windows"
         mc:Ignorable="d"
         Title="Информация о треке" Height="310" Width="400" WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize" WindowStyle="None" KeyDown="Window_KeyDown" >
+        ResizeMode="NoResize" WindowStyle="None" KeyDown="Window_KeyDown" MouseDown="Window_MouseDown_1">
 
 
     <Window.Resources>
@@ -58,7 +58,7 @@
 
 
             <Label Content="Альбом:" Grid.Column="0" Grid.Row="3"/>
-            <TextBlock  Name="album" Grid.Column="1" Grid.Row="3"/>
+            <TextBlock  Name="album" Grid.Column="1" Grid.Row="3" FontStyle="Oblique"/>
 
             <Label Content="Длина трека:" Grid.Column="0" Grid.Row="4"/>
             <TextBlock  Name="time" Grid.Column="1" Grid.Row="4"/>

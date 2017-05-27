@@ -42,12 +42,14 @@ namespace Music
             slider_play = _sl;
             timmer = _dt;
             mediaplayer.MediaEnded += PlayNextTrack;                              //по завершению трека играть следующий
+
         }
 
 
+        //сделать хотя бы синглтон 
 
         #region Set curent PLAYLIST/TRACK
-        /// установить текущий плейлист
+        /// установить текущий плейлисту
         public void RetCurrentPlaylist(Playlist _pl)
         {
             currentPlaylist = _pl;

@@ -32,7 +32,7 @@ namespace WSearch
                 return await lo;
             }
             else
-                throw new Exception("Невозможно подключиться к серверу");
+                throw new Exception("Проблемы с интернет соединением");
         }
 
         public void DownloadButton_Click(object obj_track, PlaylistControl _pl)

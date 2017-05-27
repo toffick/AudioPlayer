@@ -86,8 +86,6 @@ namespace WSearch
                 Console.WriteLine("Невозможно подключиться к серверу\n" + ee.Message);
 
                 return null;
-
-
             }
 
         }

@@ -48,5 +48,12 @@ namespace AudioPlayer_v1._0.Windows
         {
             this.Close();
         }
+
+
+
+        private void Window_MouseDown_1(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
+        }
     }
 }
