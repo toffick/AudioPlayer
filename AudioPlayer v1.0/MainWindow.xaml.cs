@@ -55,8 +55,8 @@ namespace AudioPlayer_v1._0
             {
                 mainsearcher = new MainSearcher();
                 timerPlay = new DispatcherTimer();
-                playlistControl = new PlaylistControl();
-                musiccontrol = new MusicControl(PlaySlider, timerPlay);
+                playlistControl = PlaylistControl.GetPlaylistControl();
+                musiccontrol = MusicControl.GetMusicControl(PlaySlider, timerPlay);
                 timerPlay.Interval = TimeSpan.FromMilliseconds(500);
                 timerPlay.Tick += setMusicCurentInfo;
                 volume.Value = 0.5;
@@ -266,13 +266,13 @@ namespace AudioPlayer_v1._0
         /// перетаскивание музыки/папок в плейлист
         private void currentplaylist_datagrid_Drop(object sender, DragEventArgs e)
         {
-            AddTracks.datagrid_Drop(playlistControl, e);
+            AddTracks.datagrid_Drop( e);
         }
 
         /// добавтиь все треки из папок
         private void addfoldertocurentplaylist_button_Click(object sender, RoutedEventArgs e)
         {
-            AddTracks.addnewfiles(playlistControl);
+            AddTracks.addnewfiles();
         }
         #endregion
 
@@ -371,7 +371,7 @@ namespace AudioPlayer_v1._0
 
         private void datagrid_web_search_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            mainsearcher.DownloadButton_Click(e.AddedItems[0], playlistControl);
+            mainsearcher.DownloadButton_Click(e.AddedItems[0]);
         }
         #endregion
 

@@ -14,8 +14,9 @@ namespace VM
     {
 
         /// перетаскивание музыки/папок в плейлист
-        static public void datagrid_Drop(PlaylistControl playlistControl, DragEventArgs e)
+        static public void datagrid_Drop( DragEventArgs e)
         {
+            PlaylistControl playlistControl = PlaylistControl.GetPlaylistControl();
             var data = e.Data as DataObject;
             if (data.ContainsFileDropList())
             {
@@ -59,8 +60,9 @@ namespace VM
         }
 
 
-        static public void addnewfiles(PlaylistControl playlistControl)
+        static public void addnewfiles()
         {
+            PlaylistControl playlistControl = PlaylistControl.GetPlaylistControl();
             System.Windows.Forms.FolderBrowserDialog ofd = new System.Windows.Forms.FolderBrowserDialog();
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 AddNewTrackByPath(playlistControl, ofd.SelectedPath);

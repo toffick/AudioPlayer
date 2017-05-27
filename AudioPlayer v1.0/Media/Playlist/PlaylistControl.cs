@@ -18,6 +18,8 @@ namespace PlayL
         public delegate void MyDel();
         public event MyDel PlaylistsResizeEvent;
 
+        static PlaylistControl playlistontrol;
+
 
         List<Playlist> allplaylists;
         public Playlist currentPlaylist { get; private set; }
@@ -33,21 +35,23 @@ namespace PlayL
 
             }
         }
-        public PlaylistControl()
+        private PlaylistControl()
         {
-            try
-            {
-                DBOperate.InitDB();
-                allplaylists = DBOperate.GetAllPlaylistsFromTable();
-                InitTracksInPlaylists();
-                currentPlaylist = allplaylists.Count == 0 ? null : allplaylists[0];
-            }
-            catch
-            {
-                MessageBox.Show("Ошибка при инициализации плейлитов");
-            }
-
+            DBOperate.InitDB();
+            allplaylists = DBOperate.GetAllPlaylistsFromTable();
+            InitTracksInPlaylists();
+            currentPlaylist = allplaylists.Count == 0 ? null : allplaylists[0];
         }
+
+        public static PlaylistControl GetPlaylistControl()
+        {
+            if (playlistontrol == null)
+            {
+                playlistontrol = new PlaylistControl();
+            }
+            return playlistontrol;
+        }
+
 
         public void InitTracksInPlaylists()
         {
@@ -56,6 +60,8 @@ namespace PlayL
                 t.getAllTracksFromPlaylists();
             }
         }
+
+ 
 
         //вернуть список всех пелейлистов
         public List<Playlist> getallplaylists()

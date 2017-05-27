@@ -23,7 +23,7 @@ namespace Music
         public delegate void MyDel(Track _tr);
         public event MyDel trackChangeEvent;
 
-
+        static MusicControl musiccontrol;
 
         private Slider slider_play;
         private DispatcherTimer timmer;
@@ -34,7 +34,8 @@ namespace Music
         public bool IsReplay { get; private set; }                                           //повторять ли текущий трек
         public bool IsPlaying { get; private set; }
 
-        public MusicControl(Slider _sl, DispatcherTimer _dt)
+
+        private MusicControl(Slider _sl, DispatcherTimer _dt)
         {
             mediaplayer = new MediaPlayer();
             IsPlaying = false;
@@ -45,8 +46,14 @@ namespace Music
 
         }
 
-
-        //сделать хотя бы синглтон 
+        public static MusicControl GetMusicControl(Slider _sl, DispatcherTimer _dt)
+        {
+            if (musiccontrol == null)
+            {
+                musiccontrol = new MusicControl(_sl, _dt);
+            }
+            return musiccontrol;
+        }
 
         #region Set curent PLAYLIST/TRACK
         /// установить текущий плейлисту

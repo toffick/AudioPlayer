@@ -35,8 +35,9 @@ namespace WSearch
                 throw new Exception("Проблемы с интернет соединением");
         }
 
-        public void DownloadButton_Click(object obj_track, PlaylistControl _pl)
+        public void DownloadButton_Click(object obj_track)
         {
+            PlaylistControl _pl = PlaylistControl.GetPlaylistControl();
             TrackInfo trinf = obj_track as TrackInfo;
             DownloadWindow dw = new DownloadWindow(_pl, trinf);
             dw.ShowDialog();
