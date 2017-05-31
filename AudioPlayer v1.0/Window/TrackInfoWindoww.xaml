@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:AudioPlayer_v1._0.Windows"
         mc:Ignorable="d"
         Title="Информация о треке" Height="310" Width="400" WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize" WindowStyle="None" KeyDown="Window_KeyDown" MouseDown="Window_MouseDown_1">
+        ResizeMode="NoResize" WindowStyle="None" KeyDown="Window_KeyDown" >
 
 
     <Window.Resources>
@@ -22,14 +22,14 @@
             <Setter Property="HorizontalContentAlignment" Value="Right" />
             <Setter Property="Control.VerticalAlignment" Value="Center"/>
 
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
         </Style>
         
     </Window.Resources>
     <Grid>
         <Image x:Name="image" Stretch="Fill" Source="pack://application:,,,/resources\Images\default_background.png"/>
         
-        <Grid   Background="#3F51B5"  Opacity="0.9">
+        <Grid   Background="White"  Opacity="0.9">
             <Grid.RowDefinitions >
                 <RowDefinition/>
                 <RowDefinition/>

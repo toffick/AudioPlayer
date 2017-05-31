@@ -17,17 +17,14 @@ namespace Music
         private const string UNKNALBUM = "unknown_album_name";
         private const string UNKNYEAR = "unknown_album_year";
 
-        public string SongName { get; private set; }
-        public string Author { get; private set; }
-        public string Album { get; private set; }
-        public TimeSpan Time { get; private set; }
-
-        public BitmapImage Picture { get; private set; }
-
-        public uint BPM { get; private set; }
-        public int AudioBitrate { get; private set; }
-
-        public string Year { get; private set; }
+        public string SongName { get; private set; }                    //название трека
+        public string Author { get; private set; }                      //автор
+        public string Album { get; private set; }                       //алтьбом
+        public TimeSpan Time { get; private set; }                      //продолжительность
+        public BitmapImage Picture { get; private set; }                //картинка
+        public uint BPM { get; private set; }                           //BPM
+        public int AudioBitrate { get; private set; }                   //биттрейт
+        public string Year { get; private set; }                        //год
 
 
         private TagLib.File file;

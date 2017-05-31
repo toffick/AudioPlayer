@@ -17,8 +17,6 @@ namespace PlayL
         public delegate void MyDel(object obj);
         public event MyDel PlaylistsSoundCountResizeEvent;
 
-
-
         public string Playlistname { get; private set; }
 
         public int Count
@@ -109,12 +107,6 @@ namespace PlayL
             }
         }
 
-        public Track getTrackWithId(int i)
-        {
-            return (i > -1 && i < allTracks.Count) ? allTracks[i] : null;
-        }
-
-
         public override string ToString()
         {
             string temp = null;
@@ -124,8 +116,6 @@ namespace PlayL
             }
             return  temp + Environment.NewLine + "Playlist: " + Playlistname + " number " + Playlistnumber;
         }
-
-      
 
         public Track getNextTrack()
         {

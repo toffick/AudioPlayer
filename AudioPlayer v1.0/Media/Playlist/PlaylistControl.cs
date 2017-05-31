@@ -74,12 +74,12 @@ namespace PlayL
             currentPlaylist.removeTrack(_tr);
         }
 
-
+        
         public void addSongToCurrentPlaylist()
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.InitialDirectory = ofd.InitialDirectory = @"D:\БГТУ\КУРСОВОЙ ПРОЕКТ\Tracks";
-            ofd.Filter = "Файлы mp3 |*.mp3";
+            ofd.Filter = "  .wav, .mp3 |  *.wav; *.mp3";
             if (ofd.ShowDialog() == true)
             {
                 try
@@ -101,7 +101,6 @@ namespace PlayL
                 if (isRepeatedName(plname))
                     throw new Exception("Плейлист с таким именем уже существует");
                 int plnumber = getNewPLnumber();
-
                 allplaylists.Add(new Playlist(plname, plnumber));
                 setCurrentPlaylist(allplaylists[allplaylists.Count - 1]);
                 DBOperate.AddPlatlist(plnumber, plname);
@@ -111,7 +110,6 @@ namespace PlayL
             {
                 MessageBox.Show("Не удалось добавить плейлист " + ee.Message);
             }
-
         }
 
         public void removePlaylist(Playlist _pl)
@@ -120,8 +118,6 @@ namespace PlayL
             allplaylists.Remove(_pl);
             currentPlaylist = allplaylists.Count == 0 ? null : allplaylists[0];
             PlaylistsResizeEvent?.Invoke();
-
-
         }
 
         public void clearPlaylist(Playlist _pl)

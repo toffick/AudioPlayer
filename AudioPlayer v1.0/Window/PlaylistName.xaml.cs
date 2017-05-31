@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AudioPlayer_v1._0.Windows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -59,7 +60,7 @@ namespace AudioPlayer_v1._0
                 case Key.Enter:
                     try
                     {
-                        if (!textBox.Text.Equals(""))
+                        if (!textBox.Text.Equals("") && textBox.Text.Length<101)
                         {
                             Plname = textBox.Text;
                             this.Close();
@@ -67,7 +68,7 @@ namespace AudioPlayer_v1._0
                     }
                     catch
                     {
-                        MessageBox.Show("Попробуйте другое имя");
+                        DownloadNotificationPushWIndow.ShowPushNotification("Попробуйте другое имя плейлиста");
                     }
                     break;
                 case Key.Escape:

@@ -66,8 +66,7 @@ namespace WSearch
             try
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(link);
-                Task<System.Net.WebResponse> wr = request.GetResponseAsync();
-                HttpWebResponse response = (HttpWebResponse)(await wr);
+                HttpWebResponse response = (HttpWebResponse)(await request.GetResponseAsync());
 
 
                 if (response != null)
@@ -75,7 +74,6 @@ namespace WSearch
                     var strreader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
                     var responseToString = strreader.ReadToEnd();
                     return responseToString;
-
                 }
                 else
                     return null;
@@ -96,8 +94,6 @@ namespace WSearch
         /// <summary>
         /// получить прямую ссылку на трек из атрибута трека data-url
         /// </summary>
-        /// <param name="jsonDownpage"></param>
-        /// <returns></returns>
         public async Task<string> GetLinkToDownloadAsync(string secondPartOfLink)
         {
             string downloadpagelink = mainpageString + secondPartOfLink;

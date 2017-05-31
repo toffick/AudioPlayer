@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace VM
 {
-    class AddTracks
+    static class AddTracks
     {
 
         /// перетаскивание музыки/папок в плейлист
@@ -28,9 +28,7 @@ namespace VM
                         AddNewTrackByPath(playlistControl, s);
                     }
                     else
-
-                    //TODO тут КАЛ 
-                       if ("mp3".Contains(s.Split('.').Last()))
+                       if (".mp3|.wav".Contains(Path.GetExtension(s)))
                         playlistControl.currentPlaylist.addTrackToPlaylist(s);
                 }
             }
@@ -43,15 +41,13 @@ namespace VM
                 List<string> filepath = Directory.GetFiles(path).ToList();
                 List<string> directoriespath = Directory.GetDirectories(path).ToList();
 
+                directoriespath.ForEach(s => AddNewTrackByPath(playlistControl, s));
+
                 filepath.ForEach(file =>
                 {
-                    //передлеать вытаскиваение расширениы файла
-                    if ("mp3".Contains(file.Split('.').Last()))
-                        playlistControl.currentPlaylist.addTrackToPlaylist(file);               
-
+                    if (".mp3|.wav".Contains(Path.GetExtension(file)))
+                        playlistControl.currentPlaylist.addTrackToPlaylist(file);
                 });
-
-                directoriespath.ForEach(s => AddNewTrackByPath(playlistControl, s));
             }
             catch
             {

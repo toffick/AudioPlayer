@@ -13,22 +13,16 @@ namespace DB
 {
     static class DBOperate
     {
+
         static private string connstr = "Data Source=DESKTOP-FFV5E68\\SQLEXPRESS;Initial Catalog=AUDIOPLAYERDB;Integrated Security=true;";
+
         static private SqlConnection sqlconnection;
 
         static public bool InitDB()
         {
-            try
-            {
-                sqlconnection = new SqlConnection(connstr);
-                sqlconnection.Open();
-                return true;
-            }
-            catch (Exception ee)
-            {
-                MessageBox.Show(ee.Message);
-                return false;
-            }
+            sqlconnection = new SqlConnection(connstr);
+            sqlconnection.Open();
+            return true;
         }
         static public void Disconnect()
         {
@@ -90,7 +84,7 @@ namespace DB
                             nonexiststracks.Add(filepath);
                     }
                 }
-                nonexiststracks.ForEach(s => RemoveSongFromPlaylist(plname,s));
+                nonexiststracks.ForEach(s => RemoveSongFromPlaylist(plname, s));
             }
             catch (SqlException ee)
             {

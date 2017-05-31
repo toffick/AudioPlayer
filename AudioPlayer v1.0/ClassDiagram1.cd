@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AudioPlayer_v1._0.App" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AudioPlayer_v1._0.MainWindow" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABBAAEAAAqEGCsgBNASBQC4AoAwAAAIIGCCAACkEAA=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AudioPlayer_v1._0.Resource1" Collapsed="true">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAABIAAAAABEAAAAQAAAABAAAAAAAAAAYA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AudioPlayer_v1._0.PlaylistName" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAABAAAAAEAAAAAAAAE=</HashCode>
+      <FileName>Window\PlaylistName.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DB.DBOperate">
+    <Position X="11.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAQAAAAAAAAAAIAAAAAAAAAAAAAAAUEAABAAAIgAEAA=</HashCode>
+      <FileName>Database\DBOperate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Music.MusicControl" Collapsed="true">
+    <Position X="8.5" Y="5" Width="1.5" />
+    <NestedTypes>
+      <Delegate Name="Music.MusicControl.MyDel" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Media\Music\MusicControl.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AQABCAQAgEAAQCAADAAIAgAAEAQogkCgAQAgAAAEA0A=</HashCode>
+      <FileName>Media\Music\MusicControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Music.Track" Collapsed="true">
+    <Position X="6.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAEAAAAAAAEAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Media\Music\Track.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Music.TrackInfo" Collapsed="true">
+    <Position X="10.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQACgAAABACAAAAEgAAAACAGIQAAIAAABoAAiAUAAQA=</HashCode>
+      <FileName>Media\Music\TrackInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VM.AddTracks" Collapsed="true">
+    <Position X="5.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAIAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Media\Playlist\AddTracks.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayL.Playlist" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2" Y="6.75" Width="1.5" />
+    <NestedTypes>
+      <Delegate Name="PlayL.Playlist.MyDel" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Media\Playlist\Playlist.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAhAiABACBAEIAgAQAQAIAQABCAkAAAEAAAAAEA=</HashCode>
+      <FileName>Media\Playlist\Playlist.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="PlayL.PlaylistControl" Collapsed="true">
+    <Position X="3.75" Y="6.75" Width="1.5" />
+    <NestedTypes>
+      <Delegate Name="PlayL.PlaylistControl.MyDel" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Media\Playlist\PlaylistControl.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAgKAABAAAAAIBAgBAgIAADAAAAAADAGQAAAAAAAAAA=</HashCode>
+      <FileName>Media\Playlist\PlaylistControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AudioPlayer_v1._0.Properties.Resources" Collapsed="true">
+    <Position X="7.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AudioPlayer_v1._0.Properties.Settings" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIBAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AudioPlayer_v1._0.WebSearch.DownloadWindow" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAEAAAAEAAEAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>WebSearch\DownloadWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="WSearch.HtmlParse">
+    <Position X="8" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>WebSearch\HtmlParse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WSearch.MainSearcher">
+    <Position X="9.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAgAAAACAIAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>WebSearch\MainSearcher.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WSearch.TrackInfo">
+    <Position X="13.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAEAEgAAAAgAAAAAJQAAAAAAAAAAAAQA=</HashCode>
+      <FileName>WebSearch\TrackInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WSearch.WebResponse">
+    <Position X="11.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAEAAIgQAAAAAIBAAAAAA=</HashCode>
+      <FileName>WebSearch\WebResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AudioPlayer_v1._0.Windows.AboutWindow" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Window\AboutWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AudioPlayer_v1._0.Windows.DownloadNotificationPushWIndow" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAACIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Window\DownloadNotificationPushWIndow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AudioPlayer_v1._0.Windows.TrackInfoWindoww" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Window\TrackInfoWindoww.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

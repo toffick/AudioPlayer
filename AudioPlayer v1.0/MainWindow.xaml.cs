@@ -74,7 +74,8 @@ namespace AudioPlayer_v1._0
             }
             catch (Exception ee)
             {
-                MessageBox.Show("Произошел сбой запуска приложения" + Environment.NewLine + ee.Message);
+                DownloadNotificationPushWIndow.ShowPushNotification("Произошел сбой запуска приложения");
+                MessageBox.Show(ee.Message);
                 musiccontrol.stop(playpause_button, null);
                 DBOperate.Disconnect();
                 this.Close();
@@ -404,9 +405,6 @@ namespace AudioPlayer_v1._0
 
         }
 
-
-        //TODO исправить ебалу с разными форматами длля впосроизвелениея  
-
         #region Closed form
         private void menu_close_Click(object sender, RoutedEventArgs e)
         {
@@ -415,7 +413,6 @@ namespace AudioPlayer_v1._0
             App.Current.Shutdown();
             this.Close();
         }
-
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {

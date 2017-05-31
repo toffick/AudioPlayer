@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AudioPlayer_v1._0.Windows"
         mc:Ignorable="d"
-        Title="О программе" Height="300" Width="400" ResizeMode="NoResize" 
+        Title=" О программе" Height="300" Width="400" ResizeMode="NoResize" 
         WindowStyle="ToolWindow"
         WindowStartupLocation="CenterScreen">
     <Grid>
@@ -25,7 +25,7 @@
             <Image  Grid.Column="1" Margin="0,0,10,0" Source="pack://application:,,,/resources\Images\dancer-with-music.png" HorizontalAlignment="Right"/>
 
             <StackPanel Margin="10">
-                <TextBlock Text="AudioPlayer v1.0" Foreground="White" FontSize="18"/>
+                <TextBlock Text="VJLinkPlay" Foreground="White" FontSize="18"/>
                 <TextBlock Margin="5,5,-58,0">
                     -Возможность воспроизводить музыку<LineBreak/>
                      многих форматов<LineBreak/>
@@ -57,7 +57,7 @@
                 </TextBlock>
             </StackPanel>
             <TextBlock VerticalAlignment="Bottom" Grid.ColumnSpan="2" HorizontalAlignment="Center">
-                2016 (c) Borsuk Nick
+                2017 © Borsuk Nick
             </TextBlock>
         </Grid>
     </Grid>

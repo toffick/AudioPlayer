@@ -70,7 +70,8 @@ namespace Music
                 if (File.Exists(track.filepath))
                 {
                     DownloadNotificationPushWIndow.ShowPushNotification(
-                        string.Format("Играет трек\n {0}", track.trackinfo.Author + " " + track.trackinfo.SongName));
+                        string.Format("Играет трек\n {0}", track.trackinfo.Author +
+                        " " + track.trackinfo.SongName));
                     mediaplayer.Open(new Uri(track.filepath));
                     IsPlaying = true;
                     currentPlaylist.setcurrentTrack(track);
@@ -80,10 +81,10 @@ namespace Music
                 else
                 {
                     DownloadNotificationPushWIndow.ShowPushNotification(
-                        string.Format("Трек {0} отсуствует", track.trackinfo.Author + " " + track.trackinfo.SongName));
+                        string.Format("Трек {0} отсуствует", track.trackinfo.Author +
+                        " " + track.trackinfo.SongName));
                     currentPlaylist.removeTrack(track);
                 }
-
             }
             catch
             {
