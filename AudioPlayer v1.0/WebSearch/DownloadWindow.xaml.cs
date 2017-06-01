@@ -61,6 +61,8 @@ namespace AudioPlayer_v1._0.WebSearch
                 {
                     this.Close();
 
+                    DownloadNotificationPushWIndow.ShowPushNotification($"Загрузка начата");
+
                     string downloadedTrackPath = await webresponse.DownloadTrackByLinkAsync(path.Text, trackinfo);
 
                     DownloadNotificationPushWIndow.ShowPushNotification($"Загрузка {downloadedTrackPath.Split('\\').Last()} заершена");
@@ -72,7 +74,7 @@ namespace AudioPlayer_v1._0.WebSearch
                     }
                 }
                 else
-                    MessageBox.Show("Неверный путь");
+                    DownloadNotificationPushWIndow.ShowPushNotification("Неверный путь");
             }
             catch (Exception ee)
             {

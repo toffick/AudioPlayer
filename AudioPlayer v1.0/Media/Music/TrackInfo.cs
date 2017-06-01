@@ -39,8 +39,7 @@ namespace Music
 
         public TrackInfo(string _path)
         {
-            try
-            {
+
                 file = TagLib.File.Create(_path);
                 SongName = getSongName();
                 Album = getAlbum();
@@ -50,11 +49,8 @@ namespace Music
                 BPM = getBPM();
                 AudioBitrate = getBittrate();
                 Year = getYear();
-            }
-            catch (Exception ee)
-            {
-                MessageBox.Show(ee.Message);
-            }
+
+
 
         }
 

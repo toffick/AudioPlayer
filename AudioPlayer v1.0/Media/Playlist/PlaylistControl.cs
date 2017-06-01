@@ -10,6 +10,7 @@ using DB;
 using Microsoft.Win32;
 using Music;
 using System.Windows.Data;
+using AudioPlayer_v1._0.Windows;
 
 namespace PlayL
 {
@@ -88,7 +89,7 @@ namespace PlayL
                 }
                 catch
                 {
-                    MessageBox.Show("Создайте плейлист");
+                    DownloadNotificationPushWIndow.ShowPushNotification("Сначала создайте плейлист");
                 }
             }
 
@@ -106,9 +107,11 @@ namespace PlayL
                 DBOperate.AddPlatlist(plnumber, plname);
                 PlaylistsResizeEvent?.Invoke();
             }
-            catch (Exception ee)
+            catch
             {
-                MessageBox.Show("Не удалось добавить плейлист " + ee.Message);
+                DownloadNotificationPushWIndow.ShowPushNotification(
+                    "Плейлист с таким именем уже существует");
+
             }
         }
 

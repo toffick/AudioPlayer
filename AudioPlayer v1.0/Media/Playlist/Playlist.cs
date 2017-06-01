@@ -58,9 +58,15 @@ namespace PlayL
         {
             if (!isRepeateTrackInPlaylist(path))
             {
-                DBOperate.AddSongToPlaylist(Playlistname, path);
-                allTracks.Add(new Track(path, getNewPLnumber()));
-                PlaylistsSoundCountResizeEvent?.Invoke(allTracks);
+                try
+                {
+                    allTracks.Add(new Track(path, getNewPLnumber()));
+                    DBOperate.AddSongToPlaylist(Playlistname, path);
+                    PlaylistsSoundCountResizeEvent?.Invoke(allTracks);
+                }
+                catch
+                {
+                }
             }
         }
 

@@ -41,7 +41,7 @@ namespace AudioPlayer_v1._0
             }
             catch
             {
-                MessageBox.Show("Попробуйте другое имя");
+                DownloadNotificationPushWIndow.ShowPushNotification("Попробуйте другое имя");
             }
         }
 

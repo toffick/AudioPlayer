@@ -14,7 +14,7 @@
         KeyDown="Window_PreviewKeyDown"
     >
 
-  
+
     <Grid x:Name="mainGrid" Background="#3F51B5"  >
         <Grid.RowDefinitions>
             <RowDefinition Height="17*"/>
@@ -142,26 +142,26 @@
                 <ColumnDefinition Width="14*"/>
                 <ColumnDefinition Width="2.5*"/>
             </Grid.ColumnDefinitions>
-            
+
 
             <StackPanel Grid.Row="0" Grid.Column="0"  Margin="5">
                 <Label x:Name="label_authorname" Padding="0" ToolTip="Исполнитель"
                    HorizontalContentAlignment="Left" VerticalContentAlignment="Top" 
                            VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                    <Label x:Name="label_album"  Padding="0"   ToolTip="Альбом"
+                <Label x:Name="label_album"  Padding="0"   ToolTip="Альбом"
                     HorizontalContentAlignment="Left" VerticalContentAlignment="Top"
                            VerticalAlignment="Top" HorizontalAlignment="Left" />
             </StackPanel>
             <StackPanel VerticalAlignment="Bottom" Margin="5" MinHeight="29">
-                    <TextBlock x:Name="label_songname" TextWrapping="WrapWithOverflow"  Foreground="White" 
+                <TextBlock x:Name="label_songname" TextWrapping="WrapWithOverflow"  Foreground="White" 
                    TextBlock.FontSize="20" Padding="0"   HorizontalAlignment="Left" />
-                </StackPanel>
-
-                
+            </StackPanel>
 
 
-           
-       
+
+
+
+
             <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button x:Name="deletetrackfromcurentplaylist_button" ToolTip="Добавить трек" Margin="0,0,10,0" Content="+"
                        FontSize="20" Width="27" Height="27" Padding="0"
@@ -296,6 +296,8 @@
 
         <Grid   Grid.Column="0" Grid.Row="1" Background="#5C6BC0" >
             <StackPanel Margin="5">
+
+           
                 <Button Content="Веб поиск" Click="Web_search_Button_Click"></Button>
                 <Separator/>
                 <Button Content="Добавить файл" Click="addtracktocurentplaylist_button_Click"></Button>

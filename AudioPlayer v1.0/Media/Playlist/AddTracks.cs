@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using AudioPlayer_v1._0.Windows;
+using Microsoft.Win32;
 using PlayL;
 using System;
 using System.Collections.Generic;
@@ -51,7 +52,7 @@ namespace VM
             }
             catch
             {
-                MessageBox.Show("Создайте плейлист");
+                DownloadNotificationPushWIndow.ShowPushNotification("Сначала создайте плейлист");
             }
         }
 

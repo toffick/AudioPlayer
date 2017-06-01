@@ -30,9 +30,9 @@ namespace WSearch
             Time = badTime;
             Downloadlink = badLinkValue;
         }
-        public override string ToString()
-        {
-            return string.Format("Автор: {0}\nНазвание: {1}\nВремя: {2}\nСсылка: +\n----------------------------\n", Author, Title, Time);
-        }
+        public override string ToString()=> string.Format("Автор:" +
+            "{0}\nНазвание: {1}\nВремя: {2}\nСсылка: +\n----------------------------\n", Author, Title, Time);
+
+        
     }
 }

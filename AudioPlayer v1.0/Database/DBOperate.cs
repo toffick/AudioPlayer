@@ -79,7 +79,12 @@ namespace DB
                     {
                         string filepath = dr[0].ToString();
                         if (File.Exists(filepath))
-                            list.Add(new Track(filepath, list.Count));
+                            try
+                            {
+                                list.Add(new Track(filepath, list.Count));
+                            }
+                            catch
+                            { }
                         else
                             nonexiststracks.Add(filepath);
                     }
